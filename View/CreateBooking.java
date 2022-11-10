@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.sql.*;
 import java.util.*;
 
-
-
 public class CreateBooking {
     public static void main(String[] args) {
         new CreateBooking();
@@ -16,9 +14,7 @@ public class CreateBooking {
         
         JLabel heading = new JLabel("Create Booking");
         heading.setBounds(100, 10, 400, 50);
-        
         heading.setFont(new Font("Serif", Font.BOLD, 20));
-        
         heading.setHorizontalAlignment(JLabel.CENTER);
         
         JLabel l1 = new JLabel("Venue");
@@ -26,7 +22,6 @@ public class CreateBooking {
         JLabel l3 = new JLabel("End Date Time");
         JLabel l4 = new JLabel("Event Name");
         JLabel l5 = new JLabel("Extra Description");
-
 
         String[] venue = {"Main Hall"," Aryabhatta","Ambedkar"};
         JComboBox cb = new JComboBox(venue);
@@ -56,10 +51,10 @@ public class CreateBooking {
         t4.setBounds(200, 300, 200, 100);
         b1.setBounds(100, 450, 150, 30);
         b2.setBounds(300, 450, 150, 30);
-        //center b1 b2 b3
+
         b1.setHorizontalAlignment(JButton.CENTER);
         b2.setHorizontalAlignment(JButton.CENTER);
-        //add to frame
+       
         f.add(heading);
         f.add(l1);
         f.add(l2);
@@ -73,12 +68,10 @@ public class CreateBooking {
         f.add(t4);
         f.add(b1);
         f.add(b2);
+
         f.setLayout(null);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    
-        
 
-        
     }
 }

@@ -4,21 +4,20 @@ import javax.swing.*;
 import java.sql.*;
 import java.util.*;
 
-
-
-public class Signup_VM {
+public class VenueManagerProfile {
+   
     public static void main(String[] args) {
-        new Signup_VM();
+        new VenueManagerProfile();
     }
-    public Signup_VM(){
-        JFrame f = new JFrame("Register");
+    public VenueManagerProfile(){
+        JFrame f = new JFrame("Profile");
         f.setSize(600, 600);
         
-        JLabel heading = new JLabel("Venue Manager Registration");
+        JLabel heading = new JLabel("Venue Manager Profile");
         heading.setBounds(50, 10, 400, 50);
         heading.setFont(new Font("Serif", Font.BOLD, 20));
         heading.setHorizontalAlignment(JLabel.CENTER);
-    
+     
         JLabel l1 = new JLabel("Name");
         JLabel l2 = new JLabel("Email ID");
         JLabel l3 = new JLabel("Password");
@@ -28,25 +27,33 @@ public class Signup_VM {
         JLabel l7 = new JLabel("Hall Capacity");
         JLabel l8 = new JLabel("Hall Description");
         JTextField t1 = new JTextField();
+        t1.setText("Sakthivel");
+
         JTextField t2 = new JTextField();
-        JPasswordField t3 = new JPasswordField();
+        t2.setText("sakhtivel456@gmail.com");
+
+        t2.setEditable(false);
+        JTextField t3 = new JTextField();
+
+        t3.setText("sk1234");
         JTextField t4 = new JTextField();
+
+        t4.setText("1234567890");
         JTextField t5 = new JTextField();
+
+        t5.setText("Main Hall");
         JTextField t6 = new JTextField();
+
+        t6.setText("Chennai");
         JTextField t7 = new JTextField();
-        t7.setText("Example: 1000");
+        
+        t7.setText("1000");
         JTextField t8 = new JTextField();
-        t8.setText("Example: AC/Non AC, Projector,Cost, Wifi, etc.");
-        t7.setForeground(Color.GRAY);
-        t8.setForeground(Color.GRAY);
+        t8.setText("AC Hall with Projector and Wifi");
 
+        JButton b1 = new JButton("Update");
+        JButton b2 = new JButton("Dashboard");
 
-
-
-        JButton b1 = new JButton("Register");
-        JButton b2 = new JButton("Login");
-
-        //set bounds
         l1.setBounds(50, 100, 200, 30);
         l2.setBounds(50, 150, 200, 30);
         l3.setBounds(50, 200, 200, 30);
@@ -63,43 +70,9 @@ public class Signup_VM {
         t6.setBounds(250, 350, 300, 30);
         t7.setBounds(250, 400, 300, 30);
         t8.setBounds(250, 450, 300, 30);
-        b1.setBounds(75, 500, 100, 30);
-        b2.setBounds(200, 500, 100, 30);
+        b1.setBounds(50, 500, 200, 30);
+        b2.setBounds(250, 500, 200, 30);
 
-        //on type change t7,t8 text to null
-        t7.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                t7.setText("");
-                t7.setForeground(Color.BLACK);
-
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (t7.getText().isEmpty()) {
-                    t7.setText("Example: 1000");
-                    t7.setForeground(Color.GRAY);
-                }
-            }
-        });
-        t8.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                t8.setText("");
-                t8.setForeground(Color.BLACK);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (t8.getText().isEmpty()) {
-                    t8.setForeground(Color.GRAY);
-                    t8.setText("Example: AC/Non AC, Projector,Cost, Wifi, etc.");
-                }
-            }
-        });
-        
-        //add to frame
         f.add(heading);
         f.add(l1);
         f.add(l2);
@@ -123,8 +96,7 @@ public class Signup_VM {
         f.setLayout(null);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+  
     }
-
     
 }

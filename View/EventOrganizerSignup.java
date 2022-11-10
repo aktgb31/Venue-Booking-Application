@@ -6,20 +6,19 @@ import java.util.*;
 
 
 
-public class Profile_EO {
-   
+public class EventOrganizerSignup {
     public static void main(String[] args) {
-        new Profile_EO();
+        new EventOrganizerSignup();
     }
-    public Profile_EO(){
-        JFrame f = new JFrame("Profile");
+    public EventOrganizerSignup(){
+        JFrame f = new JFrame("Register");
         f.setSize(600, 600);
-      
-        JLabel heading = new JLabel("Event Organizer Profile");
+        
+        JLabel heading = new JLabel("Event Organizer Registration");
         heading.setBounds(50, 10, 400, 50);
         heading.setFont(new Font("Serif", Font.BOLD, 20));
         heading.setHorizontalAlignment(JLabel.CENTER);
-       
+    
         JLabel l1 = new JLabel("Name");
         JLabel l2 = new JLabel("Email ID");
         JLabel l3 = new JLabel("Password");
@@ -28,27 +27,15 @@ public class Profile_EO {
         JLabel l6 = new JLabel("Organisation Address");
 
         JTextField t1 = new JTextField();
-        t1.setText("Kunal Kushwaha");
-        
         JTextField t2 = new JTextField();
-        t2.setText("kunal656@gmail.com");
-        t2.setEditable(false);
-
-        JTextField t3 = new JTextField();
-        t3.setText("kunal656");
-
+        JPasswordField t3 = new JPasswordField();
         JTextField t4 = new JTextField();
-        t4.setText("1234567890");
-
         JTextField t5 = new JTextField();
-        t5.setText("Coding Blocks");
-
         JTextField t6 = new JTextField();
-        t6.setText("Noida");
         
-        JButton b1 = new JButton("Update");
-        JButton b2 = new JButton("Dashboard");
-        //set bounds
+        JButton b1 = new JButton("Register");
+        JButton b2 = new JButton("Login");
+
         l1.setBounds(50, 100, 200, 30);
         l2.setBounds(50, 150, 200, 30);
         l3.setBounds(50, 200, 200, 30);
@@ -63,7 +50,7 @@ public class Profile_EO {
         t6.setBounds(250, 350, 200, 30);
         b1.setBounds(75, 400, 100, 30);
         b2.setBounds(200, 400, 100, 30);
-        //add to frame
+       
         f.add(heading);
         f.add(l1);
         f.add(l2);
@@ -79,10 +66,9 @@ public class Profile_EO {
         f.add(t6);
         f.add(b1);
         f.add(b2);
+
         f.setLayout(null);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    }
-    
+        }
 }
