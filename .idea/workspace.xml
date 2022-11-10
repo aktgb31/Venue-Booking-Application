@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="53167586-08d6-460a-8db8-6ecca15bc1fc" name="Changes" comment="" />
+    <list default="true" id="53167586-08d6-460a-8db8-6ecca15bc1fc" name="Changes" comment="Initialised an intellij project">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Event.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EventOrganizer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EventOrganizerRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Person.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Request.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/VenueManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/VenueManagerRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2H39WtOzBVOmm3d4oCoblEXfi6O" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -13,22 +38,67 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/amit/Hustle/Venue-Booking-Application/src/database/000-VenueManagers.sql&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ],
+    &quot;RunConfigurationTargetLRU&quot;: [
+      &quot;65a81584-ffb8-4670-a520-fae304222a03/schema/\&quot;venuebooking\&quot;&quot;
+    ]
   }
-}]]></component>
+}</component>
+  <component name="RunManager">
+    <configuration name="init.sql" type="DatabaseScript" editBeforeRun="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/src/database/init.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="65a81584-ffb8-4670-a520-fae304222a03" namespace="schema/&quot;venuebooking&quot;" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SQLScriptSettings">
+    <option name="outputLayout" value="File per object with order.groovy" />
+    <option name="outputPath" value="$PROJECT_DIR$/src/database" />
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+      <changelist id="53167586-08d6-460a-8db8-6ecca15bc1fc" name="Changes" comment="" />
       <created>1667502936069</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1667502936069</updated>
+      <workItem from="1667502937877" duration="792000" />
+      <workItem from="1667503741726" duration="1012000" />
+      <workItem from="1667638976498" duration="4153000" />
+      <workItem from="1668057498101" duration="1211000" />
+      <workItem from="1668058718536" duration="36000" />
+      <workItem from="1668058998971" duration="7580000" />
     </task>
+    <task id="LOCAL-00001" summary="Initialised an intellij project">
+      <created>1667503025691</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1667503025691</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -40,5 +110,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initialised an intellij project" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initialised an intellij project" />
   </component>
 </project>
