@@ -21,7 +21,7 @@ public class CreateBooking {
         JLabel l2 = new JLabel("Start Date Time");
         JLabel l3 = new JLabel("End Date Time");
         JLabel l4 = new JLabel("Event Name");
-        JLabel l5 = new JLabel("Extra Description");
+        JLabel l5 = new JLabel("Booking Description");
 
         String[] venue = {"Main Hall"," Aryabhatta","Ambedkar"};
         JComboBox cb = new JComboBox(venue);

@@ -9,14 +9,14 @@ import java.util.*;
 
 
 
-public class ViewRequests {
+public class ViewBookingRequests {
     public static void main(String[] args) {
-        new ViewRequests();
+        new ViewBookingRequests();
     }
 
-    public ViewRequests(){
+    public ViewBookingRequests(){
         
-        JFrame frame = new JFrame("View Requests");
+        JFrame frame = new JFrame("View Booking Requests");
         frame.setSize(600, 700);
         
         TitledBorder border = new TitledBorder("Booking Requests ");
