@@ -1,9 +1,14 @@
+package models;
+
 import javax.swing.*;
 
 public class Request implements EventOrganizerRequest, VenueManagerRequest {
 
     protected int requestId;
-    protected Event event;
+    protected String eventName;
+    protected String startDateTime;
+    protected String endDateTime;
+
     protected EventOrganizer eventOrganizer;
     protected VenueManager venueManager;
     protected String description;
@@ -13,7 +18,7 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
 
 
     @Override
-    public void createRequest(Event event, EventOrganizer eventOrganizer, VenueManager venueManager,String description) {
+    public void createRequest(String eventName, EventOrganizer eventOrganizer, VenueManager venueManager,String description) {
         this.event = event;
         this.eventOrganizer = eventOrganizer;
         this.venueManager = venueManager;
@@ -37,25 +42,5 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
         this.status = Status.REJECTED;
     }
 
-    @Override
-    public JFrame eventOrganiserScreen() {
-        // Add code here
-        return null;
-    }
 
-    @Override
-    public JFrame venueManagerScreen() {
-        // Add code here
-        return null;
-    }
-
-    @Override
-    public JFrame eventDetailsScreen() {
-        return event.viewDetailsPanel();
-    }
-
-    @Override
-    public Status getStatus() {
-        return this.status;
-    }
 }

@@ -1,3 +1,5 @@
+package models;
+
 import javax.swing.*;
 
 abstract public class Person {
@@ -6,7 +8,7 @@ abstract public class Person {
     protected String password;
     protected String contactNumber;
 
-    private Person() {
+    public Person() {
         // Do nothing
     }
     protected Person(String name, String emailId, String password, String contactNumber) {
@@ -15,18 +17,4 @@ abstract public class Person {
         this.password = password;
         this.contactNumber = contactNumber;
     }
-
-    abstract public JFrame dashboardScreen();
-
-    static public JFrame loginScreen() {
-        // Add code here
-        return null;
-    }
-
-    static public JFrame registerScreen() {
-        // Add code here
-        return null;
-    }
-
-
 }
