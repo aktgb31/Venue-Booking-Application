@@ -9,7 +9,8 @@ public class VenueManager extends Person{
     protected String hallCapacity;
     protected String hallDescription;
 
-    protected ArrayList<VenueManagerRequest> events;
+    protected ArrayList<VenueManagerRequest> requestedEvents;
+    protected ArrayList<VenueManagerRequest> nonPendingRequests;
 
     public VenueManager(String name, String emailId, String password, String contactNumber, String hallName, String hallAddress, String hallCapacity, String hallDescription) {
         super(name, emailId, password, contactNumber);

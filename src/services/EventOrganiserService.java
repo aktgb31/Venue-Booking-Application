@@ -13,9 +13,10 @@ public class EventOrganiserService extends models.EventOrganizer{
         EventOrganiserService eventOrganiserService=new EventOrganiserService(emailId,password);
         return eventOrganiserService;
     }
-        return null;
-    }
+       
     public static void updateDetails(String name, String password, String contactNumber, String organisationName, String organisationAddress) {
+
+
         // Add code here
     }
 }

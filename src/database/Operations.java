@@ -27,26 +27,33 @@ public class Operations {
         }
     }
 
-    public static ArrayList<VenueManager> getVenueManagers() {
+    public static ResultSet getVenueManager (String emailId) {
+        try {
+            Connection connection = Database.getConnection();
+            String sql = "SELECT * FROM venue_manager WHERE email_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, emailId);
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                return resultSet;
+            }
+            connection.close();
+            return null;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+
+    public static ResultSet getVenueManagers() {
         ArrayList<VenueManager> venueManagers = new ArrayList<>();
         try {
             Connection connection = Database.getConnection();
             String sql = "SELECT * FROM venue_manager";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()) {
-                VenueManager venueManager = new VenueManager();
-                venueManager.setEmailId(resultSet.getString(1));
-                venueManager.setName(resultSet.getString(2));
-                venueManager.setPassword(resultSet.getString(3));
-                venueManager.setContactNumber(resultSet.getString(4));
-                venueManager.setHallName(resultSet.getString(5));
-                venueManager.setHallAddress(resultSet.getString(6));
-                venueManager.setHallCapacity(resultSet.getString(7));
-                venueManager.setHallDescription(resultSet.getString(8));
-                venueManagers.add(venueManager);
-            }
-            connection.close();
+            return resultSet
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -73,85 +80,124 @@ public class Operations {
         }
     }
 
-    public static ArrayList<EventOrganizer> getEventOrganizers() {
-        ArrayList<EventOrganizer> eventOrganizers = new ArrayList<>();
+    public static ResultSet getEventOrganizer (String emaiId) {
+        
         try {
             Connection connection = Database.getConnection();
-            String sql = "SELECT * FROM event_organizer";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()) {
-                EventOrganizer eventOrganizer = new EventOrganizer();
-                eventOrganizer.setEmailId(resultSet.getString(1));
-                eventOrganizer.setName(resultSet.getString(2));
-                eventOrganizer.setPassword(resultSet.getString(3));
-                eventOrganizer.setContactNumber(resultSet.getString(4));
-                eventOrganizer.setOrganizerName(resultSet.getString(5));
-                eventOrganizer.setOrganizerAddress(resultSet.getString(6));
-                eventOrganizers.add(eventOrganizer);
-            }
-            connection.close();
+            String sql = "SELECT * FROM event_organizer WHERE email_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, emaiId);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet;
         } catch (Exception e) {
             System.out.println(e);
         }
-        return eventOrganizers;
+        
     }
 
-    public static int addEvent(Event events) {
+    public static int addEvent(Event event) {
         try{
             Connection connection = Database.getConnection();
             String sql = "INSERT INTO event VALUES (?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, events.getEventId());
-            statement.setString(2, events.getEventName());
-            statement.setString(7, events.getOrganizerId());
-            statement.setString(8, events.getManagerId());
-            statement.setString(6, events.getEventDescription());            
-            statement.setString(3, events.getStartTime());
-            statement.setString(4, events.getEndTime());
-            statement.setString(5, events.getStatus());
-            statement.setString(9, events.getFeedback());          
+            statement.setString(1, event.getEventId());
+            statement.setString(2, event.getEventName());
+            statement.setString(7, event.getOrganizerId());
+            statement.setString(8, event.getManagerId());
+            statement.setString(6, event.getEventDescription());            
+            statement.setString(3, event.getStartTime());
+            statement.setString(4, event.getEndTime());
+            statement.setString(5, event.getStatus());
+            statement.setString(9, event.getFeedback());          
         } catch (Exception e) {
             System.out.println(e);
             return 0;
         }
     }
+ 
 
-    public static ArrayList<Event> getEvents() {
+    public static ResultSet getPendingRequests() {
         try {
             Connection connection = Database.getConnection();
-            String sql = "SELECT * FROM event";
+            String sql = "SELECT * FROM event WHERE status = 'pending'";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet result = statement.executeQuery();
-            ArrayList<Event> events = new ArrayList<Event>();
-            while (result.next()) {
-                Event event = new Event();
-                event.setEventId(result.getString("event_id"));
-                event.setEventName(result.getString("event_name"));
-                event.setOrganizerId(result.getString("organizer_id"));
-                event.setManagerId(result.getString("manager_id"));
-                event.setEventDescription(result.getString("event_description"));
-                event.setStartTime(result.getString("start_time"));
-                event.setEndTime(result.getString("end_time"));
-                event.setStatus(result.getString("status"));
-                event.setFeedback(result.getString("feedback"));
-                events.add(event);
-            }
-            connection.close();
-            return events;
+            ArrayList<Request> requests = new ArrayList<Request>();
+            String name, organizationName, contactNumber, emailId;
+            return result;
+               
         } catch (Exception e) {
             System.out.println(e);
             return null;
         }
     }
 
-    public static int updateEventRequest(int eventId, String status) {
+    public static ResultSet getEventOrganizerBookings(String emailId){
+        try{
+            Connection connection = Database.getConnection();
+            String sql = "SELECT * FROM event WHERE organizer_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, emailId);
+            ResultSet result = statement.executeQuery();
+            return result;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+
+        }
+    }
+
+    public static ResultSet getVenueManagerNonPendingBookings(String emailId){
+        try{
+            Connection connection = Database.getConnection();
+            String sql = "SELECT * FROM event WHERE manager_id = ? AND status != 'pending'";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, emailId);
+            ResultSet result = statement.executeQuery();
+            return result;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+
+        }
+    }
+
+    public static int acceptRequest(int eventId) {
         try {
             Connection connection = Database.getConnection();
-            String sql = "UPDATE event SET status = ? WHERE event_id = ?";
+            String sql = "UPDATE event SET status = 'accepted' WHERE event_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, status);
-            statement.setInt(2, eventId);
+            statement.setInt(1, eventId);
+            statement.executeUpdate();
+            connection.close();
+            return 1;
+        } catch (Exception e) {
+            System.out.println(e);
+            return 0;
+        }
+    }
+
+    public static int rejectRequest(int eventId) {
+        try {
+            Connection connection = Database.getConnection();
+            String sql = "UPDATE event SET status = 'rejected' WHERE event_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, eventId);
+            statement.executeUpdate();
+            connection.close();
+            return 1;
+        } catch (Exception e) {
+            System.out.println(e);
+            return 0;
+        }
+    }
+
+    public static int cancelRequest(int eventId) {
+        try {
+            Connection connection = Database.getConnection();
+            String sql = "UPDATE event SET status = 'cancelled' WHERE event_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, eventId);
             statement.executeUpdate();
             connection.close();
             return 1;
@@ -176,7 +222,10 @@ public class Operations {
             return 0;
         }
     }
-    public static int validdateLogin(String emailId, String password) {
+
+    public static int updateEventOrganizerProfile()
+
+    public static int validateLogin(String emailId, String password) {
         try {
             Connection connection = Database.getConnection();
             String sql = "SELECT * FROM venue_manager WHERE email_id = ? AND password = ?";
