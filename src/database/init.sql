@@ -29,6 +29,6 @@ create table event (
     eventDescription varchar(200) not null, -- 'Stores description of the event'
     startTime datetime not null, -- 'Stores start time of the event'
     endTime datetime not null, -- 'Stores end time of the event'
-    status enum('Aceepted', 'Rejected', 'Cancelled', 'Pending') not null default 'Pending' -- 'Stores status of the event'
+    status enum('Accepted', 'Rejected', 'Cancelled', 'Pending') not null default 'Pending' -- 'Stores status of the event'
     feedback varchar(200) null, -- 'Stores feedback of the event'
 );

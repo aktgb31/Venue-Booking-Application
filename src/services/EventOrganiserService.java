@@ -1,22 +1,37 @@
 package services;
 
-public class EventOrganiserService extends models.EventOrganizer{
+import models.EventOrganizer;
 
-    private EventOrganiserService(String emailId, String password) {
-        super(emailId,password);
-        // Do Nothing
+public class EventOrganiserService{
+    private EventOrganizer eventOrganizer;
+    public EventOrganiserService(){
+        this.eventOrganizer = new EventOrganizer();
     }
-
-
-
-    public static EventOrganiserService login(String emailId, String password) {
-        EventOrganiserService eventOrganiserService=new EventOrganiserService(emailId,password);
-        return eventOrganiserService;
+    
+    public void loginService(String emailId, String password) {
+        this.eventOrganizer = new EventOrganizer(emailId, password);
     }
        
-    public static void updateDetails(String name, String password, String contactNumber, String organisationName, String organisationAddress) {
+    public void updateDetailsService(String name, String password, String contactNumber, String organisationName, String organisationAddress) {
+        eventOrganizer.setName(name);
+        eventOrganizer.setPassword(password);
+        eventOrganizer.setContactNumber(contactNumber);
+        eventOrganizer.setOrganisationName(organisationName);
+        eventOrganizer.setOrganisationAddress(organisationAddress);
+        eventOrganizer.updateDetails();
+    }
+
+    public void createBookingService(String hallName, String startDateTime, String endDateTime, String eventName, String description) {
+        eventOrganizer.createBooking(hallName, startDateTime, endDateTime, eventName, description);
+    }
+
+    public void cancelBookingService(int requestId) {
+        eventOrganizer.cancelBooking(requestId);
+    }
 
 
-        // Add code here
+
+    public EventOrganizer getEventOrganizer() {
+        return eventOrganizer;
     }
 }

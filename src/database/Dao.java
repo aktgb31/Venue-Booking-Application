@@ -2,7 +2,7 @@ package database;
 
 import java.sql.*;
 
-public class Database {
+public class Dao {
     public static Connection getConnection() {
         String connString = "jdbc:mysql://localhost:3306/venue_management";
         String userName = "<enter username>";

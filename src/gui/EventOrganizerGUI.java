@@ -1,8 +1,9 @@
 package gui;
 
 import services.EventOrganiserService;
-
 import javax.swing.*;
+
+
 
 public class EventOrganizerGUI extends PersonGUI {
     private EventOrganiserService eventOrganiserService;
