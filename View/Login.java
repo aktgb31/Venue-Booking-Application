@@ -11,8 +11,8 @@ class Login{
         new Login();
     }
     public Login(){
-        JFrame f = new JFrame("Login");
-        f.setSize(600, 600);
+        JFrame frame = new JFrame("Login");
+        frame.setSize(800, 800);
        
         JLabel heading = new JLabel("Venue Booking Application");
         heading.setBounds(50, 10, 400, 50);
@@ -46,20 +46,20 @@ class Login{
         b2.setHorizontalAlignment(JButton.CENTER);
         b3.setHorizontalAlignment(JButton.CENTER);
 
-        f.add(heading);
-        f.add(l1);
-        f.add(l2);
-        f.add(l3);
-        f.add(t1);
-        f.add(t2);
-        f.add(cb);
-        f.add(b1);
-        f.add(b2);
-        f.add(b3);
+        frame.add(heading);
+        frame.add(l1);
+        frame.add(l2);
+        frame.add(l3);
+        frame.add(t1);
+        frame.add(t2);
+        frame.add(cb);
+        frame.add(b1);
+        frame.add(b2);
+        frame.add(b3);
         
-        f.setLayout(null);
-        f.setVisible(true);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(null);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
       
     }

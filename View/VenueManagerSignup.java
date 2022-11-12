@@ -11,8 +11,8 @@ public class VenueManagerSignup {
         new VenueManagerSignup();
     }
     public VenueManagerSignup(){
-        JFrame f = new JFrame("Register");
-        f.setSize(600, 600);
+        JFrame frame = new JFrame("Register");
+        frame.setSize(800, 800);
         
         JLabel heading = new JLabel("Venue Manager Registration");
         heading.setBounds(50, 10, 400, 50);
@@ -93,29 +93,29 @@ public class VenueManagerSignup {
             }
         });
         
-        f.add(heading);
-        f.add(l1);
-        f.add(l2);
-        f.add(l3);
-        f.add(l4);
-        f.add(l5);
-        f.add(l6);
-        f.add(l7);
-        f.add(l8);
-        f.add(t1);
-        f.add(t2);
-        f.add(t3);
-        f.add(t4);
-        f.add(t5);
-        f.add(t6);
-        f.add(t7);
-        f.add(t8);
-        f.add(b1);
-        f.add(b2);
+        frame.add(heading);
+        frame.add(l1);
+        frame.add(l2);
+        frame.add(l3);
+        frame.add(l4);
+        frame.add(l5);
+        frame.add(l6);
+        frame.add(l7);
+        frame.add(l8);
+        frame.add(t1);
+        frame.add(t2);
+        frame.add(t3);
+        frame.add(t4);
+        frame.add(t5);
+        frame.add(t6);
+        frame.add(t7);
+        frame.add(t8);
+        frame.add(b1);
+        frame.add(b2);
 
-        f.setLayout(null);
-        f.setVisible(true);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(null);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }  
 }

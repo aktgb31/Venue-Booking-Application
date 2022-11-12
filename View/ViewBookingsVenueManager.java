@@ -13,10 +13,26 @@ public class ViewBookingsVenueManager {
     
     public ViewBookingsVenueManager(){
         JFrame f = new JFrame("View Bookings");
-        f.setSize(800, 600);
+        f.setSize(800, 800);
 
         String[] columnNames = {"Event Name", "Start Time", "End Time", "Status", "Contact Number","Organizer"};
         String[][] data = {
+            {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Rejected", "1238567890","John"},
+            {"TEDx Talks", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Accepted", "1234567890","Lenoah"},
+            {"Book Fest", "2022-06-20 12:30:00", "2022-06-21 13:30:00", "Accepted", "1233567890","Naveen"},
+            {"Guest Lecture", "2022-06-19 12:30:00", "2022-06-21 13:30:00", "Cancelled", "1239567890","Vinod"},
+            {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Rejected", "1238567890","John"},
+            {"TEDx Talks", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Accepted", "1234567890","Lenoah"},
+            {"Book Fest", "2022-06-20 12:30:00", "2022-06-21 13:30:00", "Accepted", "1233567890","Naveen"},
+            {"Guest Lecture", "2022-06-19 12:30:00", "2022-06-21 13:30:00", "Cancelled", "1239567890","Vinod"},
+            {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Rejected", "1238567890","John"},
+            {"TEDx Talks", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Accepted", "1234567890","Lenoah"},
+            {"Book Fest", "2022-06-20 12:30:00", "2022-06-21 13:30:00", "Accepted", "1233567890","Naveen"},
+            {"Guest Lecture", "2022-06-19 12:30:00", "2022-06-21 13:30:00", "Cancelled", "1239567890","Vinod"},
+            {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Rejected", "1238567890","John"},
+            {"TEDx Talks", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Accepted", "1234567890","Lenoah"},
+            {"Book Fest", "2022-06-20 12:30:00", "2022-06-21 13:30:00", "Accepted", "1233567890","Naveen"},
+            {"Guest Lecture", "2022-06-19 12:30:00", "2022-06-21 13:30:00", "Cancelled", "1239567890","Vinod"},
             {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Rejected", "1238567890","John"},
             {"TEDx Talks", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Accepted", "1234567890","Lenoah"},
             {"Book Fest", "2022-06-20 12:30:00", "2022-06-21 13:30:00", "Accepted", "1233567890","Naveen"},
@@ -34,7 +50,7 @@ public class ViewBookingsVenueManager {
 
         JScrollPane scrollPane = new JScrollPane(table);
         f.add(scrollPane);
-
+        f.setVisible(true);
         f.setLayout(null);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

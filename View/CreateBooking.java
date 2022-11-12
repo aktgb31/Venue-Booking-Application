@@ -9,8 +9,8 @@ public class CreateBooking {
         new CreateBooking();
     }
     public CreateBooking(){
-        JFrame f = new JFrame("Create Booking");
-        f.setSize(600, 600);
+        JFrame frame = new JFrame("Create Booking");
+        frame.setSize(800, 800);
         
         JLabel heading = new JLabel("Create Booking");
         heading.setBounds(100, 10, 400, 50);
@@ -55,23 +55,23 @@ public class CreateBooking {
         b1.setHorizontalAlignment(JButton.CENTER);
         b2.setHorizontalAlignment(JButton.CENTER);
        
-        f.add(heading);
-        f.add(l1);
-        f.add(l2);
-        f.add(l3);
-        f.add(l4);
-        f.add(l5);
-        f.add(cb);
-        f.add(t1);
-        f.add(t2);
-        f.add(t3);
-        f.add(t4);
-        f.add(b1);
-        f.add(b2);
+        frame.add(heading);
+        frame.add(l1);
+        frame.add(l2);
+        frame.add(l3);
+        frame.add(l4);
+        frame.add(l5);
+        frame.add(cb);
+        frame.add(t1);
+        frame.add(t2);
+        frame.add(t3);
+        frame.add(t4);
+        frame.add(b1);
+        frame.add(b2);
 
-        f.setLayout(null);
-        f.setVisible(true);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(null);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 }
