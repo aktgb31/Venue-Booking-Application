@@ -10,7 +10,7 @@ public interface EventOrganizerRequest {
 
     public JFrame eventDetailsScreen();
 
-    public void createRequest(String eventName, EventOrganizer eventOrganizer, VenueManager venueManager,String description);
+    public void createRequest(String eventName,String startDateTime, String endDateTime, EventOrganizer eventOrganizer, VenueManager venueManager,String description);
 
     //getter and setters
     public int getRequestId();

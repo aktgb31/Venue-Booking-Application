@@ -3,7 +3,7 @@ package models;
 import javax.swing.*;
 
 public interface VenueManagerRequest {
-    public void approveRequest();
+    public void acceptRequest();
     public void rejectRequest();
 
     public JFrame eventOrganiserScreen();

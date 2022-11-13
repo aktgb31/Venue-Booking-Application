@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class VenueManager extends Person{
     protected String hallName;
@@ -12,8 +13,7 @@ public class VenueManager extends Person{
     protected String hallCapacity;
     protected String hallDescription;
 
-    protected ArrayList<VenueManagerRequest> requestedEvents;
-    protected ArrayList<VenueManagerRequest> nonPendingRequests;
+    protected HashMap<Integer,VenueManagerRequest> requestedEvents;
 
     public VenueManager(){
         super();
@@ -44,7 +44,7 @@ public class VenueManager extends Person{
         }
 
         String eventOrganizerEmailID;
-        ResultSet resultSet1=database.Operations.getVenueManagerPendingRequests(emailId);
+        ResultSet resultSet1=database.Operations.getVenueManagerRequests(emailId);
         try {
             while(resultSet1.next()) {
                 VenueManagerRequest venueManagerRequest = new Request();
@@ -65,7 +65,7 @@ public class VenueManager extends Person{
                     System.out.println(e);
                 }
                 venueManagerRequest.setDescription(resultSet1.getString("eventDescription"));
-                requestedEvents.add(venueManagerRequest);
+                requestedEvents.put(venueManagerRequest.getRequestId(),venueManagerRequest);
 
                 
             }
@@ -103,17 +103,12 @@ public class VenueManager extends Person{
     public void setHallDescription(String hallDescription) {
         this.hallDescription = hallDescription;
     }
-    public ArrayList<VenueManagerRequest> getRequestedEvents() {
+    public HashMap<Integer,VenueManagerRequest> getRequestedEvents() {
         return requestedEvents;
     }
-    public void setRequestedEvents(ArrayList<VenueManagerRequest> requestedEvents) {
+    public void setRequestedEvents(HashMap<Integer,VenueManagerRequest> requestedEvents) {
         this.requestedEvents = requestedEvents;
     }
-    public ArrayList<VenueManagerRequest> getNonPendingRequests() {
-        return nonPendingRequests;
-    }
-    public void setNonPendingRequests(ArrayList<VenueManagerRequest> nonPendingRequests) {
-        this.nonPendingRequests = nonPendingRequests;
-    }
+
     
 }

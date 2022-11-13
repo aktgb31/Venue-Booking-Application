@@ -15,25 +15,30 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
     protected String feedback;
     public enum Status {PENDING, ACCEPTED, REJECTED,CANCELLED};
     protected String status;
-
+    public Request() {
+    }
 
     @Override
-    public void createRequest(String eventName, EventOrganizer eventOrganizer, VenueManager venueManager,String description) {
+    public void createRequest(String eventName,String startDateTime, String endDateTime, EventOrganizer eventOrganizer, VenueManager venueManager,String description) {
         this.eventName = eventName;
         this.eventOrganizer = eventOrganizer;
         this.venueManager = venueManager;
         this.description = description;
         this.feedback = "";
         this.status = "Pending";
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.requestId = database.Operations.createBooking(this);
     }
 
     @Override
     public void cancelRequest() {
         this.status = "Cancelled";
+        database.Operations.cancelRequest(this.requestId);
     }
 
     @Override
-    public void approveRequest() {
+    public void acceptRequest() {
         this.status = "Accepted";
     }
 

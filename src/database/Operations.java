@@ -63,20 +63,6 @@ public class Operations {
         return null;
     }
 
-    public static ResultSet getVenueDetailsByName(String hallName){
-        try {
-            Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM venue_manager WHERE hall_name = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, hallName);
-            ResultSet resultSet = statement.executeQuery();
-            return resultSet;
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return null;
-    }
-
     public static int addEventOrganizer(EventOrganizer eventOrganizer) {
         try {
             Connection connection = Dao.getConnection();
@@ -127,22 +113,34 @@ public class Operations {
             statement.setString(4, request.getEndDateTime());
             statement.setString(5, request.getStatus());
             statement.setString(9, request.getFeedback()); 
+            statement.executeUpdate();
+        
+            sql = "SELECT LAST_INSERT_ID()";
+            statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                return resultSet.getInt(1);
+            }
+            connection.close();
+
             return 1;         
         } catch (Exception e) {
             System.out.println(e);
             return 0;
         }
     }
+
+
  
 
-    public static ResultSet getVenueManagerPendingRequests(String emailId){
+    public static ResultSet getVenueManagerRequests(String emailId){
         try {
             Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM event WHERE manager_id = ? AND status = ?";
+            String sql = "SELECT * FROM event WHERE manager_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
-            statement.setString(2, "pending");
             ResultSet resultSet = statement.executeQuery();
+            connection.close();
             return resultSet;
         } catch (Exception e) {
             System.out.println(e);
@@ -155,21 +153,6 @@ public class Operations {
         try{
             Connection connection = Dao.getConnection();
             String sql = "SELECT * FROM event WHERE organizer_id = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, emailId);
-            ResultSet result = statement.executeQuery();
-            return result;
-        } catch (Exception e) {
-            System.out.println(e);
-            return null;
-
-        }
-    }
-
-    public static ResultSet getVenueManagerNonPendingBookings(String emailId){
-        try{
-            Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM event WHERE manager_id = ? AND status != 'pending'";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             ResultSet result = statement.executeQuery();

@@ -1,15 +1,14 @@
 package models;
 
-import javax.swing.*;
-
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EventOrganizer extends Person{
     private  String organisationName;
     private  String organisationAddress;
 
-    private ArrayList<EventOrganizerRequest> events;
+    private HashMap<Integer,EventOrganizerRequest> events;
 
     public EventOrganizer() {
     }
@@ -33,7 +32,8 @@ public class EventOrganizer extends Person{
         try{
             while(resultSet1.next()){
                 EventOrganizerRequest eventOrganizerRequest=new Request();
-                eventOrganizerRequest.setEventName(resultSet1.getString("event_name"));
+                eventOrganizerRequest.setRequestId(resultSet1.getInt("request_id"));
+                eventOrganizerRequest.setEventName(resultSet1.getString("eventName"));
                 eventOrganizerRequest.setStartDateTime(resultSet1.getString("startTime"));
                 eventOrganizerRequest.setEndDateTime(resultSet1.getString("endTime"));
                 venueManagerEmailID = resultSet1.getString("managerId");
@@ -42,17 +42,17 @@ public class EventOrganizer extends Person{
                     if(resultSet2.next()){
                         VenueManager venueManager=new VenueManager();
                         venueManager.setName(resultSet2.getString("name"));
-                        venueManager.setHallName(resultSet2.getString("hall_name"));
-                        venueManager.setHallAddress(resultSet2.getString("hall_address"));
-                        venueManager.setHallCapacity(resultSet2.getString("hall_capacity"));
-                        venueManager.setHallDescription(resultSet2.getString("hall_description"));
+                        venueManager.setHallName(resultSet2.getString("hallName"));
+                        venueManager.setHallAddress(resultSet2.getString("hallAddress"));
+                        venueManager.setHallCapacity(resultSet2.getString("hallCapacity"));
+                        venueManager.setHallDescription(resultSet2.getString("hallDescription"));
                         eventOrganizerRequest.setVenueManager(venueManager);
                     }
                 }catch(Exception e){
                     System.out.println(e);
                 }
-                eventOrganizerRequest.setDescription(resultSet1.getString("description"));
-                events.add(eventOrganizerRequest);
+                eventOrganizerRequest.setDescription(resultSet1.getString("eventDescription"));
+                events.put(eventOrganizerRequest.getRequestId(),eventOrganizerRequest);
             }
         }catch(Exception e){
             System.out.println(e);
@@ -66,33 +66,13 @@ public class EventOrganizer extends Person{
         super(name, emailId, password, contactNumber);
         this.organisationName = organisationName;
         this.organisationAddress = organisationAddress;
-
+        database.Operations.addEventOrganizer(this);
     }
 
-    public void createBooking(String hallName, String startDateTime, String endDateTime, String eventName, String description) {
-        EventOrganizerRequest eventOrganizerRequest=new Request();
-        eventOrganizerRequest.setEventName(eventName);
-        eventOrganizerRequest.setStartDateTime(startDateTime);
-        eventOrganizerRequest.setEndDateTime(endDateTime);
-        eventOrganizerRequest.setDescription(description);
-        VenueManager venueManager=new VenueManager();
-        ResultSet resultSet=database.Operations.getVenueManager(hallName);
-        try{
-            if(resultSet.next()){
-                venueManager.setName(resultSet.getString("name"));
-                venueManager.setHallName(resultSet.getString("hallName"));
-                venueManager.setHallAddress(resultSet.getString("hallAddress"));
-                venueManager.setHallCapacity(resultSet.getString("hallCapacity"));
-                venueManager.setHallDescription(resultSet.getString("hallDescription"));
-            }
-        }catch(Exception e){
-            System.out.println(e);
-        }
-        eventOrganizerRequest.setEventOrganizer(this);
-        eventOrganizerRequest.setVenueManager(venueManager);
-        database.Operations.createBooking(eventOrganizerRequest);
-        events.add(eventOrganizerRequest);
+    public void addBooking(EventOrganizerRequest eventOrganizerRequest){
+        events.put(eventOrganizerRequest.getRequestId(),eventOrganizerRequest);
     }
+    
     //getters and setters
     public String getOrganisationName() {
         return organisationName;
@@ -106,10 +86,10 @@ public class EventOrganizer extends Person{
     public void setOrganisationAddress(String organisationAddress) {
         this.organisationAddress = organisationAddress;
     }
-    public ArrayList<EventOrganizerRequest> getEvents() {
+    public HashMap<Integer,EventOrganizerRequest> getEvents() {
         return events;
     }
-    public void setEvents(ArrayList<EventOrganizerRequest> events) {
+    public void setEvents(HashMap<Integer,EventOrganizerRequest> events) {
         this.events = events;
     }
 
@@ -117,5 +97,27 @@ public class EventOrganizer extends Person{
         database.Operations.updateEventOrganizerProfile(this);
     }
 
+    public HashMap<Integer,EventOrganizerRequest> getBookings(){
+        return events;
+    }
+
+    public ArrayList<VenueManager> getVenueDetails(){
+        ArrayList<VenueManager> venueDetails = new ArrayList<>();
+        ResultSet resultSet=database.Operations.getVenueManagers();
+        try{
+            while(resultSet.next()){
+                VenueManager venueManager=new VenueManager();
+                venueManager.setName(resultSet.getString("name"));
+                venueManager.setHallName(resultSet.getString("hallName"));
+                venueManager.setHallAddress(resultSet.getString("hallAddress"));
+                venueManager.setHallCapacity(resultSet.getString("hallCapacity"));
+                venueManager.setHallDescription(resultSet.getString("hallDescription"));
+                venueDetails.add(venueManager);
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return venueDetails;
+    }
 
 }
