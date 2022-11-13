@@ -38,16 +38,20 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
     }
 
     @Override
-    public void acceptRequest() {
+    public void acceptRequest(String feedBack) {
         this.status = "Accepted";
+        this.feedback = feedBack;
+        database.Operations.acceptRequest(requestId,feedBack);
     }
 
     @Override
-    public void rejectRequest() {
+    public void rejectRequest(String feedBack) {
         this.status = "Rejected";
+        this.feedback = feedBack;
+        database.Operations.rejectRequest(requestId,feedBack);
     }
 
-    //getter and setter
+
     public int getRequestId() {
         return requestId;
     }

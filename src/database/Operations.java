@@ -2,11 +2,9 @@ package database;
 
 import models.EventOrganizer;
 import models.EventOrganizerRequest;
-import models.Request;
 import models.VenueManager;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 public class Operations {
     public static int addVenueManager(VenueManager venueManager) {
@@ -164,12 +162,13 @@ public class Operations {
         }
     }
 
-    public static int acceptRequest(int eventId) {
-        try {
+    public static int acceptRequest(int eventId,String feedback){
+        try{
             Connection connection = Dao.getConnection();
-            String sql = "UPDATE event SET status = 'accepted' WHERE event_id = ?";
+            String sql = "UPDATE event SET status = 'accepted', feedback = ? WHERE event_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, eventId);
+            statement.setString(1, feedback);
+            statement.setInt(2, eventId);
             statement.executeUpdate();
             connection.close();
             return 1;
@@ -179,12 +178,13 @@ public class Operations {
         }
     }
 
-    public static int rejectRequest(int eventId) {
-        try {
+    public static int rejectRequest(int eventId,String feedback){
+        try{
             Connection connection = Dao.getConnection();
-            String sql = "UPDATE event SET status = 'rejected' WHERE event_id = ?";
+            String sql = "UPDATE event SET status = 'rejected', feedback = ? WHERE event_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, eventId);
+            statement.setString(1, feedback);
+            statement.setInt(2, eventId);
             statement.executeUpdate();
             connection.close();
             return 1;
@@ -200,22 +200,6 @@ public class Operations {
             String sql = "UPDATE event SET status = 'cancelled' WHERE event_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, eventId);
-            statement.executeUpdate();
-            connection.close();
-            return 1;
-        } catch (Exception e) {
-            System.out.println(e);
-            return 0;
-        }
-    }
-
-    public static int updateEventFeedback(int eventId, String feedback) {
-        try {
-            Connection connection = Dao.getConnection();
-            String sql = "UPDATE event SET feedback = ? WHERE event_id = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, feedback);
-            statement.setInt(2, eventId);
             statement.executeUpdate();
             connection.close();
             return 1;

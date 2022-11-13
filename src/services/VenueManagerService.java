@@ -61,12 +61,11 @@ public class VenueManagerService{
     }
 
     public void acceptRequestService(int requestId,String feedBack) {
-        venueManager.getRequestedEvents().get(requestId).acceptRequest();
-        venueManager.getRequestedEvents().get(requestId).setFeedback(feedBack);
+        venueManager.getRequestedEvents().get(requestId).acceptRequest(feedBack);
     }
 
     public void rejectRequestService(int requestId,String feedBack) {
-        venueManager.getRequestedEvents().get(requestId).rejectRequest();
+        venueManager.getRequestedEvents().get(requestId).rejectRequest(feedBack);
         venueManager.getRequestedEvents().get(requestId).setFeedback(feedBack);
     }
 

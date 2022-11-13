@@ -1,7 +1,5 @@
 package models;
 
-import javax.swing.*;
-
 abstract public class Person {
     protected String name;
     protected String emailId;
@@ -23,7 +21,6 @@ abstract public class Person {
         this.contactNumber = contactNumber;
     }
 
-    //getters and setters
     public String getName() {
         return name;
     }

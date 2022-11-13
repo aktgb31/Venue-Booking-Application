@@ -72,8 +72,7 @@ public class EventOrganizer extends Person{
     public void addBooking(EventOrganizerRequest eventOrganizerRequest){
         events.put(eventOrganizerRequest.getRequestId(),eventOrganizerRequest);
     }
-    
-    //getters and setters
+
     public String getOrganisationName() {
         return organisationName;
     }

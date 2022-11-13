@@ -3,15 +3,12 @@ package models;
 import javax.swing.*;
 
 public interface VenueManagerRequest {
-    public void acceptRequest();
-    public void rejectRequest();
+    public void acceptRequest(String feedBack);
+    public void rejectRequest(String feedBack);
 
     public JFrame eventOrganiserScreen();
-
     public JFrame eventDetailsScreen();
 
-
-    //getter and setter
     public int getRequestId();
     public void setRequestId(int requestId);
     public String getEventName();

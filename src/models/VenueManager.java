@@ -1,10 +1,6 @@
 package models;
 
-import javax.naming.spi.DirStateFactory.Result;
-import javax.swing.*;
-
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class VenueManager extends Person{
@@ -28,7 +24,6 @@ public class VenueManager extends Person{
     }
     public VenueManager(String emailId, String password) {
         super(emailId, password);
-        //getVenueManager from Operations
         ResultSet result = database.Operations.getVenueManager(emailId);
         try {
             if(result.next()) {
@@ -78,7 +73,6 @@ public class VenueManager extends Person{
         database.Operations.updateVenueManagerProfile(this);
     }
 
-    //getters and setters
     public String getHallName() {
         return hallName;
     }
