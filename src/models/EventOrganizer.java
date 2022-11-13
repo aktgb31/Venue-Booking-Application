@@ -20,9 +20,9 @@ public class EventOrganizer extends Person{
         try{
             if(resultSet.next()){
                 this.name=resultSet.getString("name");
-                this.contactNumber=resultSet.getString("contact_number");
-                this.organisationName=resultSet.getString("organisation_name");
-                this.organisationAddress=resultSet.getString("organisation_address");
+                this.contactNumber=resultSet.getString("contactNumber");
+                this.organisationName=resultSet.getString("organisationName");
+                this.organisationAddress=resultSet.getString("organisationAddress");
             }
         }catch(Exception e){
             System.out.println(e);
@@ -32,7 +32,7 @@ public class EventOrganizer extends Person{
         try{
             while(resultSet1.next()){
                 EventOrganizerRequest eventOrganizerRequest=new Request();
-                eventOrganizerRequest.setRequestId(resultSet1.getInt("request_id"));
+                eventOrganizerRequest.setRequestId(resultSet1.getInt("eventId"));
                 eventOrganizerRequest.setEventName(resultSet1.getString("eventName"));
                 eventOrganizerRequest.setStartDateTime(resultSet1.getString("startTime"));
                 eventOrganizerRequest.setEndDateTime(resultSet1.getString("endTime"));
