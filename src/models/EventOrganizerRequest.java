@@ -10,7 +10,6 @@ public interface EventOrganizerRequest {
         return new Request(eventName, startDateTime, endDateTime, eventOrganizer, venueManager, description);
     }
 
-    // getter and setters
     public int getRequestId();
 
     public String getEventName();

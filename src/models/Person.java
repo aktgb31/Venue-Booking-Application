@@ -21,6 +21,10 @@ abstract public class Person {
         this.contactNumber = contactNumber;
     }
 
+    protected Person(String emailId) {
+        this.emailId = emailId;
+    }
+
     public String getName() {
         return name;
     }

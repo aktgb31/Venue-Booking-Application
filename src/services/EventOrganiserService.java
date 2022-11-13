@@ -62,7 +62,7 @@ public class EventOrganiserService {
     }
 
     public static ArrayList<VenueManager> getVenueDetails() {
-        return null;
+        return EventOrganizer.getVenueDetails();
     }
 
     public void logoutService() {

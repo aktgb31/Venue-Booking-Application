@@ -5,6 +5,7 @@ public interface VenueManagerRequest {
 
     public void rejectRequest(String feedBack);
 
+<<<<<<< HEAD
     public int getRequestId();
 
     public String getEventName();
@@ -22,5 +23,10 @@ public interface VenueManagerRequest {
     public void setFeedback(String feedback);
 
     public Request.Status getStatus();
+=======
+    public void setFeedback(String feedback);
+
+    public String getStatus();
+>>>>>>> 4c368ba848d72dfbb0e287c21397830b1c629876
 
 }
