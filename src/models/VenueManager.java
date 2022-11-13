@@ -3,6 +3,8 @@ package models;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import models.Request.Status;
+
 public class VenueManager extends Person{
     protected String hallName;
     protected String hallAddress;
@@ -38,31 +40,34 @@ public class VenueManager extends Person{
             System.out.println(e);
         }
 
-        String eventOrganizerEmailID;
+        String eventOrganizerEmailID,eventName,startTime,endTime,eventDescription,feedback;
+        int eventId;
+        Status status;
         ResultSet resultSet1=database.Operations.getVenueManagerRequests(emailId);
         try {
             while(resultSet1.next()) {
-                VenueManagerRequest venueManagerRequest = new Request();
-                venueManagerRequest.setEventName(resultSet1.getString("eventName"));
-                venueManagerRequest.setStartDateTime(resultSet1.getString("startTime"));
-                venueManagerRequest.setEndDateTime(resultSet1.getString("endTime"));
-                eventOrganizerEmailID = resultSet1.getString("organizerId");
+                eventId=resultSet1.getInt("eventId");
+                eventName=resultSet1.getString("eventName");
+                startTime=resultSet1.getString("startTime");
+                endTime=resultSet1.getString("endTime");
+                eventDescription=resultSet1.getString("eventDescription");
+                eventOrganizerEmailID=resultSet1.getString("organizerId");
+                status=Status.valueOf(resultSet1.getString("status"));
+                feedback=resultSet1.getString("feedback");
+                  
                 ResultSet resultSet2=database.Operations.getEventOrganizer(eventOrganizerEmailID);
+                EventOrganizer eventOrganizer = new EventOrganizer();
                 try {
                     if(resultSet2.next()) {
-                        EventOrganizer eventOrganizer = new EventOrganizer();
                         eventOrganizer.setName(resultSet2.getString("name"));
                         eventOrganizer.setOrganisationName(resultSet2.getString("organisationName"));
                         eventOrganizer.setOrganisationAddress(resultSet2.getString("organisationAddress"));
-                        venueManagerRequest.setEventOrganizer(eventOrganizer);
                     }
                 } catch(Exception e) {
                     System.out.println(e);
                 }
-                venueManagerRequest.setDescription(resultSet1.getString("eventDescription"));
-                requestedEvents.put(venueManagerRequest.getRequestId(),venueManagerRequest);
-
-                
+                VenueManagerRequest venueManagerRequest = new Request(eventId,eventName,startTime,endTime,eventOrganizer,this,eventDescription,feedback,status);
+                requestedEvents.put(eventId,venueManagerRequest);   
             }
         } catch(Exception e) {
             System.out.println(e);

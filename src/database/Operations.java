@@ -1,8 +1,8 @@
 package database;
 
 import models.EventOrganizer;
-import models.EventOrganizerRequest;
 import models.VenueManager;
+import models.Request.Status;
 
 import java.sql.*;
 
@@ -97,20 +97,19 @@ public class Operations {
         
     }
 
-    public static int createBooking(EventOrganizerRequest request) {
+    public static int createBooking(String eventName, String startDateTime, String endDateTime, String eventOrganizerEmailId, String venueManagerEmailId, String description) {
         try{
             Connection connection = Dao.getConnection();
-            String sql = "INSERT INTO event VALUES (?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO event VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            //statement.setString(1, event.getEventId());
-            statement.setString(2, request.getEventName());
-            statement.setString(7, request.getVenueManager().getEmailId());
-            statement.setString(8, request.getEventOrganizer().getEmailId());
-            statement.setString(6, request.getDescription());            
-            statement.setString(3, request.getStartDateTime());
-            statement.setString(4, request.getEndDateTime());
-            statement.setString(5, request.getStatus());
-            statement.setString(9, request.getFeedback()); 
+            statement.setString(1, eventName);
+            statement.setString(2, eventOrganizerEmailId);
+            statement.setString(3, venueManagerEmailId);
+            statement.setString(4, description);
+            statement.setString(5, startDateTime);
+            statement.setString(6, endDateTime);
+            statement.setString(7, Status.PENDING.toString());
+            statement.setString(8, null);
             statement.executeUpdate();
         
             sql = "SELECT LAST_INSERT_ID()";
