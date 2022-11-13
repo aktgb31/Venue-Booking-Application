@@ -2,34 +2,30 @@ package models;
 
 public class Request implements EventOrganizerRequest, VenueManagerRequest {
 
-    protected int requestId;
-    protected String eventName;
-    protected String startDateTime;
-    protected String endDateTime;
+    private int requestId;
+    private String eventName;
+    private String startDateTime;
+    private String endDateTime;
 
-    protected EventOrganizer eventOrganizer;
-    protected VenueManager venueManager;
-    protected String description;
-    protected String feedback;
+    private EventOrganizer eventOrganizer;
+    private VenueManager venueManager;
+    private String description;
+    private String feedback;
 
     public enum Status {
         PENDING, ACCEPTED, REJECTED, CANCELLED
     };
 
-    protected String status;
+    private Status status;
 
-    public Request() {
-    }
-
-    @Override
-    public void createRequest(String eventName, String startDateTime, String endDateTime, EventOrganizer eventOrganizer,
+    public Request(String eventName, String startDateTime, String endDateTime, EventOrganizer eventOrganizer,
             VenueManager venueManager, String description) {
         this.eventName = eventName;
         this.eventOrganizer = eventOrganizer;
         this.venueManager = venueManager;
         this.description = description;
         this.feedback = "";
-        this.status = "Pending";
+        this.status = Status.PENDING;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.requestId = database.Operations.createBooking(this);
@@ -37,24 +33,25 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
 
     @Override
     public void cancelRequest() {
-        this.status = "Cancelled";
+        this.status = Status.CANCELLED;
         database.Operations.cancelRequest(this.requestId);
     }
 
     @Override
     public void acceptRequest(String feedBack) {
-        this.status = "Accepted";
+        this.status = Status.ACCEPTED;
         this.feedback = feedBack;
         database.Operations.acceptRequest(requestId, feedBack);
     }
 
     @Override
     public void rejectRequest(String feedBack) {
-        this.status = "Rejected";
+        this.status = Status.REJECTED;
         this.feedback = feedBack;
         database.Operations.rejectRequest(requestId, feedBack);
     }
 
+    @Override
     public int getRequestId() {
         return requestId;
     }
@@ -119,12 +116,7 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
         this.feedback = feedback;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
 }
