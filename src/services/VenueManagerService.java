@@ -6,24 +6,27 @@ import java.util.HashMap;
 import models.VenueManager;
 import models.VenueManagerRequest;
 
-public class VenueManagerService{
+public class VenueManagerService {
     private VenueManager venueManager;
 
-    public VenueManagerService(){
-        this.venueManager = new VenueManager();
+    private VenueManagerService(VenueManager venueManager) {
+        this.venueManager = venueManager;
     }
 
-
-    public void login(String emailId, String password) {
-         this.venueManager = new VenueManager(emailId, password);
+    public static VenueManagerService login(String emailId, String password) {
+        VenueManager venueManager = new VenueManager(emailId, password);
+        return new VenueManagerService(venueManager);
     }
 
-    public void registrationService(String name, String emailId, String password, String contactNumber, String hallName, String hallAddress, String hallCapacity, String hallDescription) {
-        this.venueManager = new VenueManager(name, emailId, password, contactNumber, hallName, hallAddress, hallCapacity, hallDescription);
+    public static VenueManagerService registrationService(String name, String emailId, String password,
+            String contactNumber, String hallName, String hallAddress, String hallCapacity, String hallDescription) {
+        VenueManager venueManager = new VenueManager(name, emailId, password, contactNumber, hallName, hallAddress,
+                hallCapacity, hallDescription);
+        return new VenueManagerService(venueManager);
     }
 
-
-    public void updateProfileService(String name, String password, String contactNumber, String hallName, String hallAddress, String hallCapacity, String hallDescription) {
+    public void updateProfile(String name, String password, String contactNumber, String hallName,
+            String hallAddress, String hallCapacity, String hallDescription) {
         venueManager.setName(name);
         venueManager.setPassword(password);
         venueManager.setContactNumber(contactNumber);
@@ -34,48 +37,43 @@ public class VenueManagerService{
         venueManager.updateDetails();
     }
 
-    public ArrayList<VenueManagerRequest> getPendingRequestsService(){
-        HashMap<Integer,VenueManagerRequest> eventRequests = venueManager.getRequestedEvents();
+    public ArrayList<VenueManagerRequest> getPendingRequests() {
+        HashMap<Integer, VenueManagerRequest> eventRequests = venueManager.getRequestedEvents();
         ArrayList<VenueManagerRequest> pendingRequests = new ArrayList<VenueManagerRequest>();
-        for(VenueManagerRequest event : eventRequests.values()){
-            if(event.getStatus().equals("Pending")){
+        for (VenueManagerRequest event : eventRequests.values()) {
+            if (event.getStatus().equals("Pending")) {
                 pendingRequests.add(event);
             }
         }
         return pendingRequests;
     }
 
-    public ArrayList<VenueManagerRequest> getNonPendingRequestsService(){
-        HashMap<Integer,VenueManagerRequest> eventsMap = venueManager.getRequestedEvents();
+    public ArrayList<VenueManagerRequest> getNonPendingRequests() {
+        HashMap<Integer, VenueManagerRequest> eventsMap = venueManager.getRequestedEvents();
         ArrayList<VenueManagerRequest> nonPendingRequests = new ArrayList<VenueManagerRequest>();
-        for(VenueManagerRequest event : eventsMap.values()){
-            if(event.getStatus().equals("Pending") == false){
+        for (VenueManagerRequest event : eventsMap.values()) {
+            if (event.getStatus().equals("Pending") == false) {
                 nonPendingRequests.add(event);
             }
         }
         return nonPendingRequests;
     }
 
-    public VenueManager getProfileService() {
+    public VenueManager getProfile() {
         return venueManager;
     }
 
-    public void acceptRequestService(int requestId,String feedBack) {
+    public void acceptRequest(int requestId, String feedBack) {
         venueManager.getRequestedEvents().get(requestId).acceptRequest(feedBack);
     }
 
-    public void rejectRequestService(int requestId,String feedBack) {
+    public void rejectRequest(int requestId, String feedBack) {
         venueManager.getRequestedEvents().get(requestId).rejectRequest(feedBack);
         venueManager.getRequestedEvents().get(requestId).setFeedback(feedBack);
     }
 
-    public void logoutService(){
+    public void logout() {
         venueManager = null;
     }
-
-
-
-
-
 
 }

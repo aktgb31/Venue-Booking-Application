@@ -12,25 +12,25 @@ abstract public class PersonGUI {
     static public PersonGUI loginScreen() {
         JFrame frame = new JFrame("Login");
         frame.setSize(800, 800);
-       
+
         JLabel heading = new JLabel("Venue Booking Application");
         heading.setBounds(50, 10, 400, 50);
         heading.setFont(new Font("Serif", Font.BOLD, 20));
         heading.setHorizontalAlignment(JLabel.CENTER);
-        
+
         JLabel l1 = new JLabel("Email ID");
         JLabel l2 = new JLabel("Password");
         JLabel l3 = new JLabel("User Type");
 
         JTextField t1 = new JTextField();
         JPasswordField t2 = new JPasswordField();
-        String[] usertype = {"Event Organizer","Venue Manager"};
+        String[] usertype = { "Event Organizer", "Venue Manager" };
         JComboBox cb = new JComboBox(usertype);
 
         JButton b1 = new JButton("Login");
         JButton b2 = new JButton("Register as Venue Manager");
         JButton b3 = new JButton("Register as Event Organizer");
-      
+
         l1.setBounds(50, 100, 100, 30);
         l2.setBounds(50, 150, 100, 30);
         l3.setBounds(50, 200, 100, 30);
@@ -40,7 +40,7 @@ abstract public class PersonGUI {
         b1.setBounds(100, 250, 100, 30);
         b2.setBounds(100, 300, 200, 30);
         b3.setBounds(100, 350, 200, 30);
-      
+
         b1.setHorizontalAlignment(JButton.CENTER);
         b2.setHorizontalAlignment(JButton.CENTER);
         b3.setHorizontalAlignment(JButton.CENTER);
@@ -55,7 +55,7 @@ abstract public class PersonGUI {
         frame.add(b1);
         frame.add(b2);
         frame.add(b3);
-        
+
         frame.setLayout(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,12 +65,10 @@ abstract public class PersonGUI {
         String password = String.valueOf(t2.getPassword());
         try {
             if (type.equals("EventOrganizer")) {
-                EventOrganiserService eventOrganiserService = new EventOrganiserService();
-                eventOrganiserService.loginService(emailId, password);
+                EventOrganiserService eventOrganiserService = EventOrganiserService.login(emailId, password);
                 new EventOrganizerGUI(eventOrganiserService);
             } else {
-                VenueManagerService venueManagerService = new VenueManagerService();
-                venueManagerService.login(emailId, password);
+                VenueManagerService venueManagerService = VenueManagerService.login(emailId, password);
                 new VenueManagerGUI(venueManagerService);
             }
         } catch (Exception e) {

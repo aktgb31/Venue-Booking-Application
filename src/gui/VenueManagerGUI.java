@@ -6,7 +6,6 @@ public class VenueManagerGUI {
     public VenueManagerGUI(Object login) {
     }
 
-    @Override
     public JFrame dashboardScreen() {
         // Add code here
         return null;

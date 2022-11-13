@@ -8,21 +8,27 @@ import models.EventOrganizerRequest;
 import models.Request;
 import models.VenueManager;
 
-public class EventOrganiserService{
+public class EventOrganiserService {
     private EventOrganizer eventOrganizer;
-    public EventOrganiserService(){
-        this.eventOrganizer = new EventOrganizer();
-    }
-    
-    public void loginService(String emailId, String password) {
-        this.eventOrganizer = new EventOrganizer(emailId, password);
+
+    private EventOrganiserService(EventOrganizer eventOrganizer) {
+        this.eventOrganizer = eventOrganizer;
     }
 
-    public void registrationService(String name, String emailId, String password, String contactNumber, String organizationName, String organizationAddress) {
-        this.eventOrganizer = new EventOrganizer(name, emailId, password, contactNumber, organizationName, organizationAddress);
+    public static EventOrganiserService login(String emailId, String password) {
+        EventOrganizer eventOrganizer = new EventOrganizer(emailId, password);
+        return new EventOrganiserService(eventOrganizer);
     }
-          
-    public void updateProfileService(String name, String password, String contactNumber, String organisationName, String organisationAddress) {
+
+    public static EventOrganiserService register(String name, String emailId, String password,
+            String contactNumber, String organizationName, String organizationAddress) {
+        EventOrganizer eventOrganizer = new EventOrganizer(name, emailId, password, contactNumber, organizationName,
+                organizationAddress);
+        return new EventOrganiserService(eventOrganizer);
+    }
+
+    public void updateProfile(String name, String password, String contactNumber, String organisationName,
+            String organisationAddress) {
         eventOrganizer.setName(name);
         eventOrganizer.setPassword(password);
         eventOrganizer.setContactNumber(contactNumber);
@@ -31,34 +37,35 @@ public class EventOrganiserService{
         eventOrganizer.updateDetails();
     }
 
-    public void createBookingService(VenueManager venueManager, String startDateTime, String endDateTime, String eventName, String description) {
+    public void createBooking(VenueManager venueManager, String startDateTime, String endDateTime,
+            String eventName, String description) {
         EventOrganizerRequest newRequest = new Request();
-        newRequest.createRequest(eventName,  startDateTime, endDateTime, eventOrganizer, venueManager, description);
+        newRequest.createRequest(eventName, startDateTime, endDateTime, eventOrganizer, venueManager, description);
         eventOrganizer.addBooking(newRequest);
     }
 
-    public void cancelBookingService(int requestId) {
+    public void cancelBooking(int requestId) {
         eventOrganizer.getEvents().get(requestId).cancelRequest();
     }
 
-    public ArrayList<EventOrganizerRequest> getBookingHistoryService() {
-        HashMap<Integer,EventOrganizerRequest> allBookings = eventOrganizer.getBookings();
+    public ArrayList<EventOrganizerRequest> getBookingHistory() {
+        HashMap<Integer, EventOrganizerRequest> allBookings = eventOrganizer.getBookings();
         ArrayList<EventOrganizerRequest> bookingHistory = new ArrayList<EventOrganizerRequest>();
-        for(EventOrganizerRequest booking : allBookings.values()){
-            bookingHistory.add(booking);  
+        for (EventOrganizerRequest booking : allBookings.values()) {
+            bookingHistory.add(booking);
         }
         return bookingHistory;
     }
 
-    public EventOrganizer getProfileService() {
+    public EventOrganizer getProfile() {
         return eventOrganizer;
     }
 
-    public ArrayList<VenueManager> getVenueDetails() {
-        return eventOrganizer.getVenueDetails();
+    public static ArrayList<VenueManager> getVenueDetails() {
+        return null;
     }
 
-    public void logoutService(){
+    public void logoutService() {
         eventOrganizer = null;
     }
 }

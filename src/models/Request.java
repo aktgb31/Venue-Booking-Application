@@ -1,7 +1,5 @@
 package models;
 
-import javax.swing.*;
-
 public class Request implements EventOrganizerRequest, VenueManagerRequest {
 
     protected int requestId;
@@ -13,13 +11,19 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
     protected VenueManager venueManager;
     protected String description;
     protected String feedback;
-    public enum Status {PENDING, ACCEPTED, REJECTED,CANCELLED};
+
+    public enum Status {
+        PENDING, ACCEPTED, REJECTED, CANCELLED
+    };
+
     protected String status;
+
     public Request() {
     }
 
     @Override
-    public void createRequest(String eventName,String startDateTime, String endDateTime, EventOrganizer eventOrganizer, VenueManager venueManager,String description) {
+    public void createRequest(String eventName, String startDateTime, String endDateTime, EventOrganizer eventOrganizer,
+            VenueManager venueManager, String description) {
         this.eventName = eventName;
         this.eventOrganizer = eventOrganizer;
         this.venueManager = venueManager;
@@ -41,89 +45,86 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
     public void acceptRequest(String feedBack) {
         this.status = "Accepted";
         this.feedback = feedBack;
-        database.Operations.acceptRequest(requestId,feedBack);
+        database.Operations.acceptRequest(requestId, feedBack);
     }
 
     @Override
     public void rejectRequest(String feedBack) {
         this.status = "Rejected";
         this.feedback = feedBack;
-        database.Operations.rejectRequest(requestId,feedBack);
+        database.Operations.rejectRequest(requestId, feedBack);
     }
-
 
     public int getRequestId() {
         return requestId;
     }
+
     public void setRequestId(int requestId) {
         this.requestId = requestId;
     }
+
     public String getEventName() {
         return eventName;
     }
+
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
+
     public String getStartDateTime() {
         return startDateTime;
     }
+
     public void setStartDateTime(String startDateTime) {
         this.startDateTime = startDateTime;
     }
+
     public String getEndDateTime() {
         return endDateTime;
     }
+
     public void setEndDateTime(String endDateTime) {
         this.endDateTime = endDateTime;
     }
+
     public EventOrganizer getEventOrganizer() {
         return eventOrganizer;
     }
+
     public void setEventOrganizer(EventOrganizer eventOrganizer) {
         this.eventOrganizer = eventOrganizer;
     }
+
     public VenueManager getVenueManager() {
         return venueManager;
     }
+
     public void setVenueManager(VenueManager venueManager) {
         this.venueManager = venueManager;
     }
+
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getFeedback() {
         return feedback;
     }
+
     public void setFeedback(String feedback) {
         this.feedback = feedback;
     }
+
     public String getStatus() {
         return status;
     }
+
     public void setStatus(String status) {
         this.status = status;
     }
-
-    @Override
-    public JFrame eventOrganiserScreen() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public JFrame venueManagerScreen() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public JFrame eventDetailsScreen() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 
 }
