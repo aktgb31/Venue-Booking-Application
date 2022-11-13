@@ -18,7 +18,7 @@ public interface EventOrganizerRequest {
 
     public String getEndDateTime();
 
-    public VenueManager getVenueManager();
+    public ReadOnlyVenueManager getVenueManager();
 
     public String getDescription();
 

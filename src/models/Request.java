@@ -32,29 +32,67 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
                 this.eventOrganizer.getEmailId(), this.venueManager.getEmailId(), this.description);
     }
 
-    @Override
+    public Request(int requestId, String eventName, String startDateTime, String endDateTime,
+            EventOrganizer eventOrganizer,
+            VenueManager venueManager, String description, String feedback, Status status) {
+        this.requestId = requestId;
+        this.eventName = eventName;
+        this.eventOrganizer = eventOrganizer;
+        this.venueManager = venueManager;
+        this.description = description;
+        this.feedback = feedback;
+        this.status = status;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+    }
+
     public void cancelRequest() {
         this.status = Status.CANCELLED;
         database.Operations.cancelRequest(this.requestId);
     }
 
-    @Override
     public void acceptRequest(String feedBack) {
         this.status = Status.ACCEPTED;
         this.feedback = feedBack;
         database.Operations.acceptRequest(requestId, feedBack);
     }
 
-    @Override
     public void rejectRequest(String feedBack) {
         this.status = Status.REJECTED;
         this.feedback = feedBack;
         database.Operations.rejectRequest(requestId, feedBack);
     }
 
-    @Override
     public int getRequestId() {
         return requestId;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public String getStartDateTime() {
+        return startDateTime;
+    }
+
+    public String getEndDateTime() {
+        return endDateTime;
+    }
+
+    public EventOrganizer getEventOrganizer() {
+        return eventOrganizer;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public VenueManager getVenueManager() {
+        return venueManager;
     }
 
     public void setFeedback(String feedback) {
@@ -64,4 +102,5 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
     public Status getStatus() {
         return status;
     }
+
 }

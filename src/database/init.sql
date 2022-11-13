@@ -1,7 +1,7 @@
 create database venue_management;
 use venue_management;
 
-create table venue_manager (
+create table VenueManagers (
     emailId varchar(50) not null primary key, -- 'Stores email id'
     name varchar(50) not null, -- 'Stores name of the manager'
     password varchar(50) not null, -- 'Stores password of the manager'
@@ -12,7 +12,7 @@ create table venue_manager (
     hallDescription varchar(200) not null -- 'Stores description of the hall'
 );
 
-create table event_organizer (
+create table EventOrganizers (
     emailId varchar(50) not null primary key, -- 'Stores email id'
     name varchar(50) not null, -- 'Stores name of the organizer'
     password varchar(50) not null, -- 'Stores password of the organizer'
@@ -21,14 +21,14 @@ create table event_organizer (
     organizationAddress varchar(200) not null -- 'Stores address of the organization'
 );
 
-create table event (
-    eventId int not null primary key, -- 'Stores id of the event'
+create table Requests (
+    requestId int not null primary key, -- 'Stores id of the request'
     eventName varchar(50) not null, -- 'Stores name of the event'
     organizerId varchar(50) not null foreign key references EventOrganizer(emailId), -- 'Stores email id of the organizer'
     managerId varchar(50) not null foreign key references VenueManager(emailId), -- 'Stores email id of the manager'
-    eventDescription varchar(200) not null, -- 'Stores description of the event'
+    bookingDescription varchar(200) not null, -- 'Stores description of the request'
     startTime datetime not null, -- 'Stores start time of the event'
     endTime datetime not null, -- 'Stores end time of the event'
-    status enum('Accepted', 'Rejected', 'Cancelled', 'Pending') not null default 'Pending' -- 'Stores status of the event'
+    status enum('PENDING', 'ACCEPTED', 'REJECTED', 'CANCELLED') not null default 'PENDING' -- 'Stores status of the event'
     feedback varchar(200) null, -- 'Stores feedback of the event'
 );

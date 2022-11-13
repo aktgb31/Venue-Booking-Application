@@ -38,7 +38,7 @@ public class VenueManagerService {
     }
 
     public ArrayList<VenueManagerRequest> getPendingRequests() {
-        HashMap<Integer, VenueManagerRequest> eventRequests = venueManager.getRequestedEvents();
+        HashMap<Integer, VenueManagerRequest> eventRequests = venueManager.getRequests();
         ArrayList<VenueManagerRequest> pendingRequests = new ArrayList<VenueManagerRequest>();
         for (VenueManagerRequest event : eventRequests.values()) {
             if (event.getStatus().equals("Pending")) {
@@ -49,7 +49,7 @@ public class VenueManagerService {
     }
 
     public ArrayList<VenueManagerRequest> getNonPendingRequests() {
-        HashMap<Integer, VenueManagerRequest> eventsMap = venueManager.getRequestedEvents();
+        HashMap<Integer, VenueManagerRequest> eventsMap = venueManager.getRequests();
         ArrayList<VenueManagerRequest> nonPendingRequests = new ArrayList<VenueManagerRequest>();
         for (VenueManagerRequest event : eventsMap.values()) {
             if (event.getStatus().equals("Pending") == false) {
@@ -64,12 +64,12 @@ public class VenueManagerService {
     }
 
     public void acceptRequest(int requestId, String feedBack) {
-        venueManager.getRequestedEvents().get(requestId).acceptRequest(feedBack);
+        venueManager.getRequests().get(requestId).acceptRequest(feedBack);
     }
 
     public void rejectRequest(int requestId, String feedBack) {
-        venueManager.getRequestedEvents().get(requestId).rejectRequest(feedBack);
-        venueManager.getRequestedEvents().get(requestId).setFeedback(feedBack);
+        venueManager.getRequests().get(requestId).rejectRequest(feedBack);
+        venueManager.getRequests().get(requestId).setFeedback(feedBack);
     }
 
     public void logout() {

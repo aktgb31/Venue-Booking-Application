@@ -6,22 +6,26 @@ import java.util.HashMap;
 
 import models.Request.Status;
 
-public class EventOrganizer extends Person {
+public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
     private String organisationName;
     private String organisationAddress;
 
-    private HashMap<Integer, EventOrganizerRequest> events;
+    private HashMap<Integer, EventOrganizerRequest> requests;
 
-    public EventOrganizer() {
+    public EventOrganizer(String name, String emailId, String password, String contactNumber, String organisationName,
+            String organisationAddress) {
+        super(name, emailId, password, contactNumber);
+        this.organisationName = organisationName;
+        this.organisationAddress = organisationAddress;
+        database.Operations.addEventOrganizer(this);
     }
 
     public EventOrganizer(String emailId, String password) {
-        super(emailId, password);
-
         ResultSet resultSet = database.Operations.getEventOrganizer(emailId);
         try {
             if (resultSet.next()) {
                 this.name = resultSet.getString("name");
+                this.emailId = resultSet.getString("emailId");
                 this.contactNumber = resultSet.getString("contactNumber");
                 this.organisationName = resultSet.getString("organisationName");
                 this.organisationAddress = resultSet.getString("organisationAddress");
@@ -29,10 +33,10 @@ public class EventOrganizer extends Person {
         } catch (Exception e) {
             System.out.println(e);
         }
-        String venueManagerEmailID,eventName,startTime,endTime,eventDescription,feedback;
+        String venueManagerEmailID, eventName, startTime, endTime, eventDescription, feedback;
         int eventId;
         Status status;
-        
+
         ResultSet resultSet1 = database.Operations.getEventOrganizerBookings(emailId);
         try {
             while (resultSet1.next()) {
@@ -46,45 +50,39 @@ public class EventOrganizer extends Person {
                 feedback = resultSet1.getString("feedback");
 
                 ResultSet resultSet2 = database.Operations.getVenueManager(venueManagerEmailID);
-                VenueManager venueManager = new VenueManager();
+                VenueManager venueManager = null;
                 try {
                     if (resultSet2.next()) {
-                        
-                        venueManager.setName(resultSet2.getString("name"));
-                        venueManager.setHallName(resultSet2.getString("hallName"));
-                        venueManager.setHallAddress(resultSet2.getString("hallAddress"));
-                        venueManager.setHallCapacity(resultSet2.getString("hallCapacity"));
-                        venueManager.setHallDescription(resultSet2.getString("hallDescription"));
-                        
+                        String name = resultSet2.getString("name");
+                        String email = resultSet2.getString("emailId");
+                        String contactNumber = resultSet2.getString("contactNumber");
+                        String hallName = resultSet2.getString("hallName");
+                        String hallAddress = resultSet2.getString("hallAddress");
+                        String hallCapacity = resultSet2.getString("hallCapacity");
+                        String hallDescription = resultSet2.getString("hallDescription");
+
+                        venueManager = new VenueManager(name, email, null, contactNumber, hallName, hallAddress,
+                                hallCapacity, hallDescription);
+
                     }
                 } catch (Exception e) {
                     System.out.println(e);
                 }
-                EventOrganizerRequest eventOrganizerRequest = new Request(eventId,eventName,startTime,endTime,this,venueManager,eventDescription,feedback,status);
-                events.put(eventId, eventOrganizerRequest);   
+                EventOrganizerRequest eventOrganizerRequest = new Request(eventId, eventName, startTime, endTime, this,
+                        venueManager, eventDescription, feedback, status);
+                requests.put(eventId, eventOrganizerRequest);
             }
         } catch (Exception e) {
             System.out.println(e);
         }
     };
 
-    public EventOrganizer(String name, String emailId, String password, String contactNumber, String organisationName,
-            String organisationAddress) {
-        super(name, emailId, password, contactNumber);
-        this.organisationName = organisationName;
-        this.organisationAddress = organisationAddress;
-        database.Operations.addEventOrganizer(this);
-    }
-
-    public EventOrganizer(String emailId, String organisationName, String organisationAddress) {
-        super(emailId);
-        this.organisationName = organisationName;
-        this.organisationAddress = organisationAddress;
-        database.Operations.addEventOrganizer(this);
+    public void updateDetails() {
+        database.Operations.updateEventOrganizerProfile(this);
     }
 
     public void addBooking(EventOrganizerRequest eventOrganizerRequest) {
-        events.put(eventOrganizerRequest.getRequestId(), eventOrganizerRequest);
+        requests.put(eventOrganizerRequest.getRequestId(), eventOrganizerRequest);
     }
 
     public String getOrganisationName() {
@@ -103,39 +101,7 @@ public class EventOrganizer extends Person {
         this.organisationAddress = organisationAddress;
     }
 
-    public HashMap<Integer, EventOrganizerRequest> getEvents() {
-        return events;
-    }
-
-    public void setEvents(HashMap<Integer, EventOrganizerRequest> events) {
-        this.events = events;
-    }
-
-    public void updateDetails() {
-        database.Operations.updateEventOrganizerProfile(this);
-    }
-
     public HashMap<Integer, EventOrganizerRequest> getBookings() {
-        return events;
+        return requests;
     }
-
-    public static ArrayList<VenueManager> getVenueDetails() {
-        ArrayList<VenueManager> venueDetails = new ArrayList<>();
-        ResultSet resultSet = database.Operations.getVenueManagers();
-        try {
-            while (resultSet.next()) {
-                VenueManager venueManager = new VenueManager();
-                venueManager.setName(resultSet.getString("name"));
-                venueManager.setHallName(resultSet.getString("hallName"));
-                venueManager.setHallAddress(resultSet.getString("hallAddress"));
-                venueManager.setHallCapacity(resultSet.getString("hallCapacity"));
-                venueManager.setHallDescription(resultSet.getString("hallDescription"));
-                venueDetails.add(venueManager);
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return venueDetails;
-    }
-
 }

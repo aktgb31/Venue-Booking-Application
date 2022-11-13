@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import models.EventOrganizer;
 import models.EventOrganizerRequest;
-import models.Request;
+import models.ReadOnlyVenueManager;
 import models.VenueManager;
 
 public class EventOrganiserService {
@@ -39,13 +39,13 @@ public class EventOrganiserService {
 
     public void createBooking(VenueManager venueManager, String startDateTime, String endDateTime,
             String eventName, String description) {
-        EventOrganizerRequest newRequest = new Request();
-        newRequest.createRequest(eventName, startDateTime, endDateTime, eventOrganizer, venueManager, description);
+        EventOrganizerRequest newRequest = EventOrganizerRequest.createRequest(eventName, startDateTime, endDateTime,
+                eventOrganizer, venueManager, description);
         eventOrganizer.addBooking(newRequest);
     }
 
     public void cancelBooking(int requestId) {
-        eventOrganizer.getEvents().get(requestId).cancelRequest();
+        eventOrganizer.getBookings().get(requestId).cancelRequest();
     }
 
     public ArrayList<EventOrganizerRequest> getBookingHistory() {
@@ -61,8 +61,9 @@ public class EventOrganiserService {
         return eventOrganizer;
     }
 
-    public static ArrayList<VenueManager> getVenueDetails() {
-        return EventOrganizer.getVenueDetails();
+    public ArrayList<ReadOnlyVenueManager> getVenueDetails() {
+
+        return VenueManager.getVenueDetails();
     }
 
     public void logoutService() {
