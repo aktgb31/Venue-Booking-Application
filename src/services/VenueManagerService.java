@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import models.VenueManager;
 import models.VenueManagerRequest;
+import models.Request.Status;
 
 public class VenueManagerService {
     private VenueManager venueManager;
@@ -18,15 +19,15 @@ public class VenueManagerService {
         return new VenueManagerService(venueManager);
     }
 
-    public static VenueManagerService registrationService(String name, String emailId, String password,
-            String contactNumber, String hallName, String hallAddress, String hallCapacity, String hallDescription) {
+    public static VenueManagerService registration(String name, String emailId, String password,
+            String contactNumber, String hallName, String hallAddress, int hallCapacity, String hallDescription) {
         VenueManager venueManager = new VenueManager(name, emailId, password, contactNumber, hallName, hallAddress,
                 hallCapacity, hallDescription);
         return new VenueManagerService(venueManager);
     }
 
     public void updateProfile(String name, String password, String contactNumber, String hallName,
-            String hallAddress, String hallCapacity, String hallDescription) {
+            String hallAddress, int hallCapacity, String hallDescription) {
         venueManager.setName(name);
         venueManager.setPassword(password);
         venueManager.setContactNumber(contactNumber);
@@ -41,7 +42,7 @@ public class VenueManagerService {
         HashMap<Integer, VenueManagerRequest> eventRequests = venueManager.getRequests();
         ArrayList<VenueManagerRequest> pendingRequests = new ArrayList<VenueManagerRequest>();
         for (VenueManagerRequest event : eventRequests.values()) {
-            if (event.getStatus().equals("Pending")) {
+            if (event.getStatus().equals(Status.PENDING)) {
                 pendingRequests.add(event);
             }
         }
@@ -52,7 +53,7 @@ public class VenueManagerService {
         HashMap<Integer, VenueManagerRequest> eventsMap = venueManager.getRequests();
         ArrayList<VenueManagerRequest> nonPendingRequests = new ArrayList<VenueManagerRequest>();
         for (VenueManagerRequest event : eventsMap.values()) {
-            if (event.getStatus().equals("Pending") == false) {
+            if (event.getStatus().equals(Status.PENDING)!=true) {
                 nonPendingRequests.add(event);
             }
         }
@@ -69,7 +70,6 @@ public class VenueManagerService {
 
     public void rejectRequest(int requestId, String feedBack) {
         venueManager.getRequests().get(requestId).rejectRequest(feedBack);
-        venueManager.getRequests().get(requestId).setFeedback(feedBack);
     }
 
     public void logout() {

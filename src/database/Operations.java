@@ -1,25 +1,24 @@
 package database;
 
-import models.EventOrganizer;
-import models.VenueManager;
+
 import models.Request.Status;
 
 import java.sql.*;
 
 public class Operations {
-    public static int addVenueManager(VenueManager venueManager) {
+    public static int addVenueManager(String emailId, String name,String contactNumber,String password,String hallName,String hallAddress,int hallCapacity,String hallDescription) {
         try {
             Connection connection = Dao.getConnection();
-            String sql = "INSERT INTO venue_manager VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO VenueManagers VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, venueManager.getEmailId());
-            statement.setString(2, venueManager.getName());
-            statement.setString(3, venueManager.getPassword());
-            statement.setString(4, venueManager.getContactNumber());
-            statement.setString(5, venueManager.getHallName());
-            statement.setString(6, venueManager.getHallAddress());
-            statement.setString(7, venueManager.getHallCapacity());
-            statement.setString(8, venueManager.getHallDescription());
+            statement.setString(1, emailId);
+            statement.setString(2, name);
+            statement.setString(3, password);
+            statement.setString(4, contactNumber);
+            statement.setString(5, hallName);
+            statement.setString(6, hallAddress);
+            statement.setInt(7, hallCapacity);
+            statement.setString(8,hallDescription);
             statement.executeUpdate();
             connection.close();
             return 1;
@@ -32,7 +31,7 @@ public class Operations {
     public static ResultSet getVenueManager(String emailId) {
         try {
             Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM venue_manager WHERE email_id = ?";
+            String sql = "SELECT * FROM VenueManagers WHERE emailId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             ResultSet resultSet = statement.executeQuery();
@@ -51,7 +50,7 @@ public class Operations {
     public static ResultSet getVenueManagers() {
         try {
             Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM venue_manager";
+            String sql = "SELECT * FROM VenueManagers";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             return resultSet;
@@ -61,17 +60,17 @@ public class Operations {
         return null;
     }
 
-    public static int addEventOrganizer(EventOrganizer eventOrganizer) {
+    public static int addEventOrganizer(String name,String emaiilId,String password,String contactNumber,String organisationName,String organisationAddress) {
         try {
             Connection connection = Dao.getConnection();
-            String sql = "INSERT INTO event_organizer VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO EventOrganizers VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, eventOrganizer.getEmailId());
-            statement.setString(2, eventOrganizer.getName());
-            statement.setString(3, eventOrganizer.getPassword());
-            statement.setString(4, eventOrganizer.getContactNumber());
-            statement.setString(5, eventOrganizer.getOrganisationName());
-            statement.setString(6, eventOrganizer.getOrganisationAddress());
+            statement.setString(1, emaiilId);
+            statement.setString(2, name);
+            statement.setString(3, password);
+            statement.setString(4, contactNumber);
+            statement.setString(5, organisationName);
+            statement.setString(6, organisationAddress);
             statement.executeUpdate();
             connection.close();
             return 1;
@@ -85,7 +84,7 @@ public class Operations {
         
         try {
             Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM event_organizer WHERE email_id = ?";
+            String sql = "SELECT * FROM EventOrganizers WHERE email_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emaiId);
             ResultSet resultSet = statement.executeQuery();
@@ -100,7 +99,7 @@ public class Operations {
     public static int createBooking(String eventName, String startDateTime, String endDateTime, String eventOrganizerEmailId, String venueManagerEmailId, String description) {
         try{
             Connection connection = Dao.getConnection();
-            String sql = "INSERT INTO event VALUES (?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO Requests VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, eventName);
             statement.setString(2, eventOrganizerEmailId);
@@ -133,7 +132,7 @@ public class Operations {
     public static ResultSet getVenueManagerRequests(String emailId){
         try {
             Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM event WHERE manager_id = ?";
+            String sql = "SELECT * FROM Requests WHERE managerId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             ResultSet resultSet = statement.executeQuery();
@@ -149,7 +148,7 @@ public class Operations {
     public static ResultSet getEventOrganizerBookings(String emailId){
         try{
             Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM event WHERE organizer_id = ?";
+            String sql = "SELECT * FROM Requests WHERE organizerId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             ResultSet result = statement.executeQuery();
@@ -164,10 +163,11 @@ public class Operations {
     public static int acceptRequest(int eventId,String feedback){
         try{
             Connection connection = Dao.getConnection();
-            String sql = "UPDATE event SET status = 'accepted', feedback = ? WHERE event_id = ?";
+            String sql = "UPDATE Requests SET status = ?, feedback = ? WHERE requestId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, feedback);
-            statement.setInt(2, eventId);
+            statement.setString(1,Status.ACCEPTED.toString());
+            statement.setString(2, feedback);
+            statement.setInt(3, eventId);
             statement.executeUpdate();
             connection.close();
             return 1;
@@ -180,10 +180,11 @@ public class Operations {
     public static int rejectRequest(int eventId,String feedback){
         try{
             Connection connection = Dao.getConnection();
-            String sql = "UPDATE event SET status = 'rejected', feedback = ? WHERE event_id = ?";
+            String sql = "UPDATE Requests SET status = ?, feedback = ? WHERE requestId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, feedback);
-            statement.setInt(2, eventId);
+            statement.setString(1, Status.REJECTED.toString());
+            statement.setString(2, feedback);
+            statement.setInt(3, eventId);
             statement.executeUpdate();
             connection.close();
             return 1;
@@ -196,9 +197,10 @@ public class Operations {
     public static int cancelRequest(int eventId) {
         try {
             Connection connection = Dao.getConnection();
-            String sql = "UPDATE event SET status = 'cancelled' WHERE event_id = ?";
+            String sql = "UPDATE Requests SET status = ? WHERE requestId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, eventId);
+            statement.setString(1, Status.CANCELLED.toString());
+            statement.setInt(2, eventId);
             statement.executeUpdate();
             connection.close();
             return 1;
@@ -208,17 +210,17 @@ public class Operations {
         }
     }
 
-    public static int updateEventOrganizerProfile(EventOrganizer eventOrganizer){
+    public static int updateEventOrganizerProfile(String name, String emailId, String password, String contactNumber, String organisationName, String organisationAddress){
         try {
             Connection connection = Dao.getConnection();
-            String sql = "UPDATE event_organizer SET name = ?, password = ?, contact_number = ?, organisation_name = ?, organisation_address = ? WHERE email_id = ?";
+            String sql = "UPDATE EventOrganizers SET name = ?, password = ?, contactNumber = ?, organisationName = ?, organisationAddress = ? WHERE emailId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, eventOrganizer.getName());
-            statement.setString(2, eventOrganizer.getPassword());
-            statement.setString(3, eventOrganizer.getContactNumber());
-            statement.setString(4, eventOrganizer.getOrganisationName());
-            statement.setString(5, eventOrganizer.getOrganisationAddress());
-            statement.setString(6, eventOrganizer.getEmailId());
+            statement.setString(1, name);
+            statement.setString(2, password);
+            statement.setString(3, contactNumber);
+            statement.setString(4, organisationName);
+            statement.setString(5, organisationAddress);
+            statement.setString(6, emailId);
             statement.executeUpdate();
             connection.close();
             return 1;
@@ -228,17 +230,19 @@ public class Operations {
         }
     }
 
-    public static int updateVenueManagerProfile(VenueManager venueManager){
+    public static int updateVenueManagerProfile(String emailId, String name,String contactNumber,String password,String hallName,String hallAddress,int hallCapacity,String hallDescription){
         try {
             Connection connection = Dao.getConnection();
-            String sql = "UPDATE venue_manager SET name = ?, password = ?, contact_number = ?, venue_name = ?, venue_address = ? WHERE email_id = ?";
+            String sql = "UPDATE VenueManagers SET name = ?, password = ?, contactNumber = ?, hallName = ?, hallAddress = ?,hallCapacity = ?, hallDescription = ? WHERE emailId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, venueManager.getName());
-            statement.setString(2, venueManager.getPassword());
-            statement.setString(3, venueManager.getContactNumber());
-            statement.setString(4, venueManager.getHallName());
-            statement.setString(5, venueManager.getHallAddress());
-            statement.setString(6, venueManager.getEmailId());
+            statement.setString(1, name);
+            statement.setString(2, password);
+            statement.setString(3, contactNumber);
+            statement.setString(4, hallName);
+            statement.setString(5, hallAddress);
+            statement.setInt(6, hallCapacity);
+            statement.setString(7, hallDescription);
+            statement.setString(8, emailId);
             statement.executeUpdate();
             connection.close();
             return 1;
@@ -251,7 +255,7 @@ public class Operations {
     public static int validateLogin(String emailId, String password) {
         try {
             Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM venue_manager WHERE email_id = ? AND password = ?";
+            String sql = "SELECT * FROM VenueManagers WHERE emailId = ? AND password = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             statement.setString(2, password);
@@ -260,7 +264,7 @@ public class Operations {
                 connection.close();
                 return 1;
             } else {
-                sql = "SELECT * FROM event_organizer WHERE email_id = ? AND password = ?";
+                sql = "SELECT * FROM EventOrganizers WHERE emailId = ? AND password = ?";
                 statement = connection.prepareStatement(sql);
                 statement.setString(1, emailId);
                 statement.setString(2, password);

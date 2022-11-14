@@ -1,7 +1,6 @@
 package models;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import models.Request.Status;
@@ -17,10 +16,12 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
         super(name, emailId, password, contactNumber);
         this.organisationName = organisationName;
         this.organisationAddress = organisationAddress;
-        database.Operations.addEventOrganizer(this);
+        database.Operations.addEventOrganizer(this.name, this.emailId, this.password, this.contactNumber,
+                this.organisationName, this.organisationAddress);
     }
 
     public EventOrganizer(String emailId, String password) {
+
         ResultSet resultSet = database.Operations.getEventOrganizer(emailId);
         try {
             if (resultSet.next()) {
@@ -58,7 +59,7 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
                         String contactNumber = resultSet2.getString("contactNumber");
                         String hallName = resultSet2.getString("hallName");
                         String hallAddress = resultSet2.getString("hallAddress");
-                        String hallCapacity = resultSet2.getString("hallCapacity");
+                        int hallCapacity = resultSet2.getInt("hallCapacity");
                         String hallDescription = resultSet2.getString("hallDescription");
 
                         venueManager = new VenueManager(name, email, null, contactNumber, hallName, hallAddress,
@@ -78,7 +79,7 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
     };
 
     public void updateDetails() {
-        database.Operations.updateEventOrganizerProfile(this);
+        database.Operations.updateEventOrganizerProfile(this.name,this.emailId,this.password,this.contactNumber,this.organisationName,this.organisationAddress);
     }
 
     public void addBooking(EventOrganizerRequest eventOrganizerRequest) {

@@ -6,7 +6,7 @@ public interface ReadOnlyVenueManager {
 
     public String getHallAddress();
 
-    public String getHallCapacity();
+    public int getHallCapacity();
 
     public String getHallDescription();
 

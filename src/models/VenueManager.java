@@ -9,13 +9,13 @@ import models.Request.Status;
 public class VenueManager extends Person implements ReadOnlyVenueManager {
     private String hallName;
     private String hallAddress;
-    private String hallCapacity;
+    private int hallCapacity;
     private String hallDescription;
 
     private HashMap<Integer, VenueManagerRequest> requests;
 
     public VenueManager(String name, String emailId, String password, String contactNumber, String hallName,
-            String hallAddress, String hallCapacity, String hallDescription) {
+            String hallAddress, int hallCapacity, String hallDescription) {
         super(name, emailId, password, contactNumber);
         this.hallName = hallName;
         this.hallAddress = hallAddress;
@@ -32,7 +32,7 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
                 this.contactNumber = result.getString("contactNumber");
                 this.hallName = result.getString("hallName");
                 this.hallAddress = result.getString("hallAddress");
-                this.hallCapacity = result.getString("hallCapacity");
+                this.hallCapacity = result.getInt("hallCapacity");
                 this.hallDescription = result.getString("hallDescription");
             }
         } catch (Exception e) {
@@ -79,7 +79,7 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
     }
 
     public void updateDetails() {
-        database.Operations.updateVenueManagerProfile(this);
+        database.Operations.updateVenueManagerProfile(this.emailId,this.name,this.contactNumber,this.password,this.hallName,this.hallAddress,this.hallCapacity,this.hallDescription);
     }
 
     public String getHallName() {
@@ -98,11 +98,11 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
         this.hallAddress = hallAddress;
     }
 
-    public String getHallCapacity() {
+    public int getHallCapacity() {
         return hallCapacity;
     }
 
-    public void setHallCapacity(String hallCapacity) {
+    public void setHallCapacity(int hallCapacity) {
         this.hallCapacity = hallCapacity;
     }
 
@@ -128,7 +128,7 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
                 String contactNumber = result.getString("contactNumber");
                 String hallName = result.getString("hallName");
                 String hallAddress = result.getString("hallAddress");
-                String hallCapacity = result.getString("hallCapacity");
+                int hallCapacity = result.getInt("hallCapacity");
                 String hallDescription = result.getString("hallDescription");
                 ReadOnlyVenueManager venueManager = new VenueManager(name, emailId, null, contactNumber, hallName,
                         hallAddress, hallCapacity, hallDescription);
