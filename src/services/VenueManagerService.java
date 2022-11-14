@@ -19,7 +19,7 @@ public class VenueManagerService {
         return new VenueManagerService(venueManager);
     }
 
-    public static VenueManagerService registration(String name, String emailId, String password,
+    public static VenueManagerService register(String name, String emailId, String password,
             String contactNumber, String hallName, String hallAddress, int hallCapacity, String hallDescription) {
         VenueManager venueManager = new VenueManager(name, emailId, password, contactNumber, hallName, hallAddress,
                 hallCapacity, hallDescription);
