@@ -17,7 +17,7 @@ public class ViewBookingRequests {
     public ViewBookingRequests(){
         
         JFrame frame = new JFrame("View Booking Requests");
-        frame.setSize(800, 800);
+        frame.setSize(1200, 800);
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));

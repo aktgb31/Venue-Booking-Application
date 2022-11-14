@@ -11,7 +11,7 @@ public class VenueManagerDashboard {
     }
     public VenueManagerDashboard(){
         JFrame frame = new JFrame("Dashboard");
-        frame.setSize(800, 800);
+        frame.setSize(1200, 800);
        
         JLabel heading = new JLabel("Venue Manager Dashboard");
         heading.setBounds(100, 10, 400, 50);

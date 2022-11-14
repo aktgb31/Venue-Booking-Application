@@ -13,7 +13,7 @@ public class EventOrganizerProfile {
     }
     public EventOrganizerProfile(){
         JFrame frame = new JFrame("Profile");
-        frame.setSize(800, 800);
+        frame.setSize(1200, 800);
       
         JLabel heading = new JLabel("Event Organizer Profile");
         heading.setBounds(50, 10, 400, 50);

@@ -10,7 +10,7 @@ public class CreateBooking {
     }
     public CreateBooking(){
         JFrame frame = new JFrame("Create Booking");
-        frame.setSize(800, 800);
+        frame.setSize(1200, 800);
         
         JLabel heading = new JLabel("Create Booking");
         heading.setBounds(100, 10, 400, 50);
@@ -23,7 +23,7 @@ public class CreateBooking {
         JLabel l4 = new JLabel("Event Name");
         JLabel l5 = new JLabel("Booking Description");
 
-        String[] venue = {"Main Hall"," Aryabhatta","Ambedkar"};
+        String[] venue = {"Main Hall"," Aryabhatta","OAT"};
         JComboBox cb = new JComboBox(venue);
        
         JTextField t1 = new JTextField();
@@ -68,6 +68,20 @@ public class CreateBooking {
         frame.add(t4);
         frame.add(b1);
         frame.add(b2);
+
+        String[] columnNames = {"Hall Name", "Hall Capacity", "Hall Description", "Hall Address"};
+        String[][] data = {
+            {"Main Hall", "1000", "Air conditioned & Stage", "Kunnamangalam"},
+            {"Aryabhatta", "2000", "Air conditioned", "Kattangal"},
+            {"OAT", "3000", "Open air theatre", "Kunnamangalam"},
+        };
+        JTable table = new JTable(data, columnNames);
+        table.setBounds(450, 100, 700, 300);
+       
+        JScrollPane sp = new JScrollPane(table);
+        sp.setBounds(450, 100, 700, 300);
+        frame.add(sp);
+
 
         frame.setLayout(null);
         frame.setVisible(true);

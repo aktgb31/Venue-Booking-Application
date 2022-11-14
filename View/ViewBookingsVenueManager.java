@@ -13,7 +13,7 @@ public class ViewBookingsVenueManager {
     
     public ViewBookingsVenueManager(){
         JFrame f = new JFrame("View Bookings");
-        f.setSize(800, 800);
+        f.setSize(1200, 800);
 
         String[] columnNames = {"Event Name", "Start Time", "End Time", "Status", "Contact Number","Organizer"};
         String[][] data = {

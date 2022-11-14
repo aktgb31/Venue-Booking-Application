@@ -13,12 +13,12 @@ public class ViewBookingsEventOrganizer{
     
     public ViewBookingsEventOrganizer(){
         JFrame f = new JFrame("View Bookings");
-        f.setSize(800, 800);
+        f.setSize(1200, 800);
         
-        String[] columnNames = {"Event Name", "Start Time", "End Time", "Status", "Contact Number","Venue","feedback"};
+        String[] columnNames = {"Event Name", "Start Time", "End Time", "Status", "Contact Number","Venue","Hall Capacity","feedback","Hall Description"};
         String[][] data = {
-            {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Rejected", "9238567890","Main Hall","Occupied during afternoon"},
-            {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Accepted", "9234567890","Aryabhatta","Success"},
+            {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Rejected", "9238567890","Main Hall","1000","Occupied during afternoon","Air conditioned and stage"},
+            {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Accepted", "9234567890","Aryabhatta","2000","Success","Air conditioned,chairs,tables available"},
         };
    
         JTable table = new JTable(data, columnNames);
@@ -29,7 +29,9 @@ public class ViewBookingsEventOrganizer{
         table.getColumnModel().getColumn(3).setPreferredWidth(60);
         table.getColumnModel().getColumn(4).setPreferredWidth(120);
         table.getColumnModel().getColumn(5).setPreferredWidth(60);
-        table.getColumnModel().getColumn(6).setPreferredWidth(160);
+        table.getColumnModel().getColumn(6).setPreferredWidth(80);
+        table.getColumnModel().getColumn(7).setPreferredWidth(150);
+        table.getColumnModel().getColumn(8).setPreferredWidth(250);
         table.setRowHeight(30);
 
         JScrollPane scrollPane = new JScrollPane(table);

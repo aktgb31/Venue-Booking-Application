@@ -12,7 +12,7 @@ public class EventOrganizerSignup {
     }
     public EventOrganizerSignup(){
         JFrame frame = new JFrame("Register");
-        frame.setSize(800, 800);
+        frame.setSize(1200, 800);
         
         JLabel heading = new JLabel("Event Organizer Registration");
         heading.setBounds(50, 10, 400, 50);

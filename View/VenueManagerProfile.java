@@ -11,7 +11,7 @@ public class VenueManagerProfile {
     }
     public VenueManagerProfile(){
         JFrame frame = new JFrame("Profile");
-        frame.setSize(800, 800);
+        frame.setSize(1200, 800);
         
         JLabel heading = new JLabel("Venue Manager Profile");
         heading.setBounds(50, 10, 400, 50);

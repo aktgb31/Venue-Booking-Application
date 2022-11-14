@@ -12,7 +12,7 @@ class Login{
     }
     public Login(){
         JFrame frame = new JFrame("Login");
-        frame.setSize(800, 800);
+        frame.setSize(1200, 800);
        
         JLabel heading = new JLabel("Venue Booking Application");
         heading.setBounds(50, 10, 400, 50);

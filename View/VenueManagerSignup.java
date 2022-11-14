@@ -12,7 +12,7 @@ public class VenueManagerSignup {
     }
     public VenueManagerSignup(){
         JFrame frame = new JFrame("Register");
-        frame.setSize(800, 800);
+        frame.setSize(1200, 800);
         
         JLabel heading = new JLabel("Venue Manager Registration");
         heading.setBounds(50, 10, 400, 50);

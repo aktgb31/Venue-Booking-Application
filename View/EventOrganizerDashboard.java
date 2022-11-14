@@ -10,7 +10,7 @@ public class EventOrganizerDashboard {
     }
     public EventOrganizerDashboard(){
         JFrame frame = new JFrame("Dashboard");
-        frame.setSize(800, 800);
+        frame.setSize(1200, 800);
        
         JLabel heading = new JLabel("Event Organizer Dashboard");
         heading.setBounds(100, 10, 400, 50);
