@@ -35,7 +35,7 @@ public class Operations {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             ResultSet resultSet = statement.executeQuery();
-            
+
             if (resultSet.next()) {
                 return resultSet;
             }
@@ -75,13 +75,13 @@ public class Operations {
             connection.close();
             return 1;
         } catch (Exception e) {
-            System.out.println(e);  
+            System.out.println(e);
             return 0;
         }
     }
 
     public static ResultSet getEventOrganizer(String emaiId) {
-        
+
         try {
             Connection connection = Dao.getConnection();
             String sql = "SELECT * FROM EventOrganizers WHERE email_id = ?";
@@ -93,7 +93,7 @@ public class Operations {
             System.out.println(e);
         }
         return null;
-        
+
     }
 
     public static int createBooking(String eventName, String startDateTime, String endDateTime, String eventOrganizerEmailId, String venueManagerEmailId, String description) {
@@ -110,7 +110,7 @@ public class Operations {
             statement.setString(7, Status.PENDING.toString());
             statement.setString(8, null);
             statement.executeUpdate();
-        
+
             sql = "SELECT LAST_INSERT_ID()";
             statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
@@ -119,7 +119,7 @@ public class Operations {
             }
             connection.close();
 
-            return 1;         
+            return 1;
         } catch (Exception e) {
             System.out.println(e);
             return 0;
@@ -127,7 +127,7 @@ public class Operations {
     }
 
 
- 
+
 
     public static ResultSet getVenueManagerRequests(String emailId){
         try {
@@ -142,7 +142,7 @@ public class Operations {
             System.out.println(e);
         }
         return null;
-        
+
     }
 
     public static ResultSet getEventOrganizerBookings(String emailId){

@@ -5,13 +5,12 @@ import javax.swing.*;
 
 
 
-public class EventOrganizerGUI extends PersonGUI {
+public class EventOrganizerGUI  {
     private EventOrganiserService eventOrganiserService;
 
     public EventOrganizerGUI(EventOrganiserService eventOrganiserService) {
         this.eventOrganiserService = eventOrganiserService;
     }
-    @Override
     public void dashboardScreen() {
         // Add code here
     }
@@ -36,7 +35,7 @@ public class EventOrganizerGUI extends PersonGUI {
         return null;
     }
 
-    @Override public void registerScreen() {
+    public void registerScreen() {
         // Add code here
     }
 }

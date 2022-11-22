@@ -2,16 +2,46 @@ package gui;
 
 import services.EventOrganiserService;
 import services.VenueManagerService;
-import java.awt.Font;
+
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-abstract public class PersonGUI {
-    abstract public void dashboardScreen();
+public class GUI {
+    private JFrame mainFrame;
+    private JPanel activePanel;
+    private static GUI instance;
+    private GUI(){
+        this.activePanel=new JPanel();
+        this.mainFrame = new JFrame("Venue Management System");
+        mainFrame.setSize(800,800);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setLayout(null);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.mainFrame.add(this.activePanel);
+        mainFrame.setVisible(true);
+    }
 
-    // Entry Point of the application
-    static public PersonGUI loginScreen() {
-        JFrame frame = new JFrame("Login");
-        frame.setSize(800, 800);
+    public static GUI getInstance(){
+        if(instance == null){
+            instance = new GUI();
+        }
+        return instance;
+    }
+    public void setPanel(JPanel panel){
+//        mainFrame.setVisible(false);
+        mainFrame.remove(this.activePanel);
+        mainFrame.add(panel);
+        this.activePanel = panel;
+        mainFrame.revalidate();
+        mainFrame.repaint();
+//        mainFrame.setVisible(true);
+
+    }
+    static public void login() {
+        JPanel panel = new JPanel(null);
+        panel.setSize(800, 800);
 
         JLabel heading = new JLabel("Venue Booking Application");
         heading.setBounds(50, 10, 400, 50);
@@ -31,6 +61,13 @@ abstract public class PersonGUI {
         JButton b2 = new JButton("Register as Venue Manager");
         JButton b3 = new JButton("Register as Event Organizer");
 
+        b2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                GUI.getInstance().setPanel(VenueManagerGUI.signUp());
+            }
+        });
+
+
         l1.setBounds(50, 100, 100, 30);
         l2.setBounds(50, 150, 100, 30);
         l3.setBounds(50, 200, 100, 30);
@@ -45,38 +82,31 @@ abstract public class PersonGUI {
         b2.setHorizontalAlignment(JButton.CENTER);
         b3.setHorizontalAlignment(JButton.CENTER);
 
-        frame.add(heading);
-        frame.add(l1);
-        frame.add(l2);
-        frame.add(l3);
-        frame.add(t1);
-        frame.add(t2);
-        frame.add(cb);
-        frame.add(b1);
-        frame.add(b2);
-        frame.add(b3);
-
-        frame.setLayout(null);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        panel.add(heading);
+        panel.add(l1);
+        panel.add(l2);
+        panel.add(l3);
+        panel.add(t1);
+        panel.add(t2);
+        panel.add(cb);
+        panel.add(b1);
+        panel.add(b2);
+        panel.add(b3);
         String type = cb.getSelectedItem().toString();
         String emailId = t1.getText();
         String password = String.valueOf(t2.getPassword());
         try {
             if (type.equals("EventOrganizer")) {
                 EventOrganiserService eventOrganiserService = EventOrganiserService.login(emailId, password);
-                new EventOrganizerGUI(eventOrganiserService);
+//                new EventOrganizerGUI(eventOrganiserService);
             } else {
                 VenueManagerService venueManagerService = VenueManagerService.login(emailId, password);
-                new VenueManagerGUI(venueManagerService);
+//                new VenueManagerGUI(venueManagerService);
             }
         } catch (Exception e) {
             System.out.println(e);
         }
-
-        return null;
+        GUI.getInstance().setPanel(panel);
     }
 
-    abstract public void registerScreen();
 }
