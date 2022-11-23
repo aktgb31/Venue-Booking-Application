@@ -182,6 +182,14 @@ public class EventOrganizerGUI {
             }
         });
 
+        b4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EventOrganizerGUI.getInstance().eventOrganiserService.logoutService();
+                EventOrganizerGUI.getInstance().eventOrganiserService = null;
+                GUI.getInstance().setPanel(GUI.login());
+            }
+        });
         return mainPanel;
     }
 
