@@ -20,6 +20,13 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
                 this.organisationName, this.organisationAddress);
     }
 
+    public EventOrganizer(String name, String emailId, String contactNumber, String organisationName,
+            String organisationAddress) {
+        super(name, emailId, null, contactNumber);
+        this.organisationName = organisationName;
+        this.organisationAddress = organisationAddress;
+    }
+
     public EventOrganizer(String emailId, String password) {
 
         ResultSet resultSet = database.Operations.getEventOrganizer(emailId);
