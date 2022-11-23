@@ -15,9 +15,13 @@ public class EventOrganiserService {
         this.eventOrganizer = eventOrganizer;
     }
 
-    public static EventOrganiserService login(String emailId, String password) {
-        EventOrganizer eventOrganizer = new EventOrganizer(emailId, password);
-        return new EventOrganiserService(eventOrganizer);
+    public static EventOrganiserService login(String emailId, String password) throws Exception{
+        try {
+            EventOrganizer eventOrganizer = new EventOrganizer(emailId, password);
+            return new EventOrganiserService(eventOrganizer);
+        } catch (Exception e) {
+            throw new Exception("Invalid login credentials");
+        }
     }
 
     public static EventOrganiserService register(String name, String emailId, String password,

@@ -34,7 +34,11 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
         this.hallDescription = hallDescription;
     }
 
-    public VenueManager(String emailId, String password) {
+    public VenueManager(String emailId, String password) throws Exception {
+        boolean loginSuccessful = database.Operations.validateLoginVenueManager(emailId, password);
+        if(!loginSuccessful){
+            throw new Exception("Invalid login credentials");
+        }
         ResultSet result = database.Operations.getVenueManager(emailId);
         try {
             if (result.next()) {

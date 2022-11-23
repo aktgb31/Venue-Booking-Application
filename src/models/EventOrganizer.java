@@ -27,8 +27,11 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
         this.organisationAddress = organisationAddress;
     }
 
-    public EventOrganizer(String emailId, String password) {
-
+    public EventOrganizer(String emailId, String password) throws Exception{
+        boolean loginSuccessful = database.Operations.validateLoginEventOrganizer(emailId, password);
+        if(!loginSuccessful) {
+            throw new Exception("Invalid login credentials");
+        }
         ResultSet resultSet = database.Operations.getEventOrganizer(emailId);
         try {
             if (resultSet.next()) {
