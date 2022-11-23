@@ -15,7 +15,7 @@ public class GUI {
     private GUI(){
         this.activePanel=new JPanel();
         this.mainFrame = new JFrame("Venue Management System");
-        mainFrame.setSize(800,800);
+        mainFrame.setSize(1200,1200);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setLayout(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,9 +39,9 @@ public class GUI {
 //        mainFrame.setVisible(true);
 
     }
-    static public void login() {
+    static public JPanel login() {
         JPanel panel = new JPanel(null);
-        panel.setSize(800, 800);
+        panel.setSize(1200, 1200);
 
         JLabel heading = new JLabel("Venue Booking Application");
         heading.setBounds(50, 10, 400, 50);
@@ -85,27 +85,33 @@ public class GUI {
         panel.add(b1);
         panel.add(b2);
         panel.add(b3);
-        String type = cb.getSelectedItem().toString();
-        String emailId = t1.getText();
-        String password = String.valueOf(t2.getPassword());
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try{
+                String type = cb.getSelectedItem().toString();
+                String emailId = t1.getText();
+                String password = String.valueOf(t2.getPassword());
                 if (type.equals("Event Organizer")) {
                     EventOrganiserService eventOrganiserService = EventOrganiserService.login(emailId,password);
                     if (eventOrganiserService != null) {
 
                     } else {
-                        JOptionPane.showMessageDialog(null, "Invalid Credentials");
+                        throw new Exception("Invalid Credentials");
                     }
                 } else {
                     VenueManagerService venueManagerService =  VenueManagerService.login(emailId,password);
                     if (venueManagerService != null) {
-                        GUI.getInstance().setPanel(VenueManagerGUI.getInstance(venueManagerService).dashboardScreen());
+                        VenueManagerGUI.getInstance().initialize(venueManagerService);
+                        GUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
                     } else {
-                        JOptionPane.showMessageDialog(null, "Invalid Credentials");
+                        throw new Exception("Invalid Credentials");
                     }
                 }
+            }
+            catch (Exception exception){
+                JOptionPane.showMessageDialog(null, exception.getMessage());
+            }
             }
         });
         b2.addActionListener(new ActionListener() {
@@ -113,7 +119,14 @@ public class GUI {
                 GUI.getInstance().setPanel(VenueManagerGUI.signUp());
             }
         });
-        GUI.getInstance().setPanel(panel);
+
+        b3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                GUI.getInstance().setPanel(EventOrganizerGUI.signUp());
+            }
+        });
+
+        return panel;
     }
 
 }

@@ -29,6 +29,8 @@ public class Dao {
         return instance;
     }
     public static Connection getConnection() {
+        var conn= getInstance().connection;
+        assert conn != null;
         return getInstance().connection;
     }
 }
