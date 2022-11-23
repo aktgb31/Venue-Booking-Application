@@ -15,8 +15,12 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
     private HashMap<Integer, VenueManagerRequest> requests;
 
     public VenueManager(String name, String emailId, String password, String contactNumber, String hallName,
-            String hallAddress, int hallCapacity, String hallDescription) {
+            String hallAddress, int hallCapacity, String hallDescription) throws Exception {
         super(name, emailId, password, contactNumber);
+        boolean isRegistered = database.Operations.isVenueManagerRegistered(emailId);
+        if(isRegistered) {
+            throw new Exception("Email Id already registered");
+        }
         this.hallName = hallName;
         this.hallAddress = hallAddress;
         this.hallCapacity = hallCapacity;
@@ -36,6 +40,7 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
 
     public VenueManager(String emailId, String password) throws Exception {
         boolean loginSuccessful = database.Operations.validateLoginVenueManager(emailId, password);
+        System.out.println(loginSuccessful);
         if(!loginSuccessful){
             throw new Exception("Invalid login credentials");
         }

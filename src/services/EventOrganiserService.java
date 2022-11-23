@@ -20,15 +20,19 @@ public class EventOrganiserService {
             EventOrganizer eventOrganizer = new EventOrganizer(emailId, password);
             return new EventOrganiserService(eventOrganizer);
         } catch (Exception e) {
-            throw new Exception("Invalid login credentials");
+            throw e;
         }
     }
 
     public static EventOrganiserService register(String name, String emailId, String password,
-            String contactNumber, String organizationName, String organizationAddress) {
-        EventOrganizer eventOrganizer = new EventOrganizer(name, emailId, password, contactNumber, organizationName,
-                organizationAddress);
-        return new EventOrganiserService(eventOrganizer);
+            String contactNumber, String organizationName, String organizationAddress) throws Exception {
+        try {
+            EventOrganizer eventOrganizer = new EventOrganizer(name, emailId, password, contactNumber,
+                    organizationName, organizationAddress);
+            return new EventOrganiserService(eventOrganizer);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public void updateProfile(String name, String password, String contactNumber, String organisationName,

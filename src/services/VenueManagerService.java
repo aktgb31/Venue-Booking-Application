@@ -19,15 +19,19 @@ public class VenueManagerService {
             VenueManager venueManager = new VenueManager(emailId, password);
             return new VenueManagerService(venueManager);
         } catch (Exception e) {
-            throw new Exception("Invalid login credentials");
+            throw e;
         }
     }
 
     public static VenueManagerService register(String name, String emailId, String password,
-            String contactNumber, String hallName, String hallAddress, int hallCapacity, String hallDescription) {
-        VenueManager venueManager = new VenueManager(name, emailId, password, contactNumber, hallName, hallAddress,
-                hallCapacity, hallDescription);
-        return new VenueManagerService(venueManager);
+            String contactNumber, String hallName, String hallAddress, int hallCapacity, String hallDescription) throws Exception {
+        try {
+            VenueManager venueManager = new VenueManager(name, emailId, password, contactNumber, hallName, hallAddress,
+                    hallCapacity, hallDescription);
+            return new VenueManagerService(venueManager);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public void updateProfile(String name, String password, String contactNumber, String hallName,
