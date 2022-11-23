@@ -3,6 +3,9 @@ package models;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import database.EventOrganizerOperations;
+import database.RequestOperations;
+import database.VenueManagerOperations;
 import models.Request.Status;
 
 public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
@@ -14,7 +17,7 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
     public EventOrganizer(String name, String emailId, String password, String contactNumber, String organizationName,
             String organizationAddress) throws Exception {
         super(name, emailId, password, contactNumber);
-        boolean isRegistered = database.Operations.isEventOrganizerRegistered(emailId);
+        boolean isRegistered = EventOrganizerOperations.isEventOrganizerRegistered(emailId);
         if(isRegistered) {
             throw new Exception("Email Id already registered");
         }
@@ -32,11 +35,11 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
     }
 
     public EventOrganizer(String emailId, String password) throws Exception{
-        boolean loginSuccessful = database.Operations.validateLoginEventOrganizer(emailId, password);
+        boolean loginSuccessful = EventOrganizerOperations.validateLoginEventOrganizer(emailId, password);
         if(!loginSuccessful) {
             throw new Exception("Invalid login credentials");
         }
-        ResultSet resultSet = database.Operations.getEventOrganizer(emailId);
+        ResultSet resultSet = EventOrganizerOperations.getEventOrganizer(emailId);
         try {
             if (resultSet.next()) {
                 this.name = resultSet.getString("name");
@@ -52,7 +55,7 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
         int eventId;
         Status status;
 
-        ResultSet resultSet1 = database.Operations.getEventOrganizerBookings(emailId);
+        ResultSet resultSet1 = RequestOperations.getEventOrganizerBookings(emailId);
         try {
             while (resultSet1.next()) {
                 eventId = resultSet1.getInt("eventId");
@@ -64,7 +67,7 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
                 status = Status.valueOf(resultSet1.getString("status"));
                 feedback = resultSet1.getString("feedback");
 
-                ResultSet resultSet2 = database.Operations.getVenueManager(venueManagerEmailID);
+                ResultSet resultSet2 = VenueManagerOperations.getVenueManager(venueManagerEmailID);
                 VenueManager venueManager = null;
                 try {
                     if (resultSet2.next()) {
@@ -93,7 +96,7 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
     };
 
     public void updateDetails() {
-        database.Operations.updateEventOrganizerProfile(this.name,this.emailId,this.password,this.contactNumber,this.organizationName,this.organizationAddress);
+        EventOrganizerOperations.updateEventOrganizerProfile(this.name,this.emailId,this.password,this.contactNumber,this.organisationName,this.organisationAddress);
     }
 
     public void addBooking(EventOrganizerRequest eventOrganizerRequest) {

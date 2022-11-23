@@ -9,13 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUI {
+    private static GUI instance;
     private JFrame mainFrame;
     private JPanel activePanel;
-    private static GUI instance;
-    private GUI(){
-        this.activePanel=new JPanel();
+
+    private GUI() {
+        this.activePanel = new JPanel();
         this.mainFrame = new JFrame("Venue Management System");
-        mainFrame.setSize(1200,1200);
+        mainFrame.setSize(1200, 1200);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setLayout(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,22 +24,13 @@ public class GUI {
         mainFrame.setVisible(true);
     }
 
-    public static GUI getInstance(){
-        if(instance == null){
+    public static GUI getInstance() {
+        if (instance == null) {
             instance = new GUI();
         }
         return instance;
     }
-    public void setPanel(JPanel panel){
-//        mainFrame.setVisible(false);
-        mainFrame.remove(this.activePanel);
-        mainFrame.add(panel);
-        this.activePanel = panel;
-        mainFrame.revalidate();
-        mainFrame.repaint();
-//        mainFrame.setVisible(true);
 
-    }
     static public JPanel login() {
         JPanel panel = new JPanel(null);
         panel.setSize(1200, 1200);
@@ -54,7 +46,7 @@ public class GUI {
 
         JTextField t1 = new JTextField();
         JPasswordField t2 = new JPasswordField();
-        String[] usertype = { "Event Organizer", "Venue Manager" };
+        String[] usertype = {"Event Organizer", "Venue Manager"};
         JComboBox cb = new JComboBox(usertype);
 
         JButton b1 = new JButton("Login");
@@ -88,31 +80,22 @@ public class GUI {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
-                String type = cb.getSelectedItem().toString();
-                String emailId = t1.getText();
-                String password = String.valueOf(t2.getPassword());
-                if (type.equals("Event Organizer")) {
-                    try {
-                        EventOrganiserService eventOrganiserService = EventOrganiserService.login(emailId,password);
-
-                    }catch (Exception exception){
-                        JOptionPane.showMessageDialog(null, "Invalid Credentials");
-                    }
-
-                } else {
-                    try {
-                        VenueManagerService venueManagerService =  VenueManagerService.login(emailId,password);
-                        VenueManagerGUI.getInstance().initialize(venueManagerService);
+                try {
+                    String type = cb.getSelectedItem().toString();
+                    String emailId = t1.getText();
+                    String password = String.valueOf(t2.getPassword());
+                    if (type.equals("Event Organizer")) {
+                        EventOrganiserService eventOrganiserService = EventOrganiserService.login(emailId, password);
+                        EventOrganizerGUI.initialize(eventOrganiserService);
+                        GUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
+                    } else {
+                        VenueManagerService venueManagerService = VenueManagerService.login(emailId, password);
+                        VenueManagerGUI.initialize(venueManagerService);
                         GUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
-                    } catch (Exception exception) {
-                        JOptionPane.showMessageDialog(null, "Invalid Credentials");
                     }
+                } catch (Exception exception) {
+                    JOptionPane.showMessageDialog(null, exception.getMessage());
                 }
-            }
-            catch (Exception exception){
-                JOptionPane.showMessageDialog(null, exception.getMessage());
-            }
             }
         });
         b2.addActionListener(new ActionListener() {
@@ -128,6 +111,17 @@ public class GUI {
         });
 
         return panel;
+    }
+
+    public void setPanel(JPanel panel) {
+//        mainFrame.setVisible(false);
+        mainFrame.remove(this.activePanel);
+        mainFrame.add(panel);
+        this.activePanel = panel;
+        mainFrame.revalidate();
+        mainFrame.repaint();
+//        mainFrame.setVisible(true);
+
     }
 
 }

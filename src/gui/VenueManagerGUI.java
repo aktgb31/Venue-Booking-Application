@@ -26,7 +26,7 @@ public class VenueManagerGUI {
         if (instance == null) {
             instance = new VenueManagerGUI(service);
         } else {
-            throw new RuntimeException("Venue Manager GUI already initialized");
+            throw new IllegalStateException("Venue Manager GUI already initialized");
         }
     }
 
@@ -74,44 +74,37 @@ public class VenueManagerGUI {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = t1.getText();
-                String email = t2.getText();
-                String password = new String(t3.getPassword());
-                String contact = t4.getText();
-                String hallName = t5.getText();
-                String hallAddress = t6.getText();
-                String hallCapacity = t7.getText();
-                String hallDescription = t8.getText();
-                if (name.equals("") || email.equals("") || password.equals("") || contact.equals("") || hallName.equals("") || hallAddress.equals("") || hallCapacity.equals("") || hallDescription.equals("")) {
-                    JOptionPane.showMessageDialog(null, "Please fill all the fields");
-                } else {
-                    if (hallCapacity.equals("Example: 1000")) {
-                        JOptionPane.showMessageDialog(null, "Please enter hall capacity");
-                    } else if (hallDescription.equals("Example: AC/Non AC, Projector,Cost, Wifi, etc.")) {
-                        JOptionPane.showMessageDialog(null, "Please enter hall description");
+                try {
+                    String name = t1.getText();
+                    String email = t2.getText();
+                    String password = new String(t3.getPassword());
+                    String contact = t4.getText();
+                    String hallName = t5.getText();
+                    String hallAddress = t6.getText();
+                    String hallCapacity = t7.getText();
+                    String hallDescription = t8.getText();
+                    if (name.equals("") || email.equals("") || password.equals("") || contact.equals("") || hallName.equals("") || hallAddress.equals("") || hallCapacity.equals("") || hallDescription.equals("")) {
+                        throw new RuntimeException("Please fill all the fields");
                     } else {
-                        try {
+                        if (hallCapacity.equals("Example: 1000")) {
+                            throw new RuntimeException("Please enter hall capacity");
+                        } else if (hallDescription.equals("Example: AC/Non AC, Projector,Cost, Wifi, etc.")) {
+                            throw new RuntimeException("Please enter hall description");
+                        } else {
+
                             int capacity = Integer.parseInt(hallCapacity);
                             if (capacity <= 0) {
-                                JOptionPane.showMessageDialog(null, "Please enter valid hall capacity");
+                                throw new RuntimeException("Hall capacity should be greater than 0");
                             } else {
-                                try{
-                                    VenueManagerService service = VenueManagerService.register(name, email, password, contact, hallName, hallAddress, capacity, hallDescription);
-                                    if (service != null) {
-                                        JOptionPane.showMessageDialog(null, "Venue Manager Registered Successfully");
-    //                                    GUI.getInstance().setPanel(GUI.login());
-                                    } else {
-                                        JOptionPane.showMessageDialog(null, "Venue Manager Registration Failed");
-                                    }
-                                }catch(Exception ex){
-                                        JOptionPane.showMessageDialog(null, "Email ID already exists");
-                                    }
-
+                                VenueManagerService service = VenueManagerService.register(name, email, password, contact, hallName, hallAddress, capacity, hallDescription);
+                                JOptionPane.showMessageDialog(null, "Venue Manager Registered Successfully");
+                                VenueManagerGUI.initialize(service);
+                                GUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
                             }
-                        } catch (Exception exception) {
-                            JOptionPane.showMessageDialog(null, "Please enter valid hall capacity");
                         }
                     }
+                } catch (Exception exception) {
+                    JOptionPane.showMessageDialog(null, exception.getMessage());
                 }
             }
         });
@@ -265,6 +258,7 @@ public class VenueManagerGUI {
         JLabel l6 = new JLabel("Hall Address");
         JLabel l7 = new JLabel("Hall Capacity");
         JLabel l8 = new JLabel("Hall Description");
+
         JTextField t1 = new JTextField();
         t1.setText(myProfile.getName());
 
