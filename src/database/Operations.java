@@ -20,7 +20,7 @@ public class Operations {
             statement.setInt(7, hallCapacity);
             statement.setString(8,hallDescription);
             statement.executeUpdate();
-            connection.close();
+
             return 1;
         } catch (Exception e) {
             System.out.println(e);
@@ -39,7 +39,7 @@ public class Operations {
             if (resultSet.next()) {
                 return resultSet;
             }
-            connection.close();
+
             return null;
         } catch (Exception e) {
             System.out.println(e);
@@ -72,7 +72,7 @@ public class Operations {
             statement.setString(5, organisationName);
             statement.setString(6, organisationAddress);
             statement.executeUpdate();
-            connection.close();
+
             return 1;
         } catch (Exception e) {
             System.out.println(e);
@@ -117,8 +117,6 @@ public class Operations {
             if(resultSet.next()){
                 return resultSet.getInt(1);
             }
-            connection.close();
-
             return 1;
         } catch (Exception e) {
             System.out.println(e);
@@ -136,7 +134,7 @@ public class Operations {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             ResultSet resultSet = statement.executeQuery();
-            connection.close();
+
             return resultSet;
         } catch (Exception e) {
             System.out.println(e);
@@ -169,7 +167,7 @@ public class Operations {
             statement.setString(2, feedback);
             statement.setInt(3, eventId);
             statement.executeUpdate();
-            connection.close();
+
             return 1;
         } catch (Exception e) {
             System.out.println(e);
@@ -186,7 +184,7 @@ public class Operations {
             statement.setString(2, feedback);
             statement.setInt(3, eventId);
             statement.executeUpdate();
-            connection.close();
+
             return 1;
         } catch (Exception e) {
             System.out.println(e);
@@ -202,7 +200,7 @@ public class Operations {
             statement.setString(1, Status.CANCELLED.toString());
             statement.setInt(2, eventId);
             statement.executeUpdate();
-            connection.close();
+
             return 1;
         } catch (Exception e) {
             System.out.println(e);
@@ -222,7 +220,7 @@ public class Operations {
             statement.setString(5, organisationAddress);
             statement.setString(6, emailId);
             statement.executeUpdate();
-            connection.close();
+
             return 1;
         } catch (Exception e) {
             System.out.println(e);
@@ -244,7 +242,7 @@ public class Operations {
             statement.setString(7, hallDescription);
             statement.setString(8, emailId);
             statement.executeUpdate();
-            connection.close();
+
             return 1;
         } catch (Exception e) {
             System.out.println(e);
@@ -261,10 +259,8 @@ public class Operations {
             statement.setString(2, password);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
-                connection.close();
                 return true;
             }else{
-                connection.close();
                 return false;
             }
         } catch (Exception e) {
@@ -281,10 +277,8 @@ public class Operations {
             statement.setString(2, password);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
-                connection.close();
                 return true;
             }else{
-                connection.close();
                 return false;
             }
         } catch (Exception e) {

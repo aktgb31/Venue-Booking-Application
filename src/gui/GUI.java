@@ -39,7 +39,7 @@ public class GUI {
 //        mainFrame.setVisible(true);
 
     }
-    static public void login() {
+    static public JPanel login() {
         JPanel panel = new JPanel(null);
         panel.setSize(1200, 1200);
 
@@ -60,20 +60,6 @@ public class GUI {
         JButton b1 = new JButton("Login");
         JButton b2 = new JButton("Register as Venue Manager");
         JButton b3 = new JButton("Register as Event Organizer");
-
-        b2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(VenueManagerGUI.signUp());
-            }
-        });
-
-
-        b3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(EventOrganizerGUI.signUp());
-            }
-        });
-
 
         l1.setBounds(50, 100, 100, 30);
         l2.setBounds(50, 150, 100, 30);
@@ -99,21 +85,48 @@ public class GUI {
         panel.add(b1);
         panel.add(b2);
         panel.add(b3);
-        String type = cb.getSelectedItem().toString();
-        String emailId = t1.getText();
-        String password = String.valueOf(t2.getPassword());
-        try {
-            if (type.equals("EventOrganizer")) {
-                EventOrganiserService eventOrganiserService = EventOrganiserService.login(emailId, password);
-//                new EventOrganizerGUI(eventOrganiserService);
-            } else {
-                VenueManagerService venueManagerService = VenueManagerService.login(emailId, password);
-//                new VenueManagerGUI(venueManagerService);
+        b1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                String type = cb.getSelectedItem().toString();
+                String emailId = t1.getText();
+                String password = String.valueOf(t2.getPassword());
+                if (type.equals("Event Organizer")) {
+                    EventOrganiserService eventOrganiserService = EventOrganiserService.login(emailId,password);
+                    if (eventOrganiserService != null) {
+
+                    } else {
+                        throw new Exception("Invalid Credentials");
+                    }
+                } else {
+                    VenueManagerService venueManagerService =  VenueManagerService.login(emailId,password);
+                    if (venueManagerService != null) {
+                        VenueManagerGUI.getInstance().initialize(venueManagerService);
+                        GUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
+                    } else {
+                        throw new Exception("Invalid Credentials");
+                    }
+                }
             }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        GUI.getInstance().setPanel(panel);
+            catch (Exception exception){
+                JOptionPane.showMessageDialog(null, exception.getMessage());
+            }
+            }
+        });
+        b2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                GUI.getInstance().setPanel(VenueManagerGUI.signUp());
+            }
+        });
+
+        b3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                GUI.getInstance().setPanel(EventOrganizerGUI.signUp());
+            }
+        });
+
+        return panel;
     }
 
 }
