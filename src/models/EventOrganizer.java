@@ -12,8 +12,12 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
     private HashMap<Integer, EventOrganizerRequest> requests;
 
     public EventOrganizer(String name, String emailId, String password, String contactNumber, String organisationName,
-            String organisationAddress) {
+            String organisationAddress) throws Exception {
         super(name, emailId, password, contactNumber);
+        boolean isRegistered = database.Operations.isEventOrganizerRegistered(emailId);
+        if(isRegistered) {
+            throw new Exception("Email Id already registered");
+        }
         this.organisationName = organisationName;
         this.organisationAddress = organisationAddress;
         database.Operations.addEventOrganizer(this.name, this.emailId, this.password, this.contactNumber,

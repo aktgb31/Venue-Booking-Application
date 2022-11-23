@@ -77,13 +77,16 @@ public class VenueManagerGUI {
                                 JOptionPane.showMessageDialog(null, "Please enter valid hall capacity");
                             }
                             else{
-                                VenueManagerService service=VenueManagerService.register(name, email, password, contact, hallName, hallAddress, capacity, hallDescription);
-                                if(service !=null){
-                                    JOptionPane.showMessageDialog(null, "Venue Manager Registered Successfully");
+                                try {
+                                    VenueManagerService service = VenueManagerService.register(name, email, password, contact, hallName, hallAddress, capacity, hallDescription);
+                                    if (service != null) {
+                                        JOptionPane.showMessageDialog(null, "Venue Manager Registered Successfully");
 //                                    GUI.getInstance().setPanel(GUI.login());
-                                }
-                                else{
-                                    JOptionPane.showMessageDialog(null, "Venue Manager Registration Failed");
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "Venue Manager Registration Failed");
+                                    }
+                                } catch (Exception exception) {
+                                    JOptionPane.showMessageDialog(null, "EmailId already exists");
                                 }
                             }
                         }

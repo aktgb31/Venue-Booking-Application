@@ -90,15 +90,18 @@ public class EventOrganizerGUI  {
                                 JOptionPane.showMessageDialog(null, "Please enter a valid email");
                             }
                             else{
-                                EventOrganiserService service = EventOrganiserService.register(name, email, password, contactNumber, organizationName, organizationAddress);
-                                if(service == null){
-                                    JOptionPane.showMessageDialog(null, "Registration failed");
+                                try {
+                                    EventOrganiserService service = EventOrganiserService.register(name, email, password, contactNumber, organizationName, organizationAddress);
+                                    if(service == null){
+                                        JOptionPane.showMessageDialog(null, "Registration failed");
+                                    }
+                                    else{
+                                        JOptionPane.showMessageDialog(null, "Registration Successful");
+                                    }
+                                } catch (Exception exception) {
+                                    JOptionPane.showMessageDialog(null, "EmailId already exists");
                                 }
-                                else{
-                                    JOptionPane.showMessageDialog(null, "Registration Successful");
 
-                                    
-                                }
                             }
                         }
                     }

@@ -24,10 +24,14 @@ public class VenueManagerService {
     }
 
     public static VenueManagerService register(String name, String emailId, String password,
-            String contactNumber, String hallName, String hallAddress, int hallCapacity, String hallDescription) {
-        VenueManager venueManager = new VenueManager(name, emailId, password, contactNumber, hallName, hallAddress,
-                hallCapacity, hallDescription);
-        return new VenueManagerService(venueManager);
+            String contactNumber, String hallName, String hallAddress, int hallCapacity, String hallDescription) throws Exception {
+        try {
+            VenueManager venueManager = new VenueManager(name, emailId, password, contactNumber, hallName, hallAddress,
+                    hallCapacity, hallDescription);
+            return new VenueManagerService(venueManager);
+        } catch (Exception e) {
+            throw new Exception("Email Id already registered");
+        }
     }
 
     public void updateProfile(String name, String password, String contactNumber, String hallName,
