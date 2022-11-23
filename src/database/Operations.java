@@ -19,7 +19,7 @@ public class Operations {
             statement.setString(6, hallAddress);
             statement.setInt(7, hallCapacity);
             statement.setString(8,hallDescription);
-            statement.executeUpdate();
+            statement.executeUpdate(sql);
 
             return 1;
         } catch (Exception e) {
@@ -34,7 +34,7 @@ public class Operations {
             String sql = "SELECT * FROM VenueManagers WHERE emailId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
-            ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery(sql);
 
             if (resultSet.next()) {
                 return resultSet;
@@ -71,7 +71,7 @@ public class Operations {
             statement.setString(4, contactNumber);
             statement.setString(5, organisationName);
             statement.setString(6, organisationAddress);
-            statement.executeUpdate();
+            statement.executeUpdate(sql);
 
             return 1;
         } catch (Exception e) {
@@ -87,7 +87,7 @@ public class Operations {
             String sql = "SELECT * FROM EventOrganizers WHERE email_id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emaiId);
-            ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery(sql);
             return resultSet;
         } catch (Exception e) {
             System.out.println(e);
@@ -109,11 +109,11 @@ public class Operations {
             statement.setString(6, endDateTime);
             statement.setString(7, Status.PENDING.toString());
             statement.setString(8, null);
-            statement.executeUpdate();
+            statement.executeUpdate(sql);
 
             sql = "SELECT LAST_INSERT_ID()";
             statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery(sql);
             if(resultSet.next()){
                 return resultSet.getInt(1);
             }
@@ -133,7 +133,7 @@ public class Operations {
             String sql = "SELECT * FROM Requests WHERE managerId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
-            ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery(sql);
 
             return resultSet;
         } catch (Exception e) {
@@ -149,7 +149,7 @@ public class Operations {
             String sql = "SELECT * FROM Requests WHERE organizerId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
-            ResultSet result = statement.executeQuery();
+            ResultSet result = statement.executeQuery(sql);
             return result;
         } catch (Exception e) {
             System.out.println(e);
@@ -166,7 +166,7 @@ public class Operations {
             statement.setString(1,Status.ACCEPTED.toString());
             statement.setString(2, feedback);
             statement.setInt(3, eventId);
-            statement.executeUpdate();
+            statement.executeUpdate(sql);
 
             return 1;
         } catch (Exception e) {
@@ -183,7 +183,7 @@ public class Operations {
             statement.setString(1, Status.REJECTED.toString());
             statement.setString(2, feedback);
             statement.setInt(3, eventId);
-            statement.executeUpdate();
+            statement.executeUpdate(sql);
 
             return 1;
         } catch (Exception e) {
@@ -199,7 +199,7 @@ public class Operations {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, Status.CANCELLED.toString());
             statement.setInt(2, eventId);
-            statement.executeUpdate();
+            statement.executeUpdate(sql);
 
             return 1;
         } catch (Exception e) {
@@ -211,7 +211,7 @@ public class Operations {
     public static int updateEventOrganizerProfile(String name, String emailId, String password, String contactNumber, String organisationName, String organisationAddress){
         try {
             Connection connection = Dao.getConnection();
-            String sql = "UPDATE EventOrganizers SET name = ?, password = ?, contactNumber = ?, organisationName = ?, organisationAddress = ? WHERE emailId = ?";
+            String sql = "UPDATE EventOrganizers SET name = ?, password = ?, contactNumber = ?, organizationName = ?, organizationAddress = ? WHERE emailId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, name);
             statement.setString(2, password);
@@ -219,7 +219,7 @@ public class Operations {
             statement.setString(4, organisationName);
             statement.setString(5, organisationAddress);
             statement.setString(6, emailId);
-            statement.executeUpdate();
+            statement.executeUpdate(sql);
 
             return 1;
         } catch (Exception e) {
@@ -241,7 +241,7 @@ public class Operations {
             statement.setInt(6, hallCapacity);
             statement.setString(7, hallDescription);
             statement.setString(8, emailId);
-            statement.executeUpdate();
+            statement.executeUpdate(sql);
 
             return 1;
         } catch (Exception e) {
@@ -257,7 +257,7 @@ public class Operations {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             statement.setString(2, password);
-            ResultSet result = statement.executeQuery();
+            ResultSet result = statement.executeQuery(sql);
             if (result.next()) {
                 return true;
             }else{
@@ -275,7 +275,7 @@ public class Operations {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             statement.setString(2, password);
-            ResultSet result = statement.executeQuery();
+            ResultSet result = statement.executeQuery(sql);
             if (result.next()) {
                 return true;
             }else{
@@ -293,12 +293,10 @@ public class Operations {
             String sql = "SELECT * FROM EventOrganizers WHERE emailId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
-            ResultSet result = statement.executeQuery();
+            ResultSet result = statement.executeQuery(sql);
             if (result.next()) {
-                connection.close();
                 return true;
             }else{
-                connection.close();
                 return false;
             }
         } catch (Exception e) {
@@ -312,12 +310,11 @@ public class Operations {
             String sql = "SELECT * FROM VenueManagers WHERE emailId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
-            ResultSet result = statement.executeQuery();
+            ResultSet result = statement.executeQuery(sql);
             if (result.next()) {
-                connection.close();
+
                 return true;
             }else{
-                connection.close();
                 return false;
             }
         } catch (Exception e) {

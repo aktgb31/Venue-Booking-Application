@@ -6,29 +6,29 @@ import java.util.HashMap;
 import models.Request.Status;
 
 public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
-    private String organisationName;
-    private String organisationAddress;
+    private String organizationName;
+    private String organizationAddress;
 
     private HashMap<Integer, EventOrganizerRequest> requests;
 
-    public EventOrganizer(String name, String emailId, String password, String contactNumber, String organisationName,
-            String organisationAddress) throws Exception {
+    public EventOrganizer(String name, String emailId, String password, String contactNumber, String organizationName,
+            String organizationAddress) throws Exception {
         super(name, emailId, password, contactNumber);
         boolean isRegistered = database.Operations.isEventOrganizerRegistered(emailId);
         if(isRegistered) {
             throw new Exception("Email Id already registered");
         }
-        this.organisationName = organisationName;
-        this.organisationAddress = organisationAddress;
+        this.organizationName = organizationName;
+        this.organizationAddress = organizationAddress;
         database.Operations.addEventOrganizer(this.name, this.emailId, this.password, this.contactNumber,
-                this.organisationName, this.organisationAddress);
+                this.organizationName, this.organizationAddress);
     }
 
-    public EventOrganizer(String name, String emailId, String contactNumber, String organisationName,
-            String organisationAddress) {
+    public EventOrganizer(String name, String emailId, String contactNumber, String organizationName,
+            String organizationAddress) {
         super(name, emailId, null, contactNumber);
-        this.organisationName = organisationName;
-        this.organisationAddress = organisationAddress;
+        this.organizationName = organizationName;
+        this.organizationAddress = organizationAddress;
     }
 
     public EventOrganizer(String emailId, String password) throws Exception{
@@ -42,8 +42,8 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
                 this.name = resultSet.getString("name");
                 this.emailId = resultSet.getString("emailId");
                 this.contactNumber = resultSet.getString("contactNumber");
-                this.organisationName = resultSet.getString("organisationName");
-                this.organisationAddress = resultSet.getString("organisationAddress");
+                this.organizationName = resultSet.getString("organisationName");
+                this.organizationAddress = resultSet.getString("organisationAddress");
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -93,27 +93,27 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
     };
 
     public void updateDetails() {
-        database.Operations.updateEventOrganizerProfile(this.name,this.emailId,this.password,this.contactNumber,this.organisationName,this.organisationAddress);
+        database.Operations.updateEventOrganizerProfile(this.name,this.emailId,this.password,this.contactNumber,this.organizationName,this.organizationAddress);
     }
 
     public void addBooking(EventOrganizerRequest eventOrganizerRequest) {
         requests.put(eventOrganizerRequest.getRequestId(), eventOrganizerRequest);
     }
 
-    public String getOrganisationName() {
-        return organisationName;
+    public String getOrganizationName() {
+        return organizationName;
     }
 
-    public void setOrganisationName(String organisationName) {
-        this.organisationName = organisationName;
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
     }
 
-    public String getOrganisationAddress() {
-        return organisationAddress;
+    public String getOrganizationAddress() {
+        return organizationAddress;
     }
 
-    public void setOrganisationAddress(String organisationAddress) {
-        this.organisationAddress = organisationAddress;
+    public void setOrganizationAddress(String organizationAddress) {
+        this.organizationAddress = organizationAddress;
     }
 
     public HashMap<Integer, EventOrganizerRequest> getBookings() {

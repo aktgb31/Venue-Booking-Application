@@ -395,7 +395,7 @@ public class VenueManagerGUI {
 
             ReadOnlyEventOrganizer eventOrganizer = request.getEventOrganizer();
             JLabel name = new JLabel("Organizer : " + eventOrganizer.getName());
-            JLabel organization = new JLabel("Organization : " + eventOrganizer.getOrganisationName());
+            JLabel organization = new JLabel("Organization : " + eventOrganizer.getOrganizationName());
             JLabel phone = new JLabel("Contact Number : " + eventOrganizer.getContactNumber());
 
             panel.add(name);

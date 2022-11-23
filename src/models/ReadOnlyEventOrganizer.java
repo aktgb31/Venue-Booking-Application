@@ -7,8 +7,8 @@ public interface ReadOnlyEventOrganizer {
 
     public String getContactNumber();
 
-    public String getOrganisationName();
+    public String getOrganizationName();
 
-    public String getOrganisationAddress();
+    public String getOrganizationAddress();
 
 }

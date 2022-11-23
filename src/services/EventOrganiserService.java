@@ -40,8 +40,8 @@ public class EventOrganiserService {
         eventOrganizer.setName(name);
         eventOrganizer.setPassword(password);
         eventOrganizer.setContactNumber(contactNumber);
-        eventOrganizer.setOrganisationName(organisationName);
-        eventOrganizer.setOrganisationAddress(organisationAddress);
+        eventOrganizer.setOrganizationName(organisationName);
+        eventOrganizer.setOrganizationAddress(organisationAddress);
         eventOrganizer.updateDetails();
     }
 
