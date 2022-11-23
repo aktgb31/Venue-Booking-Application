@@ -80,38 +80,37 @@ public class EventOrganizerGUI {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = t1.getText();
-                String email = t2.getText();
-                String password = t3.getText();
-                String contactNumber = t4.getText();
-                String organizationName = t5.getText();
-                String organizationAddress = t6.getText();
+                try {
+                    String name = t1.getText();
+                    String email = t2.getText();
+                    String password = t3.getText();
+                    String contactNumber = t4.getText();
+                    String organizationName = t5.getText();
+                    String organizationAddress = t6.getText();
 
-                if (name.equals("") || email.equals("") || password.equals("") || contactNumber.equals("") || organizationName.equals("") || organizationAddress.equals("")) {
-                    JOptionPane.showMessageDialog(null, "Please fill all the fields");
-                } else {
-                    if (password.length() < 8) {
-                        JOptionPane.showMessageDialog(null, "Password should be atleast 8 characters");
+                    if (name.equals("") || email.equals("") || password.equals("") || contactNumber.equals("") || organizationName.equals("") || organizationAddress.equals("")) {
+                        throw new RuntimeException("All fields are mandatory");
                     } else {
-                        if (contactNumber.length() != 10) {
-                            JOptionPane.showMessageDialog(null, "Contact number should be 10 digits");
+                        if (password.length() < 8) {
+                            throw new RuntimeException("Password must be at least 8 characters long");
                         } else {
-                            if (!email.contains("@") || !email.contains(".")) {
-                                JOptionPane.showMessageDialog(null, "Please enter a valid email");
+                            if (contactNumber.length() != 10) {
+                                throw new RuntimeException("Contact number must be 10 digits long");
                             } else {
-                                EventOrganiserService service = EventOrganiserService.register(name, email, password, contactNumber, organizationName, organizationAddress);
-                                if (service == null) {
-                                    JOptionPane.showMessageDialog(null, "Registration failed");
+                                if (!email.contains("@") || !email.contains(".")) {
+                                    throw new RuntimeException("Invalid email ID");
                                 } else {
+                                    EventOrganiserService service = EventOrganiserService.register(name, email, password, contactNumber, organizationName, organizationAddress);
                                     JOptionPane.showMessageDialog(null, "Registration Successful");
-
-
+                                    EventOrganizerGUI.initialize(service);
+                                    GUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
                                 }
                             }
                         }
                     }
+                } catch (Exception exception) {
+                    JOptionPane.showMessageDialog(null, exception.getMessage());
                 }
-
             }
         });
 
@@ -228,7 +227,7 @@ public class EventOrganizerGUI {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
+                try {
                     myProfile.setName(t1.getText());
                     myProfile.setPassword(t3.getText());
                     myProfile.setContactNumber(t4.getText());
@@ -236,8 +235,7 @@ public class EventOrganizerGUI {
                     myProfile.setOrganisationAddress(t6.getText());
                     myProfile.updateDetails();
                     JOptionPane.showMessageDialog(null, "Profile updated successfully");
-                }
-                catch (Exception ex){
+                } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Profile update failed");
                 }
             }

@@ -3,10 +3,13 @@ package database;
 
 import models.Request.Status;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Operations {
-    public static int addVenueManager(String name, String emailId,String contactNumber,String password,String hallName,String hallAddress,int hallCapacity,String hallDescription) {
+    public static int addVenueManager(String name, String emailId, String password, String contactNumber, String hallName, String hallAddress, int hallCapacity, String hallDescription) {
         try {
             Connection connection = Dao.getConnection();
             String sql = "INSERT INTO VenueManagers VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -18,7 +21,7 @@ public class Operations {
             statement.setString(5, hallName);
             statement.setString(6, hallAddress);
             statement.setInt(7, hallCapacity);
-            statement.setString(8,hallDescription);
+            statement.setString(8, hallDescription);
             statement.executeUpdate();
 
             return 1;
@@ -60,7 +63,7 @@ public class Operations {
         return null;
     }
 
-    public static int addEventOrganizer(String name,String emailId,String password,String contactNumber,String organisationName,String organisationAddress) {
+    public static int addEventOrganizer(String name, String emailId, String password, String contactNumber, String organisationName, String organisationAddress) {
         try {
             Connection connection = Dao.getConnection();
             String sql = "INSERT INTO EventOrganizers VALUES (?, ?, ?, ?, ?, ?)";
@@ -84,7 +87,7 @@ public class Operations {
 
         try {
             Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM EventOrganizers WHERE email_id = ?";
+            String sql = "SELECT * FROM EventOrganizers WHERE emailId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emaiId);
             ResultSet resultSet = statement.executeQuery();
@@ -97,7 +100,7 @@ public class Operations {
     }
 
     public static int createBooking(String eventName, String startDateTime, String endDateTime, String eventOrganizerEmailId, String venueManagerEmailId, String description) {
-        try{
+        try {
             Connection connection = Dao.getConnection();
             String sql = "INSERT INTO Requests VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -114,7 +117,7 @@ public class Operations {
             sql = "SELECT LAST_INSERT_ID()";
             statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 return resultSet.getInt(1);
             }
             return 1;
@@ -125,9 +128,7 @@ public class Operations {
     }
 
 
-
-
-    public static ResultSet getVenueManagerRequests(String emailId){
+    public static ResultSet getVenueManagerRequests(String emailId) {
         try {
             Connection connection = Dao.getConnection();
             String sql = "SELECT * FROM Requests WHERE managerId = ?";
@@ -143,8 +144,8 @@ public class Operations {
 
     }
 
-    public static ResultSet getEventOrganizerBookings(String emailId){
-        try{
+    public static ResultSet getEventOrganizerBookings(String emailId) {
+        try {
             Connection connection = Dao.getConnection();
             String sql = "SELECT * FROM Requests WHERE organizerId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -158,12 +159,12 @@ public class Operations {
         }
     }
 
-    public static int acceptRequest(int eventId,String feedback){
-        try{
+    public static int acceptRequest(int eventId, String feedback) {
+        try {
             Connection connection = Dao.getConnection();
             String sql = "UPDATE Requests SET status = ?, feedback = ? WHERE requestId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1,Status.ACCEPTED.toString());
+            statement.setString(1, Status.ACCEPTED.toString());
             statement.setString(2, feedback);
             statement.setInt(3, eventId);
             statement.executeUpdate();
@@ -175,8 +176,8 @@ public class Operations {
         }
     }
 
-    public static int rejectRequest(int eventId,String feedback){
-        try{
+    public static int rejectRequest(int eventId, String feedback) {
+        try {
             Connection connection = Dao.getConnection();
             String sql = "UPDATE Requests SET status = ?, feedback = ? WHERE requestId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -208,10 +209,10 @@ public class Operations {
         }
     }
 
-    public static int updateEventOrganizerProfile(String name, String emailId, String password, String contactNumber, String organisationName, String organisationAddress){
+    public static int updateEventOrganizerProfile(String name, String emailId, String password, String contactNumber, String organisationName, String organisationAddress) {
         try {
             Connection connection = Dao.getConnection();
-            String sql = "UPDATE EventOrganizers SET name = ?, password = ?, contactNumber = ?, organisationName = ?, organisationAddress = ? WHERE emailId = ?";
+            String sql = "UPDATE EventOrganizers SET name = ?, password = ?, contactNumber = ?, organizationName = ?, organizationAddress = ? WHERE emailId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, name);
             statement.setString(2, password);
@@ -228,7 +229,7 @@ public class Operations {
         }
     }
 
-    public static int updateVenueManagerProfile(String emailId, String name,String contactNumber,String password,String hallName,String hallAddress,int hallCapacity,String hallDescription){
+    public static int updateVenueManagerProfile(String emailId, String name, String contactNumber, String password, String hallName, String hallAddress, int hallCapacity, String hallDescription) {
         try {
             Connection connection = Dao.getConnection();
             String sql = "UPDATE VenueManagers SET name = ?, password = ?, contactNumber = ?, hallName = ?, hallAddress = ?,hallCapacity = ?, hallDescription = ? WHERE emailId = ?";
@@ -260,7 +261,7 @@ public class Operations {
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         } catch (Exception e) {
@@ -268,6 +269,7 @@ public class Operations {
             return false;
         }
     }
+
     public static boolean validateLoginVenueManager(String emailId, String password) {
         try {
             Connection connection = Dao.getConnection();
@@ -278,7 +280,7 @@ public class Operations {
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         } catch (Exception e) {
@@ -287,7 +289,7 @@ public class Operations {
         }
     }
 
-    public static boolean isEventOrganizerRegistered (String emailId){
+    public static boolean isEventOrganizerRegistered(String emailId) throws Exception {
         try {
             Connection connection = Dao.getConnection();
             String sql = "SELECT * FROM EventOrganizers WHERE emailId = ?";
@@ -295,18 +297,19 @@ public class Operations {
             statement.setString(1, emailId);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
-                connection.close();
+
                 return true;
-            }else{
-                connection.close();
+            } else {
+
                 return false;
             }
         } catch (Exception e) {
             System.out.println(e);
-            return false;
+            throw e;
         }
     }
-    public static boolean isVenueManagerRegistered (String emailId){
+
+    public static boolean isVenueManagerRegistered(String emailId) throws Exception {
         try {
             Connection connection = Dao.getConnection();
             String sql = "SELECT * FROM VenueManagers WHERE emailId = ?";
@@ -314,15 +317,13 @@ public class Operations {
             statement.setString(1, emailId);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
-                connection.close();
                 return true;
-            }else{
-                connection.close();
+            } else {
                 return false;
             }
         } catch (Exception e) {
             System.out.println(e);
-            return false;
+            throw e;
         }
     }
 }
