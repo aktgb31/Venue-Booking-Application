@@ -62,7 +62,7 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
                         int hallCapacity = resultSet2.getInt("hallCapacity");
                         String hallDescription = resultSet2.getString("hallDescription");
 
-                        venueManager = new VenueManager(name, email, null, contactNumber, hallName, hallAddress,
+                        venueManager = new VenueManager(name, email, contactNumber, hallName, hallAddress,
                                 hallCapacity, hallDescription);
 
                     }

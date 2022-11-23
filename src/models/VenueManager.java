@@ -21,6 +21,17 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
         this.hallAddress = hallAddress;
         this.hallCapacity = hallCapacity;
         this.hallDescription = hallDescription;
+        database.Operations.addVenueManager(this.name, this.emailId, this.password, this.contactNumber, this.hallName,
+                this.hallAddress, this.hallCapacity, this.hallDescription);
+    }
+
+    public VenueManager(String name, String emailId, String contactNumber,String hallName,
+            String hallAddress, int hallCapacity, String hallDescription) {
+        super(name, emailId,null, contactNumber);
+        this.hallName = hallName;
+        this.hallAddress = hallAddress;
+        this.hallCapacity = hallCapacity;
+        this.hallDescription = hallDescription;
     }
 
     public VenueManager(String emailId, String password) {
@@ -130,7 +141,7 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
                 String hallAddress = result.getString("hallAddress");
                 int hallCapacity = result.getInt("hallCapacity");
                 String hallDescription = result.getString("hallDescription");
-                ReadOnlyVenueManager venueManager = new VenueManager(name, emailId, null, contactNumber, hallName,
+                ReadOnlyVenueManager venueManager = new VenueManager(name, emailId, contactNumber, hallName,
                         hallAddress, hallCapacity, hallDescription);
 
                 venueManagers.add(venueManager);
