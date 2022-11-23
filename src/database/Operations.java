@@ -252,34 +252,44 @@ public class Operations {
         }
     }
 
-    public static int validateLogin(String emailId, String password) {
+    public static boolean validateLoginEventOrganizer(String emailId, String password) {
         try {
             Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM VenueManagers WHERE emailId = ? AND password = ?";
+            String sql = "SELECT * FROM eventorganizers WHERE emailId = ? AND password = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             statement.setString(2, password);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 connection.close();
-                return 1;
-            } else {
-                sql = "SELECT * FROM EventOrganizers WHERE emailId = ? AND password = ?";
-                statement = connection.prepareStatement(sql);
-                statement.setString(1, emailId);
-                statement.setString(2, password);
-                result = statement.executeQuery();
-                if (result.next()) {
-                    connection.close();
-                    return 2;
-                } else {
-                    connection.close();
-                    return 0;
-                }
+                return true;
+            }else{
+                connection.close();
+                return false;
             }
         } catch (Exception e) {
             System.out.println(e);
-            return 0;
+            return false;
+        }
+    }
+    public static boolean validateLoginVenueManager(String emailId, String password) {
+        try {
+            Connection connection = Dao.getConnection();
+            String sql = "SELECT * FROM venuemanagers WHERE emailId = ? AND password = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, emailId);
+            statement.setString(2, password);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                connection.close();
+                return true;
+            }else{
+                connection.close();
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
         }
     }
 }

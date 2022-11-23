@@ -14,9 +14,13 @@ public class VenueManagerService {
         this.venueManager = venueManager;
     }
 
-    public static VenueManagerService login(String emailId, String password) {
-        VenueManager venueManager = new VenueManager(emailId, password);
-        return new VenueManagerService(venueManager);
+    public static VenueManagerService login(String emailId, String password) throws Exception {
+        try {
+            VenueManager venueManager = new VenueManager(emailId, password);
+            return new VenueManagerService(venueManager);
+        } catch (Exception e) {
+            throw new Exception("Invalid login credentials");
+        }
     }
 
     public static VenueManagerService register(String name, String emailId, String password,
