@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="53167586-08d6-460a-8db8-6ecca15bc1fc" name="Changes" comment="Initialised an intellij project">
+    <list default="true" id="53167586-08d6-460a-8db8-6ecca15bc1fc" name="Changes" comment="Nishant changes">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_27.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/Dao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/Dao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/Operations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/Operations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/EventOrganiserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/EventOrganiserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/VenueManagerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/VenueManagerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Venue-Booking-Application.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Venue-Booking-Application.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +184,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669228489233</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Nishant changes">
+      <created>1669236139931</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1669236139931</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,7 +219,8 @@
     <MESSAGE value="Register Venue Manager Booking" />
     <MESSAGE value="Login Venue Manager" />
     <MESSAGE value="Venue Manager dashboard" />
-    <option name="LAST_COMMIT_MESSAGE" value="Venue Manager dashboard" />
+    <MESSAGE value="Nishant changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Nishant changes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
