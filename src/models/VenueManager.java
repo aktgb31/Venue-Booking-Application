@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import database.EventOrganizerOperations;
+import database.RequestOperations;
+import database.VenueManagerOperations;
 import models.Request.Status;
 
 public class VenueManager extends Person implements ReadOnlyVenueManager {
@@ -17,7 +20,7 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
     public VenueManager(String name, String emailId, String password, String contactNumber, String hallName,
             String hallAddress, int hallCapacity, String hallDescription) throws Exception {
         super(name, emailId, password, contactNumber);
-        boolean isRegistered = database.Operations.isVenueManagerRegistered(emailId);
+        boolean isRegistered = VenueManagerOperations.isVenueManagerRegistered(emailId);
         if(isRegistered) {
             throw new Exception("Email Id already registered");
         }
@@ -25,7 +28,7 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
         this.hallAddress = hallAddress;
         this.hallCapacity = hallCapacity;
         this.hallDescription = hallDescription;
-        database.Operations.addVenueManager(this.name, this.emailId, this.password, this.contactNumber, this.hallName,
+        VenueManagerOperations.addVenueManager(this.name, this.emailId, this.password, this.contactNumber, this.hallName,
                 this.hallAddress, this.hallCapacity, this.hallDescription);
     }
 
@@ -39,12 +42,12 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
     }
 
     public VenueManager(String emailId, String password) throws Exception {
-        boolean loginSuccessful = database.Operations.validateLoginVenueManager(emailId, password);
+        boolean loginSuccessful = VenueManagerOperations.validateLoginVenueManager(emailId, password);
         System.out.println(loginSuccessful);
         if(!loginSuccessful){
             throw new Exception("Invalid login credentials");
         }
-        ResultSet result = database.Operations.getVenueManager(emailId);
+        ResultSet result = VenueManagerOperations.getVenueManager(emailId);
         try {
             if (result.next()) {
                 this.name = result.getString("name");
@@ -62,7 +65,7 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
         String eventOrganizerEmailID, eventName, startTime, endTime, eventDescription, feedback;
         int eventId;
         Status status;
-        ResultSet resultSet1 = database.Operations.getVenueManagerRequests(emailId);
+        ResultSet resultSet1 = RequestOperations.getVenueManagerRequests(emailId);
         try {
             while (resultSet1.next()) {
                 eventId = resultSet1.getInt("eventId");
@@ -74,7 +77,7 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
                 status = Status.valueOf(resultSet1.getString("status"));
                 feedback = resultSet1.getString("feedback");
 
-                ResultSet resultSet2 = database.Operations.getEventOrganizer(eventOrganizerEmailID);
+                ResultSet resultSet2 = EventOrganizerOperations.getEventOrganizer(eventOrganizerEmailID);
                 EventOrganizer eventOrganizer = null;
                 try {
                     if (resultSet2.next()) {
@@ -99,7 +102,7 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
     }
 
     public void updateDetails() {
-        database.Operations.updateVenueManagerProfile(this.emailId,this.name,this.contactNumber,this.password,this.hallName,this.hallAddress,this.hallCapacity,this.hallDescription);
+        VenueManagerOperations.updateVenueManagerProfile(this.emailId,this.name,this.contactNumber,this.password,this.hallName,this.hallAddress,this.hallCapacity,this.hallDescription);
     }
 
     public String getHallName() {
@@ -140,7 +143,7 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
 
     public static ArrayList<ReadOnlyVenueManager> getVenueDetails() {
         ArrayList<ReadOnlyVenueManager> venueManagers = new ArrayList<ReadOnlyVenueManager>();
-        ResultSet result = database.Operations.getVenueManagers();
+        ResultSet result = VenueManagerOperations.getVenueManagers();
         try {
             while (result.next()) {
                 String name = result.getString("name");

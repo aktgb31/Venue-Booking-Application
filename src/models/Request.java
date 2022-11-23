@@ -1,5 +1,7 @@
 package models;
 
+import database.RequestOperations;
+
 public class Request implements EventOrganizerRequest, VenueManagerRequest {
 
     private int requestId;
@@ -28,7 +30,7 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
         this.status = Status.PENDING;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
-        this.requestId = database.Operations.createBooking(this.eventName, this.startDateTime, this.endDateTime,
+        this.requestId = RequestOperations.createBooking(this.eventName, this.startDateTime, this.endDateTime,
                 this.eventOrganizer.getEmailId(), this.venueManager.getEmailId(), this.description);
     }
 
@@ -48,19 +50,19 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
 
     public void cancelRequest() {
         this.status = Status.CANCELLED;
-        database.Operations.cancelRequest(this.requestId);
+        RequestOperations.cancelRequest(this.requestId);
     }
 
     public void acceptRequest(String feedBack) {
         this.status = Status.ACCEPTED;
         this.feedback = feedBack;
-        database.Operations.acceptRequest(requestId, feedBack);
+        RequestOperations.acceptRequest(requestId, feedBack);
     }
 
     public void rejectRequest(String feedBack) {
         this.status = Status.REJECTED;
         this.feedback = feedBack;
-        database.Operations.rejectRequest(requestId, feedBack);
+        RequestOperations.rejectRequest(requestId, feedBack);
     }
 
     public int getRequestId() {
