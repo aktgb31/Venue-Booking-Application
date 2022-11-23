@@ -99,13 +99,20 @@ public class VenueManagerGUI {
                                 VenueManagerService service = VenueManagerService.register(name, email, password, contact, hallName, hallAddress, capacity, hallDescription);
                                 JOptionPane.showMessageDialog(null, "Venue Manager Registered Successfully");
                                 VenueManagerGUI.initialize(service);
-                                GUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
+                                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
                             }
                         }
                     }
                 } catch (Exception exception) {
                     JOptionPane.showMessageDialog(null, exception.getMessage());
                 }
+            }
+        });
+
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PersonGUI.getInstance().setPanel(PersonGUI.login());
             }
         });
 
@@ -211,21 +218,21 @@ public class VenueManagerGUI {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
             }
         });
 
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingsScreen());
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingsScreen());
             }
         });
 
         b3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(VenueManagerGUI.getInstance().profileScreen());
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().profileScreen());
             }
         });
 
@@ -234,7 +241,7 @@ public class VenueManagerGUI {
             public void actionPerformed(ActionEvent e) {
                 VenueManagerGUI.getInstance().venueManagerService.logout();
                 VenueManagerGUI.getInstance().venueManagerService = null;
-                GUI.getInstance().setPanel(GUI.login());
+                PersonGUI.getInstance().setPanel(PersonGUI.login());
             }
         });
         return panel;
@@ -309,7 +316,7 @@ public class VenueManagerGUI {
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
             }
         });
 

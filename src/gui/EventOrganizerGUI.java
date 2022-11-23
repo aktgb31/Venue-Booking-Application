@@ -1,12 +1,16 @@
 package gui;
 
 import models.EventOrganizer;
+import models.EventOrganizerRequest;
+import models.ReadOnlyVenueManager;
+import models.VenueManager;
 import services.EventOrganiserService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 public class EventOrganizerGUI {
@@ -103,7 +107,7 @@ public class EventOrganizerGUI {
                                     EventOrganiserService service = EventOrganiserService.register(name, email, password, contactNumber, organizationName, organizationAddress);
                                     JOptionPane.showMessageDialog(null, "Registration Successful");
                                     EventOrganizerGUI.initialize(service);
-                                    GUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
+                                    PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
                                 }
                             }
                         }
@@ -111,6 +115,13 @@ public class EventOrganizerGUI {
                 } catch (Exception exception) {
                     JOptionPane.showMessageDialog(null, exception.getMessage());
                 }
+            }
+        });
+
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PersonGUI.getInstance().setPanel(PersonGUI.login());
             }
         });
 
@@ -164,21 +175,21 @@ public class EventOrganizerGUI {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(EventOrganizerGUI.getInstance().bookVenueScreen());
+                PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().bookVenueScreen());
             }
         });
 
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(EventOrganizerGUI.getInstance().viewBookingsScreen());
+                PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().viewBookingsScreen());
             }
         });
 
         b3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(EventOrganizerGUI.getInstance().profileScreen());
+                PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().profileScreen());
             }
         });
 
@@ -187,7 +198,7 @@ public class EventOrganizerGUI {
             public void actionPerformed(ActionEvent e) {
                 EventOrganizerGUI.getInstance().eventOrganiserService.logoutService();
                 EventOrganizerGUI.getInstance().eventOrganiserService = null;
-                GUI.getInstance().setPanel(GUI.login());
+                PersonGUI.getInstance().setPanel(PersonGUI.login());
             }
         });
         return mainPanel;
@@ -252,7 +263,7 @@ public class EventOrganizerGUI {
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
+                PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
             }
         });
 
@@ -291,12 +302,140 @@ public class EventOrganizerGUI {
     }
 
     private JPanel bookVenueScreen() {
-        // Add code here
-        return null;
+        ArrayList<ReadOnlyVenueManager> venueManagers = eventOrganiserService.getVenueDetails();
+        JPanel mainPanel = new JPanel(null);
+        mainPanel.setSize(1200, 800);
+
+        JLabel heading = new JLabel("Create Booking");
+        heading.setBounds(100, 10, 400, 50);
+        heading.setFont(new Font("Serif", Font.BOLD, 20));
+        heading.setHorizontalAlignment(JLabel.CENTER);
+
+        JLabel l1 = new JLabel("Venue");
+        JLabel l2 = new JLabel("Start Date Time");
+        JLabel l3 = new JLabel("End Date Time");
+        JLabel l4 = new JLabel("Event Name");
+        JLabel l5 = new JLabel("Booking Description");
+
+        String[] venueNames = new String[venueManagers.size()];
+        for (int i = 0; i < venueManagers.size(); i++) {
+            venueNames[i] = venueManagers.get(i).getHallName();
+        }
+
+        JComboBox cb = new JComboBox(venueNames);
+
+        JTextField t1 = new JTextField();
+
+        JTextField t2 = new JTextField();
+
+        JTextField t3 = new JTextField();
+
+        JTextArea t4 = new JTextArea();
+
+        JButton b1 = new JButton("Create Booking");
+        JButton b2 = new JButton("Cancel");
+
+        b1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    eventOrganiserService.createBooking((VenueManager) venueManagers.get(cb.getSelectedIndex()), t1.getText(), t2.getText(), t3.getText(), t4.getText());
+                    JOptionPane.showMessageDialog(null, "Booking created successfully");
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Booking creation failed");
+                }
+            }
+        });
+
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
+            }
+        });
+
+        l1.setBounds(50, 100, 150, 30);
+        l2.setBounds(50, 150, 150, 30);
+        l3.setBounds(50, 200, 150, 30);
+        l4.setBounds(50, 250, 150, 30);
+        l5.setBounds(50, 300, 150, 30);
+        cb.setBounds(200, 100, 200, 30);
+        t1.setBounds(200, 150, 200, 30);
+        t2.setBounds(200, 200, 200, 30);
+        t3.setBounds(200, 250, 200, 30);
+        t4.setBounds(200, 300, 200, 100);
+        b1.setBounds(100, 450, 150, 30);
+        b2.setBounds(300, 450, 150, 30);
+
+        b1.setHorizontalAlignment(JButton.CENTER);
+        b2.setHorizontalAlignment(JButton.CENTER);
+
+        mainPanel.add(heading);
+        mainPanel.add(l1);
+        mainPanel.add(l2);
+        mainPanel.add(l3);
+        mainPanel.add(l4);
+        mainPanel.add(l5);
+        mainPanel.add(cb);
+        mainPanel.add(t1);
+        mainPanel.add(t2);
+        mainPanel.add(t3);
+        mainPanel.add(t4);
+        mainPanel.add(b1);
+        mainPanel.add(b2);
+
+        String[] columnNames = {"Hall Name", "Hall Capacity", "Hall Description", "Hall Address"};
+        String[][] data = new String[venueManagers.size()][4];
+        for (int i = 0; i < venueManagers.size(); i++) {
+            data[i][0] = venueManagers.get(i).getHallName();
+            data[i][1] = Integer.toString(venueManagers.get(i).getHallCapacity());
+            data[i][2] = venueManagers.get(i).getHallDescription();
+            data[i][3] = venueManagers.get(i).getHallAddress();
+        }
+        JTable table = new JTable(data, columnNames);
+        table.setBounds(450, 100, 700, 300);
+
+        JScrollPane sp = new JScrollPane(table);
+        sp.setBounds(450, 100, 700, 300);
+        mainPanel.add(sp);
+        return mainPanel;
     }
 
     private JPanel viewBookingsScreen() {
-        // Add code here
-        return null;
+        ArrayList<EventOrganizerRequest> bookings = eventOrganiserService.getBookingHistory();
+        JPanel mainPanel = new JPanel(null);
+        mainPanel.setSize(1200, 800);
+
+        String[] columnNames = {"Event Name", "Start Time", "End Time", "Status", "Contact Number", "Venue", "Hall Capacity", "feedback", "Hall Description"};
+        String[][] data = new String[bookings.size()][9];
+        for (int i = 0; i < bookings.size(); i++) {
+            data[i][0] = bookings.get(i).getEventName();
+            data[i][1] = bookings.get(i).getStartDateTime();
+            data[i][2] = bookings.get(i).getEndDateTime();
+            data[i][3] = bookings.get(i).getStatus().toString();
+            data[i][4] = bookings.get(i).getVenueManager().getContactNumber();
+            data[i][5] = bookings.get(i).getVenueManager().getHallName();
+            data[i][6] = Integer.toString(bookings.get(i).getVenueManager().getHallCapacity());
+            data[i][7] = bookings.get(i).getFeedback();
+            data[i][8] = bookings.get(i).getVenueManager().getHallDescription();
+        }
+
+        JTable table = new JTable(data, columnNames);
+        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+
+        table.getColumnModel().getColumn(1).setPreferredWidth(140);
+        table.getColumnModel().getColumn(2).setPreferredWidth(140);
+        table.getColumnModel().getColumn(3).setPreferredWidth(60);
+        table.getColumnModel().getColumn(4).setPreferredWidth(120);
+        table.getColumnModel().getColumn(5).setPreferredWidth(60);
+        table.getColumnModel().getColumn(6).setPreferredWidth(80);
+        table.getColumnModel().getColumn(7).setPreferredWidth(150);
+        table.getColumnModel().getColumn(8).setPreferredWidth(250);
+        table.setRowHeight(30);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        mainPanel.add(scrollPane);
+
+        return mainPanel;
     }
 }
