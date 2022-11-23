@@ -93,19 +93,20 @@ public class GUI {
                 String emailId = t1.getText();
                 String password = String.valueOf(t2.getPassword());
                 if (type.equals("Event Organizer")) {
-                    EventOrganiserService eventOrganiserService = EventOrganiserService.login(emailId,password);
-                    if (eventOrganiserService != null) {
+                    try {
+                        EventOrganiserService eventOrganiserService = EventOrganiserService.login(emailId,password);
 
-                    } else {
-                        throw new Exception("Invalid Credentials");
+                    }catch (Exception exception){
+                        JOptionPane.showMessageDialog(null, "Invalid Credentials");
                     }
+
                 } else {
-                    VenueManagerService venueManagerService =  VenueManagerService.login(emailId,password);
-                    if (venueManagerService != null) {
+                    try {
+                        VenueManagerService venueManagerService =  VenueManagerService.login(emailId,password);
                         VenueManagerGUI.getInstance().initialize(venueManagerService);
                         GUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
-                    } else {
-                        throw new Exception("Invalid Credentials");
+                    } catch (Exception exception) {
+                        JOptionPane.showMessageDialog(null, "Invalid Credentials");
                     }
                 }
             }
