@@ -76,7 +76,7 @@ public class VenueManagerGUI {
             public void actionPerformed(ActionEvent e) {
                 String name = t1.getText();
                 String email = t2.getText();
-                String password = t3.getText();
+                String password = new String(t3.getPassword());
                 String contact = t4.getText();
                 String hallName = t5.getText();
                 String hallAddress = t6.getText();
@@ -455,29 +455,18 @@ public class VenueManagerGUI {
         JPanel mainPanel = new JPanel(null);
         mainPanel.setSize(1200, 800);
 
+        ArrayList<VenueManagerRequest> bookings = venueManagerService.getNonPendingRequests();
         String[] columnNames = {"Event Name", "Start Time", "End Time", "Status", "Contact Number", "Organizer"};
-        String[][] data = {
-                {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Rejected", "1238567890", "John"},
-                {"TEDx Talks", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Accepted", "1234567890", "Lenoah"},
-                {"Book Fest", "2022-06-20 12:30:00", "2022-06-21 13:30:00", "Accepted", "1233567890", "Naveen"},
-                {"Guest Lecture", "2022-06-19 12:30:00", "2022-06-21 13:30:00", "Cancelled", "1239567890", "Vinod"},
-                {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Rejected", "1238567890", "John"},
-                {"TEDx Talks", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Accepted", "1234567890", "Lenoah"},
-                {"Book Fest", "2022-06-20 12:30:00", "2022-06-21 13:30:00", "Accepted", "1233567890", "Naveen"},
-                {"Guest Lecture", "2022-06-19 12:30:00", "2022-06-21 13:30:00", "Cancelled", "1239567890", "Vinod"},
-                {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Rejected", "1238567890", "John"},
-                {"TEDx Talks", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Accepted", "1234567890", "Lenoah"},
-                {"Book Fest", "2022-06-20 12:30:00", "2022-06-21 13:30:00", "Accepted", "1233567890", "Naveen"},
-                {"Guest Lecture", "2022-06-19 12:30:00", "2022-06-21 13:30:00", "Cancelled", "1239567890", "Vinod"},
-                {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Rejected", "1238567890", "John"},
-                {"TEDx Talks", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Accepted", "1234567890", "Lenoah"},
-                {"Book Fest", "2022-06-20 12:30:00", "2022-06-21 13:30:00", "Accepted", "1233567890", "Naveen"},
-                {"Guest Lecture", "2022-06-19 12:30:00", "2022-06-21 13:30:00", "Cancelled", "1239567890", "Vinod"},
-                {"Robo Wars", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Rejected", "1238567890", "John"},
-                {"TEDx Talks", "2022-06-21 12:30:00", "2022-06-21 13:30:00", "Accepted", "1234567890", "Lenoah"},
-                {"Book Fest", "2022-06-20 12:30:00", "2022-06-21 13:30:00", "Accepted", "1233567890", "Naveen"},
-                {"Guest Lecture", "2022-06-19 12:30:00", "2022-06-21 13:30:00", "Cancelled", "1239567890", "Vinod"},
-        };
+        String[][] data = new String[bookings.size()][6];
+        for (int i = 0; i < bookings.size(); i++) {
+            VenueManagerRequest booking = bookings.get(i);
+            data[i][0] = booking.getEventName();
+            data[i][1] = booking.getStartDateTime();
+            data[i][2] = booking.getEndDateTime();
+            data[i][3] = booking.getStatus().toString();
+            data[i][4] = booking.getEventOrganizer().getContactNumber();
+            data[i][5] = booking.getEventOrganizer().getName();
+        }
 
         JTable table = new JTable(data, columnNames);
 
