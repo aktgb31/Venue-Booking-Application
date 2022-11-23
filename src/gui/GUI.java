@@ -61,13 +61,6 @@ public class GUI {
         JButton b2 = new JButton("Register as Venue Manager");
         JButton b3 = new JButton("Register as Event Organizer");
 
-        b2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(VenueManagerGUI.signUp());
-            }
-        });
-
-
         l1.setBounds(50, 100, 100, 30);
         l2.setBounds(50, 150, 100, 30);
         l3.setBounds(50, 200, 100, 30);
@@ -95,17 +88,31 @@ public class GUI {
         String type = cb.getSelectedItem().toString();
         String emailId = t1.getText();
         String password = String.valueOf(t2.getPassword());
-        try {
-            if (type.equals("EventOrganizer")) {
-                EventOrganiserService eventOrganiserService = EventOrganiserService.login(emailId, password);
-//                new EventOrganizerGUI(eventOrganiserService);
-            } else {
-                VenueManagerService venueManagerService = VenueManagerService.login(emailId, password);
-//                new VenueManagerGUI(venueManagerService);
+        b1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (type.equals("Event Organizer")) {
+                    EventOrganiserService eventOrganiserService = EventOrganiserService.login(emailId,password);
+                    if (eventOrganiserService != null) {
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Invalid Credentials");
+                    }
+                } else {
+                    VenueManagerService venueManagerService =  VenueManagerService.login(emailId,password);
+                    if (venueManagerService != null) {
+                        GUI.getInstance().setPanel(VenueManagerGUI.getInstance(venueManagerService).dashboardScreen());
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Invalid Credentials");
+                    }
+                }
             }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        });
+        b2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                GUI.getInstance().setPanel(VenueManagerGUI.signUp());
+            }
+        });
         GUI.getInstance().setPanel(panel);
     }
 

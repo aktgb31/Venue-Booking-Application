@@ -11,8 +11,17 @@ import java.awt.event.FocusListener;
 
 public class VenueManagerGUI {
     private VenueManagerService venueManagerService;
-    public VenueManagerGUI(VenueManagerService service){
+
+    private static VenueManagerGUI instance;
+    private VenueManagerGUI(VenueManagerService service){
         this.venueManagerService = service;
+    }
+
+    public static VenueManagerGUI getInstance(VenueManagerService service){
+        if(instance == null){
+            instance = new VenueManagerGUI(service);
+        }
+        return instance;
     }
 
     public static JPanel signUp(){
@@ -166,9 +175,32 @@ public class VenueManagerGUI {
 
         return panel;
     }
-    public JFrame dashboardScreen() {
-        // Add code here
-        return null;
+    public JPanel dashboardScreen() {
+        JPanel panel = new JPanel(null);
+        panel.setSize(800, 800);
+
+        JLabel heading = new JLabel("Venue Manager Dashboard");
+        heading.setBounds(100, 10, 400, 50);
+        heading.setFont(new Font("Serif", Font.BOLD, 20));
+        heading.setHorizontalAlignment(JLabel.CENTER);
+
+        JButton b1 = new JButton("View Booking Requests");
+        JButton b2 = new JButton("View Bookings");
+        JButton b3 = new JButton("Profile");
+        JButton b4 = new JButton("Logout");
+
+        b1.setBounds(200, 100, 200, 30);
+        b2.setBounds(200, 150, 200, 30);
+        b3.setBounds(200, 200, 200, 30);
+        b4.setBounds(200, 250, 200, 30);
+
+        panel.add(heading);
+        panel.add(b1);
+        panel.add(b2);
+        panel.add(b3);
+        panel.add(b4);
+
+        return panel;
     }
 
     private JFrame updateProfileScreen() {

@@ -4,8 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="53167586-08d6-460a-8db8-6ecca15bc1fc" name="Changes" comment="Initialised an intellij project">
+    <list default="true" id="53167586-08d6-460a-8db8-6ecca15bc1fc" name="Changes" comment="Register Venue Manager Booking">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12-Nov-22_02_06_PM_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12-Nov-22_02_06_PM__Changes_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Venue-Booking-Application.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Venue-Booking-Application.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/database/Dao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/Dao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/VenueManagerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/VenueManagerGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,12 +47,12 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Dell/Downloads/Softwares/mysql-connector-java-8.0.27.jar&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/usr/share/java/mysql-connector-j-8.0.31.jar&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;DatabaseDriversLRU&quot;: [
@@ -66,13 +74,39 @@
       <recent name="services" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.App">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="App" />
+      <module name="Venue-Booking-Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Dao" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="database.Dao" />
+      <module name="Venue-Booking-Application" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="database.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="init.sql" type="DatabaseScript" editBeforeRun="true" nameIsGenerated="true">
       <script-file value="$PROJECT_DIR$/src/database/init.sql" />
       <script-mode>FILE</script-mode>
       <data-source id="65a81584-ffb8-4670-a520-fae304222a03" namespace="schema/&quot;venuebooking&quot;" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.App" />
+        <item itemvalue="Application.Dao" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SQLScriptSettings">
     <option name="outputLayout" value="File per object with order.groovy" />
@@ -94,6 +128,16 @@
       <workItem from="1668058998971" duration="7679000" />
       <workItem from="1668075325399" duration="1173000" />
       <workItem from="1668180368107" duration="7747000" />
+      <workItem from="1669139359497" duration="72000" />
+      <workItem from="1669142080526" duration="281000" />
+      <workItem from="1669142640175" duration="1386000" />
+      <workItem from="1669144341594" duration="435000" />
+      <workItem from="1669144857109" duration="5000" />
+      <workItem from="1669144947729" duration="7097000" />
+      <workItem from="1669192184010" duration="741000" />
+      <workItem from="1669201334628" duration="733000" />
+      <workItem from="1669220525110" duration="305000" />
+      <workItem from="1669222096333" duration="1877000" />
     </task>
     <task id="LOCAL-00001" summary="Initialised an intellij project">
       <created>1667503025691</created>
@@ -116,7 +160,21 @@
       <option name="project" value="LOCAL" />
       <updated>1668185328145</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Login and Register Venue manager screen">
+      <created>1669152026624</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1669152026624</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Register Venue Manager Booking">
+      <created>1669192917275</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1669192917275</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,7 +198,9 @@
     <MESSAGE value="Initialised an intellij project" />
     <MESSAGE value="Created classes and interfaces" />
     <MESSAGE value="init Database Layer" />
-    <option name="LAST_COMMIT_MESSAGE" value="init Database Layer" />
+    <MESSAGE value="Login and Register Venue manager screen" />
+    <MESSAGE value="Register Venue Manager Booking" />
+    <option name="LAST_COMMIT_MESSAGE" value="Register Venue Manager Booking" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
