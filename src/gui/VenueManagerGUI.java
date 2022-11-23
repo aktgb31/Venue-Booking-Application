@@ -17,7 +17,7 @@ public class VenueManagerGUI {
 
     public static JPanel signUp(){
         JPanel panel = new JPanel(null);
-        panel.setSize(800, 800);
+        panel.setSize(1200, 1200);
 
         JLabel heading = new JLabel("Venue Manager Registration");
         heading.setBounds(50, 10, 400, 50);
