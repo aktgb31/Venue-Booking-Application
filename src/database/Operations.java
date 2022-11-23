@@ -253,7 +253,7 @@ public class Operations {
     public static boolean validateLoginEventOrganizer(String emailId, String password) {
         try {
             Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM eventorganizers WHERE emailId = ? AND password = ?";
+            String sql = "SELECT * FROM EventOrganizers WHERE emailId = ? AND password = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             statement.setString(2, password);
@@ -271,7 +271,7 @@ public class Operations {
     public static boolean validateLoginVenueManager(String emailId, String password) {
         try {
             Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM venuemanagers WHERE emailId = ? AND password = ?";
+            String sql = "SELECT * FROM VenueManagers WHERE emailId = ? AND password = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             statement.setString(2, password);
@@ -290,7 +290,7 @@ public class Operations {
     public static boolean isEventOrganizerRegistered (String emailId){
         try {
             Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM eventorganizers WHERE emailId = ?";
+            String sql = "SELECT * FROM EventOrganizers WHERE emailId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             ResultSet result = statement.executeQuery();
@@ -309,7 +309,7 @@ public class Operations {
     public static boolean isVenueManagerRegistered (String emailId){
         try {
             Connection connection = Dao.getConnection();
-            String sql = "SELECT * FROM venuemanagers WHERE emailId = ?";
+            String sql = "SELECT * FROM VenueManagers WHERE emailId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
             ResultSet result = statement.executeQuery();

@@ -20,7 +20,7 @@ public class EventOrganiserService {
             EventOrganizer eventOrganizer = new EventOrganizer(emailId, password);
             return new EventOrganiserService(eventOrganizer);
         } catch (Exception e) {
-            throw new Exception("Invalid login credentials");
+            throw e;
         }
     }
 
@@ -31,7 +31,7 @@ public class EventOrganiserService {
                     organizationName, organizationAddress);
             return new EventOrganiserService(eventOrganizer);
         } catch (Exception e) {
-            throw new Exception("Email Id already registered");
+            throw e;
         }
     }
 

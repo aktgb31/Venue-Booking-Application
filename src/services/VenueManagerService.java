@@ -19,7 +19,7 @@ public class VenueManagerService {
             VenueManager venueManager = new VenueManager(emailId, password);
             return new VenueManagerService(venueManager);
         } catch (Exception e) {
-            throw new Exception("Invalid login credentials");
+            throw e;
         }
     }
 
@@ -30,7 +30,7 @@ public class VenueManagerService {
                     hallCapacity, hallDescription);
             return new VenueManagerService(venueManager);
         } catch (Exception e) {
-            throw new Exception("Email Id already registered");
+            throw e;
         }
     }
 
