@@ -8,12 +8,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUI {
-    private static GUI instance;
+public class PersonGUI {
+    private static PersonGUI instance;
     private JFrame mainFrame;
     private JPanel activePanel;
 
-    private GUI() {
+    private PersonGUI() {
         this.activePanel = new JPanel();
         this.mainFrame = new JFrame("Venue Management System");
         mainFrame.setSize(1200, 1200);
@@ -24,9 +24,9 @@ public class GUI {
         mainFrame.setVisible(true);
     }
 
-    public static GUI getInstance() {
+    public static PersonGUI getInstance() {
         if (instance == null) {
-            instance = new GUI();
+            instance = new PersonGUI();
         }
         return instance;
     }
@@ -87,11 +87,11 @@ public class GUI {
                     if (type.equals("Event Organizer")) {
                         EventOrganiserService eventOrganiserService = EventOrganiserService.login(emailId, password);
                         EventOrganizerGUI.initialize(eventOrganiserService);
-                        GUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
+                        PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
                     } else {
                         VenueManagerService venueManagerService = VenueManagerService.login(emailId, password);
                         VenueManagerGUI.initialize(venueManagerService);
-                        GUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
+                        PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
                     }
                 } catch (Exception exception) {
                     JOptionPane.showMessageDialog(null, exception.getMessage());
@@ -100,13 +100,13 @@ public class GUI {
         });
         b2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(VenueManagerGUI.signUp());
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.signUp());
             }
         });
 
         b3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(EventOrganizerGUI.signUp());
+                PersonGUI.getInstance().setPanel(EventOrganizerGUI.signUp());
             }
         });
 

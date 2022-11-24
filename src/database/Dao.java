@@ -8,8 +8,8 @@ public class Dao {
 
     private Dao(){
         String connString = "jdbc:mysql://localhost:3306/venue_management";
-        String userName = "root";
-        String password = "Nishant*1";
+        String userName = "swingapp";
+        String password = "12345678";
         this.connection = null;
 
         try {

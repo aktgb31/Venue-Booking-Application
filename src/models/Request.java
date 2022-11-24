@@ -21,7 +21,7 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
     private Status status;
 
     public Request(String eventName, String startDateTime, String endDateTime, EventOrganizer eventOrganizer,
-            VenueManager venueManager, String description) {
+            VenueManager venueManager, String description) throws Exception {
         this.eventName = eventName;
         this.eventOrganizer = eventOrganizer;
         this.venueManager = venueManager;
@@ -48,18 +48,18 @@ public class Request implements EventOrganizerRequest, VenueManagerRequest {
         this.endDateTime = endDateTime;
     }
 
-    public void cancelRequest() {
+    public void cancelRequest() throws Exception {
         this.status = Status.CANCELLED;
         RequestOperations.cancelRequest(this.requestId);
     }
 
-    public void acceptRequest(String feedBack) {
+    public void acceptRequest(String feedBack) throws Exception {
         this.status = Status.ACCEPTED;
         this.feedback = feedBack;
         RequestOperations.acceptRequest(requestId, feedBack);
     }
 
-    public void rejectRequest(String feedBack) {
+    public void rejectRequest(String feedBack) throws Exception {
         this.status = Status.REJECTED;
         this.feedback = feedBack;
         RequestOperations.rejectRequest(requestId, feedBack);

@@ -22,7 +22,7 @@ create table EventOrganizers (
 );
 
 create table Requests (
-    requestId int not null primary key, -- 'Stores id of the request'
+    requestId int not null primary key auto_increment, -- 'Stores id of the request'
     eventName varchar(50) not null, -- 'Stores name of the event'
     organizerId varchar(50) not null, -- 'Stores email id of the organizer'
     managerId varchar(50) not null, -- 'Stores email id of the manager'

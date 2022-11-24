@@ -23,8 +23,7 @@ public class VenueManagerGUI {
     }
 
     public static void initialize(VenueManagerService service) throws RuntimeException {
-        if (instance == null)
-            instance = new VenueManagerGUI(service);
+        instance = new VenueManagerGUI(service);
     }
 
     public static VenueManagerGUI getInstance() throws RuntimeException {
@@ -96,13 +95,20 @@ public class VenueManagerGUI {
                                 VenueManagerService service = VenueManagerService.register(name, email, password, contact, hallName, hallAddress, capacity, hallDescription);
                                 JOptionPane.showMessageDialog(null, "Venue Manager Registered Successfully");
                                 VenueManagerGUI.initialize(service);
-                                GUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
+                                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
                             }
                         }
                     }
                 } catch (Exception exception) {
                     JOptionPane.showMessageDialog(null, exception.getMessage());
                 }
+            }
+        });
+
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PersonGUI.getInstance().setPanel(PersonGUI.login());
             }
         });
 
@@ -208,21 +214,21 @@ public class VenueManagerGUI {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
             }
         });
 
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingsScreen());
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingsScreen());
             }
         });
 
         b3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(VenueManagerGUI.getInstance().profileScreen());
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().profileScreen());
             }
         });
 
@@ -231,7 +237,7 @@ public class VenueManagerGUI {
             public void actionPerformed(ActionEvent e) {
                 VenueManagerGUI.getInstance().venueManagerService.logout();
                 VenueManagerGUI.getInstance().venueManagerService = null;
-                GUI.getInstance().setPanel(GUI.login());
+                PersonGUI.getInstance().setPanel(PersonGUI.login());
             }
         });
         return panel;
@@ -306,7 +312,7 @@ public class VenueManagerGUI {
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
             }
         });
 
@@ -354,6 +360,10 @@ public class VenueManagerGUI {
 
     private JPanel viewBookingRequestsScreen() {
         ArrayList<VenueManagerRequest> bookingRequests = venueManagerService.getPendingRequests();
+        if (bookingRequests.size() == 0) {
+            JOptionPane.showMessageDialog(null, "No Booking Requests");
+            return dashboardScreen();
+        }
         JPanel mainPanel = new JPanel(null);
         mainPanel.setSize(1200, 1200);
 
@@ -368,7 +378,7 @@ public class VenueManagerGUI {
         border.setTitleColor(Color.BLACK);
         border.setTitleFont(new Font("Arial", Font.BOLD, 20));
 
-        mainPanel.getRootPane().setBorder(border);
+        panel.setBorder(border);
 
         for (VenueManagerRequest request : bookingRequests) {
             JLabel heading = new JLabel(request.getEventName());
@@ -418,6 +428,7 @@ public class VenueManagerGUI {
                     try {
                         request.acceptRequest(feedbackText.getText());
                         JOptionPane.showMessageDialog(null, "Request Accepted");
+                        PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Error in Accepting Request : " + ex.getMessage());
                     }
@@ -430,6 +441,7 @@ public class VenueManagerGUI {
                     try {
                         request.rejectRequest(feedbackText.getText());
                         JOptionPane.showMessageDialog(null, "Request Rejected");
+                        PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Error in Rejecting Request : " + ex.getMessage());
                     }
@@ -439,14 +451,28 @@ public class VenueManagerGUI {
 
         JScrollPane scroll = new JScrollPane(panel);
         mainPanel.add(scroll);
+
+        JButton dashboard = new JButton("Dashboard");
+        dashboard.setBounds(50, 50, 200, 30);
+        dashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
+            }
+        });
+        mainPanel.add(dashboard);
         return mainPanel;
     }
 
     private JPanel viewBookingsScreen() {
+        ArrayList<VenueManagerRequest> bookings = venueManagerService.getNonPendingRequests();
+        if (bookings.size() == 0) {
+            JOptionPane.showMessageDialog(null, "No Bookings");
+            return dashboardScreen();
+        }
         JPanel mainPanel = new JPanel(null);
         mainPanel.setSize(1200, 800);
 
-        ArrayList<VenueManagerRequest> bookings = venueManagerService.getNonPendingRequests();
         String[] columnNames = {"Event Name", "Start Time", "End Time", "Status", "Contact Number", "Organizer"};
         String[][] data = new String[bookings.size()][6];
         for (int i = 0; i < bookings.size(); i++) {
@@ -473,7 +499,15 @@ public class VenueManagerGUI {
         mainPanel.setVisible(true);
         mainPanel.setLayout(null);
         mainPanel.setVisible(true);
-
+        JButton dashboard = new JButton("Dashboard");
+        dashboard.setBounds(50, 50, 200, 30);
+        dashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
+            }
+        });
+        mainPanel.add(dashboard);
         return mainPanel;
     }
 }

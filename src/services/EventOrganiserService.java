@@ -32,7 +32,7 @@ public class EventOrganiserService {
     }
 
     public void updateProfile(String name, String password, String contactNumber, String organisationName,
-            String organisationAddress) {
+            String organisationAddress) throws Exception {
         eventOrganizer.setName(name);
         eventOrganizer.setPassword(password);
         eventOrganizer.setContactNumber(contactNumber);
@@ -42,13 +42,13 @@ public class EventOrganiserService {
     }
 
     public void createBooking(VenueManager venueManager, String startDateTime, String endDateTime,
-            String eventName, String description) {
+            String eventName, String description) throws Exception {
         EventOrganizerRequest newRequest = EventOrganizerRequest.createRequest(eventName, startDateTime, endDateTime,
                 eventOrganizer, venueManager, description);
         eventOrganizer.addBooking(newRequest);
     }
 
-    public void cancelBooking(int requestId) {
+    public void cancelBooking(int requestId) throws Exception {
         eventOrganizer.getBookings().get(requestId).cancelRequest();
     }
 
@@ -65,8 +65,7 @@ public class EventOrganiserService {
         return eventOrganizer;
     }
 
-    public ArrayList<ReadOnlyVenueManager> getVenueDetails() {
-
+    public ArrayList<ReadOnlyVenueManager> getVenueDetails() throws Exception {
         return VenueManager.getVenueDetails();
     }
 
