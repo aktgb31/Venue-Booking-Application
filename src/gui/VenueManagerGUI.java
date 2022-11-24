@@ -23,11 +23,7 @@ public class VenueManagerGUI {
     }
 
     public static void initialize(VenueManagerService service) throws RuntimeException {
-        if (instance == null) {
-            instance = new VenueManagerGUI(service);
-        } else {
-            throw new IllegalStateException("Venue Manager GUI already initialized");
-        }
+        instance = new VenueManagerGUI(service);
     }
 
     public static VenueManagerGUI getInstance() throws RuntimeException {
@@ -364,6 +360,10 @@ public class VenueManagerGUI {
 
     private JPanel viewBookingRequestsScreen() {
         ArrayList<VenueManagerRequest> bookingRequests = venueManagerService.getPendingRequests();
+        if (bookingRequests.size() == 0) {
+            JOptionPane.showMessageDialog(null, "No Booking Requests");
+            return dashboardScreen();
+        }
         JPanel mainPanel = new JPanel(null);
         mainPanel.setSize(1200, 1200);
 
@@ -378,7 +378,7 @@ public class VenueManagerGUI {
         border.setTitleColor(Color.BLACK);
         border.setTitleFont(new Font("Arial", Font.BOLD, 20));
 
-        mainPanel.getRootPane().setBorder(border);
+        panel.setBorder(border);
 
         for (VenueManagerRequest request : bookingRequests) {
             JLabel heading = new JLabel(request.getEventName());
@@ -428,6 +428,7 @@ public class VenueManagerGUI {
                     try {
                         request.acceptRequest(feedbackText.getText());
                         JOptionPane.showMessageDialog(null, "Request Accepted");
+                        PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Error in Accepting Request : " + ex.getMessage());
                     }
@@ -440,6 +441,7 @@ public class VenueManagerGUI {
                     try {
                         request.rejectRequest(feedbackText.getText());
                         JOptionPane.showMessageDialog(null, "Request Rejected");
+                        PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Error in Rejecting Request : " + ex.getMessage());
                     }
@@ -449,14 +451,28 @@ public class VenueManagerGUI {
 
         JScrollPane scroll = new JScrollPane(panel);
         mainPanel.add(scroll);
+
+        JButton dashboard = new JButton("Dashboard");
+        dashboard.setBounds(50, 50, 200, 30);
+        dashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
+            }
+        });
+        mainPanel.add(dashboard);
         return mainPanel;
     }
 
     private JPanel viewBookingsScreen() {
+        ArrayList<VenueManagerRequest> bookings = venueManagerService.getNonPendingRequests();
+        if (bookings.size() == 0) {
+            JOptionPane.showMessageDialog(null, "No Bookings");
+            return dashboardScreen();
+        }
         JPanel mainPanel = new JPanel(null);
         mainPanel.setSize(1200, 800);
 
-        ArrayList<VenueManagerRequest> bookings = venueManagerService.getNonPendingRequests();
         String[] columnNames = {"Event Name", "Start Time", "End Time", "Status", "Contact Number", "Organizer"};
         String[][] data = new String[bookings.size()][6];
         for (int i = 0; i < bookings.size(); i++) {
@@ -483,7 +499,15 @@ public class VenueManagerGUI {
         mainPanel.setVisible(true);
         mainPanel.setLayout(null);
         mainPanel.setVisible(true);
-
+        JButton dashboard = new JButton("Dashboard");
+        dashboard.setBounds(50, 50, 200, 30);
+        dashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
+            }
+        });
+        mainPanel.add(dashboard);
         return mainPanel;
     }
 }

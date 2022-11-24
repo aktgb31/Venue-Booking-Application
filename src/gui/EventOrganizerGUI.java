@@ -22,11 +22,7 @@ public class EventOrganizerGUI {
     }
 
     public static void initialize(EventOrganiserService eventOrganiserService) throws IllegalStateException {
-        if (instance == null) {
-            instance = new EventOrganizerGUI(eventOrganiserService);
-        } else {
-            throw new IllegalStateException("Event Organizer GUI already initialized");
-        }
+        instance = new EventOrganizerGUI(eventOrganiserService);
     }
 
     public static EventOrganizerGUI getInstance() throws RuntimeException {
@@ -302,107 +298,121 @@ public class EventOrganizerGUI {
     }
 
     private JPanel bookVenueScreen() {
-        ArrayList<ReadOnlyVenueManager> venueManagers = eventOrganiserService.getVenueDetails();
-        JPanel mainPanel = new JPanel(null);
-        mainPanel.setSize(1200, 800);
+        try {
+            ArrayList<ReadOnlyVenueManager> venueManagers = eventOrganiserService.getVenueDetails();
+            if (venueManagers.size() == 0) {
+                JOptionPane.showMessageDialog(null, "No venues available");
+                return dashboardScreen();
+            }
+            JPanel mainPanel = new JPanel(null);
+            mainPanel.setSize(1200, 800);
 
-        JLabel heading = new JLabel("Create Booking");
-        heading.setBounds(100, 10, 400, 50);
-        heading.setFont(new Font("Serif", Font.BOLD, 20));
-        heading.setHorizontalAlignment(JLabel.CENTER);
+            JLabel heading = new JLabel("Create Booking");
+            heading.setBounds(100, 10, 400, 50);
+            heading.setFont(new Font("Serif", Font.BOLD, 20));
+            heading.setHorizontalAlignment(JLabel.CENTER);
 
-        JLabel l1 = new JLabel("Venue");
-        JLabel l2 = new JLabel("Start Date Time");
-        JLabel l3 = new JLabel("End Date Time");
-        JLabel l4 = new JLabel("Event Name");
-        JLabel l5 = new JLabel("Booking Description");
+            JLabel l1 = new JLabel("Venue");
+            JLabel l2 = new JLabel("Start Date Time");
+            JLabel l3 = new JLabel("End Date Time");
+            JLabel l4 = new JLabel("Event Name");
+            JLabel l5 = new JLabel("Booking Description");
 
-        String[] venueNames = new String[venueManagers.size()];
-        for (int i = 0; i < venueManagers.size(); i++) {
-            venueNames[i] = venueManagers.get(i).getHallName();
-        }
+            String[] venueNames = new String[venueManagers.size()];
+            for (int i = 0; i < venueManagers.size(); i++) {
+                venueNames[i] = venueManagers.get(i).getHallName();
+            }
 
-        JComboBox cb = new JComboBox(venueNames);
+            JComboBox cb = new JComboBox(venueNames);
 
-        JTextField t1 = new JTextField();
+            JTextField t1 = new JTextField();
 
-        JTextField t2 = new JTextField();
+            JTextField t2 = new JTextField();
 
-        JTextField t3 = new JTextField();
+            JTextField t3 = new JTextField();
 
-        JTextArea t4 = new JTextArea();
+            JTextArea t4 = new JTextArea();
 
-        JButton b1 = new JButton("Create Booking");
-        JButton b2 = new JButton("Cancel");
+            JButton b1 = new JButton("Create Booking");
+            JButton b2 = new JButton("Cancel");
 
-        b1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    eventOrganiserService.createBooking((VenueManager) venueManagers.get(cb.getSelectedIndex()), t1.getText(), t2.getText(), t3.getText(), t4.getText());
-                    JOptionPane.showMessageDialog(null, "Booking created successfully");
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Booking creation failed");
+            b1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        eventOrganiserService.createBooking((VenueManager) venueManagers.get(cb.getSelectedIndex()), t1.getText(), t2.getText(), t3.getText(), t4.getText());
+                        JOptionPane.showMessageDialog(null, "Booking created successfully");
+                        PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Booking creation failed");
+                    }
                 }
+            });
+
+            b2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
+                }
+            });
+
+            l1.setBounds(50, 100, 150, 30);
+            l2.setBounds(50, 150, 150, 30);
+            l3.setBounds(50, 200, 150, 30);
+            l4.setBounds(50, 250, 150, 30);
+            l5.setBounds(50, 300, 150, 30);
+            cb.setBounds(200, 100, 200, 30);
+            t1.setBounds(200, 150, 200, 30);
+            t2.setBounds(200, 200, 200, 30);
+            t3.setBounds(200, 250, 200, 30);
+            t4.setBounds(200, 300, 200, 100);
+            b1.setBounds(100, 450, 150, 30);
+            b2.setBounds(300, 450, 150, 30);
+
+            b1.setHorizontalAlignment(JButton.CENTER);
+            b2.setHorizontalAlignment(JButton.CENTER);
+
+            mainPanel.add(heading);
+            mainPanel.add(l1);
+            mainPanel.add(l2);
+            mainPanel.add(l3);
+            mainPanel.add(l4);
+            mainPanel.add(l5);
+            mainPanel.add(cb);
+            mainPanel.add(t1);
+            mainPanel.add(t2);
+            mainPanel.add(t3);
+            mainPanel.add(t4);
+            mainPanel.add(b1);
+            mainPanel.add(b2);
+
+            String[] columnNames = {"Hall Name", "Hall Capacity", "Hall Description", "Hall Address"};
+            String[][] data = new String[venueManagers.size()][4];
+            for (int i = 0; i < venueManagers.size(); i++) {
+                data[i][0] = venueManagers.get(i).getHallName();
+                data[i][1] = Integer.toString(venueManagers.get(i).getHallCapacity());
+                data[i][2] = venueManagers.get(i).getHallDescription();
+                data[i][3] = venueManagers.get(i).getHallAddress();
             }
-        });
+            JTable table = new JTable(data, columnNames);
+            table.setBounds(450, 100, 700, 300);
 
-        b2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
-            }
-        });
-
-        l1.setBounds(50, 100, 150, 30);
-        l2.setBounds(50, 150, 150, 30);
-        l3.setBounds(50, 200, 150, 30);
-        l4.setBounds(50, 250, 150, 30);
-        l5.setBounds(50, 300, 150, 30);
-        cb.setBounds(200, 100, 200, 30);
-        t1.setBounds(200, 150, 200, 30);
-        t2.setBounds(200, 200, 200, 30);
-        t3.setBounds(200, 250, 200, 30);
-        t4.setBounds(200, 300, 200, 100);
-        b1.setBounds(100, 450, 150, 30);
-        b2.setBounds(300, 450, 150, 30);
-
-        b1.setHorizontalAlignment(JButton.CENTER);
-        b2.setHorizontalAlignment(JButton.CENTER);
-
-        mainPanel.add(heading);
-        mainPanel.add(l1);
-        mainPanel.add(l2);
-        mainPanel.add(l3);
-        mainPanel.add(l4);
-        mainPanel.add(l5);
-        mainPanel.add(cb);
-        mainPanel.add(t1);
-        mainPanel.add(t2);
-        mainPanel.add(t3);
-        mainPanel.add(t4);
-        mainPanel.add(b1);
-        mainPanel.add(b2);
-
-        String[] columnNames = {"Hall Name", "Hall Capacity", "Hall Description", "Hall Address"};
-        String[][] data = new String[venueManagers.size()][4];
-        for (int i = 0; i < venueManagers.size(); i++) {
-            data[i][0] = venueManagers.get(i).getHallName();
-            data[i][1] = Integer.toString(venueManagers.get(i).getHallCapacity());
-            data[i][2] = venueManagers.get(i).getHallDescription();
-            data[i][3] = venueManagers.get(i).getHallAddress();
+            JScrollPane sp = new JScrollPane(table);
+            sp.setBounds(450, 100, 700, 300);
+            mainPanel.add(sp);
+            return mainPanel;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No venues available");
+            return dashboardScreen();
         }
-        JTable table = new JTable(data, columnNames);
-        table.setBounds(450, 100, 700, 300);
-
-        JScrollPane sp = new JScrollPane(table);
-        sp.setBounds(450, 100, 700, 300);
-        mainPanel.add(sp);
-        return mainPanel;
     }
 
     private JPanel viewBookingsScreen() {
         ArrayList<EventOrganizerRequest> bookings = eventOrganiserService.getBookingHistory();
+        if (bookings.size() == 0) {
+            JOptionPane.showMessageDialog(null, "No bookings available");
+            return dashboardScreen();
+        }
         JPanel mainPanel = new JPanel(null);
         mainPanel.setSize(1200, 800);
 
@@ -435,7 +445,15 @@ public class EventOrganizerGUI {
 
         JScrollPane scrollPane = new JScrollPane(table);
         mainPanel.add(scrollPane);
-
+        JButton dashboard = new JButton("Dashboard");
+        dashboard.setBounds(50, 50, 200, 30);
+        dashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
+            }
+        });
+        mainPanel.add(dashboard);
         return mainPanel;
     }
 }

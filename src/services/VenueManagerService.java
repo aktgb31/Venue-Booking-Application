@@ -16,23 +16,20 @@ public class VenueManagerService {
 
     public static VenueManagerService login(String emailId, String password) throws Exception {
         VenueManager venueManager = new VenueManager(emailId, password);
-        System.out.println(venueManager.getHallName());
         return new VenueManagerService(venueManager);
     }
 
     public static VenueManagerService register(String name, String emailId, String password,
                                                String contactNumber, String hallName, String hallAddress, int hallCapacity, String hallDescription) throws Exception {
-        try {
-            VenueManager venueManager = new VenueManager(name, emailId, password, contactNumber, hallName, hallAddress,
-                    hallCapacity, hallDescription);
-            return new VenueManagerService(venueManager);
-        } catch (Exception e) {
-            throw e;
-        }
+
+        VenueManager venueManager = new VenueManager(name, emailId, password, contactNumber, hallName, hallAddress,
+                hallCapacity, hallDescription);
+        return new VenueManagerService(venueManager);
+
     }
 
     public void updateProfile(String name, String password, String contactNumber, String hallName,
-                              String hallAddress, int hallCapacity, String hallDescription) {
+                              String hallAddress, int hallCapacity, String hallDescription) throws Exception {
         venueManager.setName(name);
         venueManager.setPassword(password);
         venueManager.setContactNumber(contactNumber);
@@ -57,6 +54,7 @@ public class VenueManagerService {
     public ArrayList<VenueManagerRequest> getNonPendingRequests() {
         HashMap<Integer, VenueManagerRequest> eventsMap = venueManager.getRequests();
         ArrayList<VenueManagerRequest> nonPendingRequests = new ArrayList<VenueManagerRequest>();
+
         for (VenueManagerRequest event : eventsMap.values()) {
             if (event.getStatus().equals(Status.PENDING) != true) {
                 nonPendingRequests.add(event);
@@ -69,11 +67,11 @@ public class VenueManagerService {
         return venueManager;
     }
 
-    public void acceptRequest(int requestId, String feedBack) {
+    public void acceptRequest(int requestId, String feedBack)throws Exception {
         venueManager.getRequests().get(requestId).acceptRequest(feedBack);
     }
 
-    public void rejectRequest(int requestId, String feedBack) {
+    public void rejectRequest(int requestId, String feedBack) throws Exception {
         venueManager.getRequests().get(requestId).rejectRequest(feedBack);
     }
 

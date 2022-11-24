@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class VenueManagerOperations {
-    public static int addVenueManager(String name, String emailId, String password, String contactNumber, String hallName, String hallAddress, int hallCapacity, String hallDescription) {
+    public static void addVenueManager(String name, String emailId, String password, String contactNumber, String hallName, String hallAddress, int hallCapacity, String hallDescription) {
         try {
             Connection connection = Dao.getConnection();
             String sql = "INSERT INTO VenueManagers VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -20,34 +20,27 @@ public class VenueManagerOperations {
             statement.setInt(7, hallCapacity);
             statement.setString(8, hallDescription);
             statement.executeUpdate();
-
-            return 1;
         } catch (Exception e) {
             System.out.println(e);
-            return 0;
+            throw new RuntimeException("Error while creating venue manager");
         }
     }
 
-    public static ResultSet getVenueManager(String emailId) {
+    public static ResultSet getVenueManager(String emailId) throws Exception {
         try {
             Connection connection = Dao.getConnection();
             String sql = "SELECT * FROM VenueManagers WHERE emailId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, emailId);
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            if (resultSet.next()) {
-                return resultSet;
-            }
-
-            return null;
+            ResultSet resultSet = statement.executeQuery();
+           return resultSet;
         } catch (Exception e) {
             System.out.println(e);
-            return null;
+            throw new RuntimeException("Error while getting venue manager");
         }
     }
 
-    public static ResultSet getVenueManagers() {
+    public static ResultSet getVenueManagers() throws Exception {
         try {
             Connection connection = Dao.getConnection();
             String sql = "SELECT * FROM VenueManagers";
@@ -56,11 +49,11 @@ public class VenueManagerOperations {
             return resultSet;
         } catch (Exception e) {
             System.out.println(e);
+            throw new RuntimeException("Error while getting venue managers");
         }
-        return null;
     }
 
-    public static int updateVenueManagerProfile(String emailId, String name, String contactNumber, String password, String hallName, String hallAddress, int hallCapacity, String hallDescription) {
+    public static void updateVenueManagerProfile(String emailId, String name, String contactNumber, String password, String hallName, String hallAddress, int hallCapacity, String hallDescription) throws Exception {
         try {
             Connection connection = Dao.getConnection();
             String sql = "UPDATE VenueManagers SET name = ?, password = ?, contactNumber = ?, hallName = ?, hallAddress = ?,hallCapacity = ?, hallDescription = ? WHERE emailId = ?";
@@ -75,14 +68,13 @@ public class VenueManagerOperations {
             statement.setString(8, emailId);
             statement.executeUpdate();
 
-            return 1;
         } catch (Exception e) {
             System.out.println(e);
-            return 0;
+            throw new RuntimeException("Error while updating venue manager profile");
         }
     }
 
-    public static boolean validateLoginVenueManager(String emailId, String password) {
+    public static boolean validateLoginVenueManager(String emailId, String password) throws Exception {
         try {
             Connection connection = Dao.getConnection();
             String sql = "SELECT * FROM VenueManagers WHERE emailId = ? AND password = ?";
@@ -97,7 +89,7 @@ public class VenueManagerOperations {
             }
         } catch (Exception e) {
             System.out.println(e);
-            return false;
+            throw new RuntimeException("Error while validating venue manager login");
         }
     }
 
@@ -115,7 +107,7 @@ public class VenueManagerOperations {
             }
         } catch (Exception e) {
             System.out.println(e);
-            throw e;
+            throw new RuntimeException("Error while checking if venue manager is registered");
         }
     }
 }
