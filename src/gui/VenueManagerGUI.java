@@ -35,7 +35,7 @@ public class VenueManagerGUI {
 
     public static JPanel signUp() {
         JPanel panel = new JPanel(null);
-        panel.setSize(1200, 1200);
+        panel.setSize(1200, 800);
 
         JLabel heading = new JLabel("Venue Manager Registration");
         heading.setBounds(50, 10, 400, 50);
@@ -365,68 +365,100 @@ public class VenueManagerGUI {
             return dashboardScreen();
         }
         JPanel mainPanel = new JPanel(null);
-        mainPanel.setSize(1200, 1200);
+        mainPanel.setSize(1200, 800);
+
+        JButton dashboard = new JButton("Dashboard");
+        dashboard.setBounds(50, 50, 200, 30);
+        dashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
+            }
+        });
+        mainPanel.add(dashboard);
 
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setLayout(new GridLayout(bookingRequests.size()+1, 1));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setBackground(Color.WHITE);
 
-        TitledBorder border = new TitledBorder("Booking Requests ");
-        border.setTitleJustification(TitledBorder.CENTER);
-        border.setTitlePosition(TitledBorder.TOP);
-        border.setTitleColor(Color.BLACK);
-        border.setTitleFont(new Font("Arial", Font.BOLD, 20));
+        JLabel Title = new JLabel("Booking Requests");
+        Title.setFont(new Font("Serif", Font.BOLD, 20));
+        Title.setHorizontalAlignment(JLabel.CENTER);
+        panel.add(Title);
 
-        panel.setBorder(border);
+        int yCoordinate = 90;
 
         for (VenueManagerRequest request : bookingRequests) {
+
+            JPanel requestPanel = new JPanel();
             JLabel heading = new JLabel(request.getEventName());
             heading.setFont(new Font("Serif", Font.BOLD, 15));
             heading.setHorizontalAlignment(JLabel.CENTER);
-            panel.add(heading);
+            heading.setBounds(50, yCoordinate, 1000, 30);
+            yCoordinate+= 20;
+            requestPanel.add(heading);
 
             JLabel starttimeL = new JLabel("Start : " + request.getStartDateTime());
             JLabel endtimeL = new JLabel("End : " + request.getEndDateTime());
             JLabel statusL = new JLabel("Status : " + request.getStatus());
 
-            panel.add(starttimeL);
-            panel.add(endtimeL);
-            panel.add(statusL);
+            starttimeL.setBounds(50, yCoordinate, 100, 30);
+            endtimeL.setBounds(150, yCoordinate, 100, 30);
+            statusL.setBounds(250, yCoordinate, 100, 30);
+            yCoordinate+= 20;
+
+            requestPanel.add(starttimeL);
+            requestPanel.add(endtimeL);
+            requestPanel.add(statusL);
 
             ReadOnlyEventOrganizer eventOrganizer = request.getEventOrganizer();
             JLabel name = new JLabel("Organizer : " + eventOrganizer.getName());
             JLabel organization = new JLabel("Organization : " + eventOrganizer.getOrganizationName());
             JLabel phone = new JLabel("Contact Number : " + eventOrganizer.getContactNumber());
 
-            panel.add(name);
-            panel.add(organization);
-            panel.add(phone);
+            name.setBounds(50, yCoordinate, 100, 30);
+            organization.setBounds(150, yCoordinate, 100, 30);
+            phone.setBounds(250, yCoordinate, 100, 30);
+            yCoordinate+= 20;
+
+            requestPanel.add(name);
+            requestPanel.add(organization);
+            requestPanel.add(phone);
 
             JButton accept = new JButton("Accept");
             JButton reject = new JButton("Reject");
+            accept.setBounds(50, yCoordinate, 100, 30);
+            reject.setBounds(150, yCoordinate, 100, 30);
+            yCoordinate+= 20;
 
-            panel.add(accept);
-            panel.add(reject);
+            requestPanel.add(accept);
+            requestPanel.add(reject);
 
             JLabel description = new JLabel("Booking Description : " + request.getDescription());
-            panel.add(description);
+            description.setBounds(50, yCoordinate, 100, 30);
+            yCoordinate+= 20;
+            requestPanel.add(description);
 
             JLabel feedback = new JLabel("Feedback");
+            feedback.setBounds(50, yCoordinate, 100, 30);
+            yCoordinate+= 20;
             JTextField feedbackText = new JTextField();
 
-            panel.add(feedback);
-            panel.add(feedbackText);
+            requestPanel.add(feedback);
+            requestPanel.add(feedbackText);
 
             JSeparator line = new JSeparator();
-            line.setBounds(50, 300, 500, 30);
-            panel.add(line);
+            line.setBounds(50, yCoordinate, 500, 30);
+            yCoordinate+=20;
+
+            requestPanel.add(line);
 
             accept.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        request.acceptRequest(feedbackText.getText());
+                        venueManagerService.acceptRequest(request.getRequestId(),feedbackText.getText());
                         JOptionPane.showMessageDialog(null, "Request Accepted");
                         PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
                     } catch (Exception ex) {
@@ -439,7 +471,7 @@ public class VenueManagerGUI {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        request.rejectRequest(feedbackText.getText());
+                        venueManagerService.rejectRequest(request.getRequestId(), feedbackText.getText());
                         JOptionPane.showMessageDialog(null, "Request Rejected");
                         PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
                     } catch (Exception ex) {
@@ -447,20 +479,13 @@ public class VenueManagerGUI {
                     }
                 }
             });
+
+            panel.add(requestPanel);
         }
 
         JScrollPane scroll = new JScrollPane(panel);
         mainPanel.add(scroll);
-
-        JButton dashboard = new JButton("Dashboard");
-        dashboard.setBounds(50, 50, 200, 30);
-        dashboard.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
-            }
-        });
-        mainPanel.add(dashboard);
+        mainPanel.setVisible(true);
         return mainPanel;
     }
 
@@ -475,6 +500,7 @@ public class VenueManagerGUI {
 
         String[] columnNames = {"Event Name", "Start Time", "End Time", "Status", "Contact Number", "Organizer"};
         String[][] data = new String[bookings.size()][6];
+
         for (int i = 0; i < bookings.size(); i++) {
             VenueManagerRequest booking = bookings.get(i);
             data[i][0] = booking.getEventName();
@@ -484,6 +510,16 @@ public class VenueManagerGUI {
             data[i][4] = booking.getEventOrganizer().getContactNumber();
             data[i][5] = booking.getEventOrganizer().getName();
         }
+
+        JButton dashboard = new JButton("Dashboard");
+        dashboard.setBounds(50, 50, 200, 30);
+        dashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
+            }
+        });
+        mainPanel.add(dashboard);
 
         JTable table = new JTable(data, columnNames);
 
@@ -495,19 +531,13 @@ public class VenueManagerGUI {
         table.setRowHeight(30);
 
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(50, 100, 1100, 600);
+
         mainPanel.add(scrollPane);
         mainPanel.setVisible(true);
         mainPanel.setLayout(null);
         mainPanel.setVisible(true);
-        JButton dashboard = new JButton("Dashboard");
-        dashboard.setBounds(50, 50, 200, 30);
-        dashboard.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().dashboardScreen());
-            }
-        });
-        mainPanel.add(dashboard);
+
         return mainPanel;
     }
 }

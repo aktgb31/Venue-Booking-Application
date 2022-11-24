@@ -35,7 +35,7 @@ public class EventOrganizerGUI {
     public static JPanel signUp() {
 
         JPanel panel = new JPanel(null);
-        panel.setSize(1200, 1200);
+        panel.setSize(1200, 800);
 
         JLabel heading = new JLabel("Event Organizer Registration");
         heading.setBounds(50, 10, 400, 50);
@@ -443,8 +443,6 @@ public class EventOrganizerGUI {
         table.getColumnModel().getColumn(8).setPreferredWidth(250);
         table.setRowHeight(30);
 
-        JScrollPane scrollPane = new JScrollPane(table);
-        mainPanel.add(scrollPane);
         JButton dashboard = new JButton("Dashboard");
         dashboard.setBounds(50, 50, 200, 30);
         dashboard.addActionListener(new ActionListener() {
@@ -454,6 +452,14 @@ public class EventOrganizerGUI {
             }
         });
         mainPanel.add(dashboard);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(50, 100, 1100, 600);
+        mainPanel.add(scrollPane);
+        mainPanel.setVisible(true);
+        mainPanel.setLayout(null);
+        mainPanel.setVisible(true);
+
         return mainPanel;
     }
 }

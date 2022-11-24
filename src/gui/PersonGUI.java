@@ -16,7 +16,7 @@ public class PersonGUI {
     private PersonGUI() {
         this.activePanel = new JPanel();
         this.mainFrame = new JFrame("Venue Management System");
-        mainFrame.setSize(1200, 1200);
+        mainFrame.setSize(1200, 800);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setLayout(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,7 +33,7 @@ public class PersonGUI {
 
     static public JPanel login() {
         JPanel panel = new JPanel(null);
-        panel.setSize(1200, 1200);
+        panel.setSize(1200, 800);
 
         JLabel heading = new JLabel("Venue Booking Application");
         heading.setBounds(50, 10, 400, 50);
