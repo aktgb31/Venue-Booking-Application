@@ -23,7 +23,7 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
         }
         this.organizationName = organizationName;
         this.organizationAddress = organizationAddress;
-        database.Operations.addEventOrganizer(this.name, this.emailId, this.password, this.contactNumber,
+        database.EventOrganizerOperations.addEventOrganizer(this.name, this.emailId, this.password, this.contactNumber,
                 this.organizationName, this.organizationAddress);
     }
 
@@ -45,8 +45,8 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
                 this.name = resultSet.getString("name");
                 this.emailId = resultSet.getString("emailId");
                 this.contactNumber = resultSet.getString("contactNumber");
-                this.organizationName = resultSet.getString("organisationName");
-                this.organizationAddress = resultSet.getString("organisationAddress");
+                this.organizationName = resultSet.getString("organizationName");
+                this.organizationAddress = resultSet.getString("organizationAddress");
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -96,7 +96,7 @@ public class EventOrganizer extends Person implements ReadOnlyEventOrganizer {
     };
 
     public void updateDetails() {
-        EventOrganizerOperations.updateEventOrganizerProfile(this.name,this.emailId,this.password,this.contactNumber,this.organisationName,this.organisationAddress);
+        EventOrganizerOperations.updateEventOrganizerProfile(this.name,this.emailId,this.password,this.contactNumber,this.organizationName,this.organizationAddress);
     }
 
     public void addBooking(EventOrganizerRequest eventOrganizerRequest) {

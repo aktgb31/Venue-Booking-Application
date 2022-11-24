@@ -18,11 +18,8 @@ public class EventOrganizerGUI {
     }
 
     public static void initialize(EventOrganiserService eventOrganiserService) throws IllegalStateException {
-        if (instance == null) {
+        if (instance == null)
             instance = new EventOrganizerGUI(eventOrganiserService);
-        } else {
-            throw new IllegalStateException("Event Organizer GUI already initialized");
-        }
     }
 
     public static EventOrganizerGUI getInstance() throws RuntimeException {
@@ -224,10 +221,10 @@ public class EventOrganizerGUI {
         t4.setText(myProfile.getContactNumber());
 
         JTextField t5 = new JTextField();
-        t5.setText(myProfile.getOrganisationName());
+        t5.setText(myProfile.getOrganizationName());
 
         JTextField t6 = new JTextField();
-        t6.setText(myProfile.getOrganisationAddress());
+        t6.setText(myProfile.getOrganizationAddress());
 
         JButton b1 = new JButton("Update");
         JButton b2 = new JButton("Dashboard");
@@ -239,8 +236,8 @@ public class EventOrganizerGUI {
                     myProfile.setName(t1.getText());
                     myProfile.setPassword(t3.getText());
                     myProfile.setContactNumber(t4.getText());
-                    myProfile.setOrganisationName(t5.getText());
-                    myProfile.setOrganisationAddress(t6.getText());
+                    myProfile.setOrganizationName(t5.getText());
+                    myProfile.setOrganizationAddress(t6.getText());
                     myProfile.updateDetails();
                     JOptionPane.showMessageDialog(null, "Profile updated successfully");
                 } catch (Exception ex) {

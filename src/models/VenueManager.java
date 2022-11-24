@@ -84,10 +84,9 @@ public class VenueManager extends Person implements ReadOnlyVenueManager {
                         String name = resultSet2.getString("name");
                         String email = resultSet2.getString("emailId");
                         String contactNumber = resultSet2.getString("contactNumber");
-                        String organisationName = resultSet2.getString("organisationName");
-                        String organisationAddress = resultSet2.getString("organisationAddress");
-                        eventOrganizer = new EventOrganizer(name, email, contactNumber, organisationName,
-                                organisationAddress);
+                        String organizationName = resultSet2.getString("organizationName");
+                        String organizationAddress = resultSet2.getString("organizationAddress");
+                        eventOrganizer = new EventOrganizer(name, email, contactNumber, organizationName, organizationAddress);
                     }
                 } catch (Exception e) {
                     System.out.println(e);

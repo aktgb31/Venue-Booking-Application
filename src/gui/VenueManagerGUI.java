@@ -23,11 +23,8 @@ public class VenueManagerGUI {
     }
 
     public static void initialize(VenueManagerService service) throws RuntimeException {
-        if (instance == null) {
+        if (instance == null)
             instance = new VenueManagerGUI(service);
-        } else {
-            throw new IllegalStateException("Venue Manager GUI already initialized");
-        }
     }
 
     public static VenueManagerGUI getInstance() throws RuntimeException {
