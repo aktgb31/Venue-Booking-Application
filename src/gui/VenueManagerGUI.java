@@ -1,6 +1,7 @@
 package gui;
 
 import models.ReadOnlyEventOrganizer;
+import models.Request;
 import models.VenueManager;
 import models.VenueManagerRequest;
 import services.VenueManagerService;
@@ -359,16 +360,31 @@ public class VenueManagerGUI {
     }
 
     private JPanel viewBookingRequestsScreen() {
-        ArrayList<VenueManagerRequest> bookingRequests = venueManagerService.getPendingRequests();
-        if (bookingRequests.size() == 0) {
+        ArrayList<VenueManagerRequest> bookings = venueManagerService.getPendingRequests();
+        if (bookings.size() == 0) {
             JOptionPane.showMessageDialog(null, "No Booking Requests");
             return dashboardScreen();
         }
         JPanel mainPanel = new JPanel(null);
         mainPanel.setSize(1200, 800);
 
+        String[] columnNames = {"Event Name", "Start Time", "End Time", "Description", "Organizer", "Organization", "Contact Number"};
+        String[][] data = new String[bookings.size()][7];
+
+        for (int i = 0; i < bookings.size(); i++) {
+            VenueManagerRequest booking = bookings.get(i);
+            data[i][0] = booking.getEventName();
+            data[i][1] = booking.getStartDateTime();
+            data[i][2] = booking.getEndDateTime();
+            data[i][3] = booking.getDescription();
+            data[i][4] = booking.getEventOrganizer().getName();
+            data[i][5] = booking.getEventOrganizer().getOrganizationName();
+            data[i][6] = booking.getEventOrganizer().getContactNumber();
+
+        }
+
         JButton dashboard = new JButton("Dashboard");
-        dashboard.setBounds(50, 50, 200, 30);
+        dashboard.setBounds(50, 50, 150, 30);
         dashboard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -377,115 +393,83 @@ public class VenueManagerGUI {
         });
         mainPanel.add(dashboard);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(bookingRequests.size()+1, 1));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel.setBackground(Color.WHITE);
+        String[] eventNames = new String[bookings.size()];
 
-        JLabel Title = new JLabel("Booking Requests");
-        Title.setFont(new Font("Serif", Font.BOLD, 20));
-        Title.setHorizontalAlignment(JLabel.CENTER);
-        panel.add(Title);
-
-        int yCoordinate = 90;
-
-        for (VenueManagerRequest request : bookingRequests) {
-
-            JPanel requestPanel = new JPanel();
-            JLabel heading = new JLabel(request.getEventName());
-            heading.setFont(new Font("Serif", Font.BOLD, 15));
-            heading.setHorizontalAlignment(JLabel.CENTER);
-            heading.setBounds(50, yCoordinate, 1000, 30);
-            yCoordinate+= 20;
-            requestPanel.add(heading);
-
-            JLabel starttimeL = new JLabel("Start : " + request.getStartDateTime());
-            JLabel endtimeL = new JLabel("End : " + request.getEndDateTime());
-            JLabel statusL = new JLabel("Status : " + request.getStatus());
-
-            starttimeL.setBounds(50, yCoordinate, 100, 30);
-            endtimeL.setBounds(150, yCoordinate, 100, 30);
-            statusL.setBounds(250, yCoordinate, 100, 30);
-            yCoordinate+= 20;
-
-            requestPanel.add(starttimeL);
-            requestPanel.add(endtimeL);
-            requestPanel.add(statusL);
-
-            ReadOnlyEventOrganizer eventOrganizer = request.getEventOrganizer();
-            JLabel name = new JLabel("Organizer : " + eventOrganizer.getName());
-            JLabel organization = new JLabel("Organization : " + eventOrganizer.getOrganizationName());
-            JLabel phone = new JLabel("Contact Number : " + eventOrganizer.getContactNumber());
-
-            name.setBounds(50, yCoordinate, 100, 30);
-            organization.setBounds(150, yCoordinate, 100, 30);
-            phone.setBounds(250, yCoordinate, 100, 30);
-            yCoordinate+= 20;
-
-            requestPanel.add(name);
-            requestPanel.add(organization);
-            requestPanel.add(phone);
-
-            JButton accept = new JButton("Accept");
-            JButton reject = new JButton("Reject");
-            accept.setBounds(50, yCoordinate, 100, 30);
-            reject.setBounds(150, yCoordinate, 100, 30);
-            yCoordinate+= 20;
-
-            requestPanel.add(accept);
-            requestPanel.add(reject);
-
-            JLabel description = new JLabel("Booking Description : " + request.getDescription());
-            description.setBounds(50, yCoordinate, 100, 30);
-            yCoordinate+= 20;
-            requestPanel.add(description);
-
-            JLabel feedback = new JLabel("Feedback");
-            feedback.setBounds(50, yCoordinate, 100, 30);
-            yCoordinate+= 20;
-            JTextField feedbackText = new JTextField();
-
-            requestPanel.add(feedback);
-            requestPanel.add(feedbackText);
-
-            JSeparator line = new JSeparator();
-            line.setBounds(50, yCoordinate, 500, 30);
-            yCoordinate+=20;
-
-            requestPanel.add(line);
-
-            accept.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        venueManagerService.acceptRequest(request.getRequestId(),feedbackText.getText());
-                        JOptionPane.showMessageDialog(null, "Request Accepted");
-                        PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Error in Accepting Request : " + ex.getMessage());
-                    }
-                }
-            });
-
-            reject.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        venueManagerService.rejectRequest(request.getRequestId(), feedbackText.getText());
-                        JOptionPane.showMessageDialog(null, "Request Rejected");
-                        PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Error in Rejecting Request : " + ex.getMessage());
-                    }
-                }
-            });
-
-            panel.add(requestPanel);
+        for (int k = 0; k < bookings.size(); k++) {
+            eventNames[k] = bookings.get(k).getEventName();
         }
+        JComboBox cb = new JComboBox(eventNames);
+        cb.setBounds(250, 50, 150, 30);
+        mainPanel.add(cb);
 
-        JScrollPane scroll = new JScrollPane(panel);
-        mainPanel.add(scroll);
+        //text to take feedback
+        JTextField feedback = new JTextField();
+        feedback.setBounds(450, 50, 150, 30);
+        mainPanel.add(feedback);
+
+        JButton accept = new JButton("Accept");
+        accept.setBounds(650, 50, 100, 30);
+        mainPanel.add(accept);
+
+        JButton reject = new JButton("Reject");
+        reject.setBounds(800, 50, 100, 30);
+        mainPanel.add(reject);
+        accept.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+
+                    int reqId = 0;
+                    for(int i=0;i<bookings.size();i++){
+                        if(bookings.get(i).getEventName().equals(cb.getSelectedItem())){
+                            reqId = bookings.get(i).getRequestId();
+                        }
+                    }
+                    venueManagerService.acceptRequest(reqId,feedback.getText());
+                    JOptionPane.showMessageDialog(null, "Request Accepted");
+                    PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error in Accepting Request : " + ex.getMessage());
+                }
+            }
+        });
+
+        reject.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int reqId = 0;
+                    for(int i=0;i<bookings.size();i++){
+                        if(bookings.get(i).getEventName().equals(cb.getSelectedItem())){
+                            reqId = bookings.get(i).getRequestId();
+                        }
+                    }
+                    venueManagerService.rejectRequest(reqId,feedback.getText());
+                    JOptionPane.showMessageDialog(null, "Request Rejected");
+                    PersonGUI.getInstance().setPanel(VenueManagerGUI.getInstance().viewBookingRequestsScreen());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error in Rejecting Request : " + ex.getMessage());
+                }
+            }
+        });
+
+        JTable table = new JTable(data, columnNames);
+
+        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        table.getColumnModel().getColumn(1).setPreferredWidth(140);
+        table.getColumnModel().getColumn(2).setPreferredWidth(140);
+        table.getColumnModel().getColumn(3).setPreferredWidth(60);
+        table.getColumnModel().getColumn(4).setPreferredWidth(120);
+        table.setRowHeight(30);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(50, 100, 1100, 600);
+
+        mainPanel.add(scrollPane);
         mainPanel.setVisible(true);
+        mainPanel.setLayout(null);
+        mainPanel.setVisible(true);
+
         return mainPanel;
     }
 
