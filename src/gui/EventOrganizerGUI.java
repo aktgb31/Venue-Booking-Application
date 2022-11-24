@@ -1,9 +1,6 @@
 package gui;
 
-import models.EventOrganizer;
-import models.EventOrganizerRequest;
-import models.ReadOnlyVenueManager;
-import models.VenueManager;
+import models.*;
 import services.EventOrganiserService;
 
 import javax.swing.*;
@@ -416,6 +413,62 @@ public class EventOrganizerGUI {
         JPanel mainPanel = new JPanel(null);
         mainPanel.setSize(1200, 800);
 
+        JButton dashboard = new JButton("Dashboard");
+        dashboard.setBounds(50, 50, 200, 30);
+        dashboard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
+            }
+        });
+        mainPanel.add(dashboard);
+
+        int size=0;
+        for (int i = 0; i < bookings.size(); i++) {
+            if(bookings.get(i).getStatus().equals(Request.Status.ACCEPTED) || !bookings.get(i).getStatus().equals(Request.Status.PENDING)){
+                size+=1;
+            }
+        }
+
+        String[] eventNames = new String[size];
+        int j=0;
+        for (int k = 0; k < bookings.size(); k++) {
+
+            if(bookings.get(k).getStatus().equals(Request.Status.ACCEPTED) || bookings.get(k).getStatus().equals(Request.Status.PENDING)){
+                eventNames[j] = bookings.get(k).getEventName();
+                j+=1;
+            }
+        }
+
+        JComboBox cb = new JComboBox(eventNames);
+        cb.setBounds(300, 50, 200, 30);
+        mainPanel.add(cb);
+
+        //button to cancel
+        JButton cancel = new JButton("Cancel Booking");
+        cancel.setBounds(550, 50, 200, 30);
+        cancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int reqId = 0;
+                    for(int i=0;i<bookings.size();i++){
+                        if(bookings.get(i).getEventName().equals(cb.getSelectedItem())){
+                            reqId = bookings.get(i).getRequestId();
+                        }
+                    }
+                    System.out.println(reqId);
+                    eventOrganiserService.cancelBooking(reqId);
+                    JOptionPane.showMessageDialog(null, "Booking cancelled successfully");
+                    PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().viewBookingsScreen());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Booking cancellation failed");
+                }
+            }
+        });
+        mainPanel.add(cancel);
+
+
         String[] columnNames = {"Event Name", "Start Time", "End Time", "Status", "Contact Number", "Venue", "Hall Capacity", "feedback", "Hall Description"};
         String[][] data = new String[bookings.size()][9];
         for (int i = 0; i < bookings.size(); i++) {
@@ -442,16 +495,6 @@ public class EventOrganizerGUI {
         table.getColumnModel().getColumn(7).setPreferredWidth(150);
         table.getColumnModel().getColumn(8).setPreferredWidth(250);
         table.setRowHeight(30);
-
-        JButton dashboard = new JButton("Dashboard");
-        dashboard.setBounds(50, 50, 200, 30);
-        dashboard.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PersonGUI.getInstance().setPanel(EventOrganizerGUI.getInstance().dashboardScreen());
-            }
-        });
-        mainPanel.add(dashboard);
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(50, 100, 1100, 600);
